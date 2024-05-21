@@ -51,20 +51,26 @@ nav {
 nav ul {
     list-style: none;
     display: inline-block;
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
 nav ul li {
-    display: inline;
-    margin-left: 20px;
+    display: inline-block;
+    height: 100%;
+    margin: 0;
 }
 
 nav ul li a {
     text-decoration: none;
     color: white;
-    padding: 10px 15px;
+    padding: 20px 15px;
+    display: flex;
+    align-items: center;
+    height: 100%;
     position: relative;
     transition: color 0.3s;
-    z-index: 1;
 }
 
 nav ul li a:hover {
@@ -74,11 +80,11 @@ nav ul li a:hover {
 nav ul li a::before {
     content: "";
     position: absolute;
-    top: 0;  /* 上部に合わせる */
-    left: 0;  /* 左部に合わせる */
-    right: 0;  /* 右部に合わせる */
-    bottom: 0;  /* 下部に合わせる */
-    background-color: rgba(0, 0, 0, 0.8);  /* 半透明の黒 */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
     z-index: -1;
     transition: opacity 0.3s;
     opacity: 0;
