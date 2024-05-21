@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.getElementById('hamburger');
     const closeMenu = document.getElementById('close-menu');
-    const menu = document.querySelector('nav ul');
+    const menu = document.getElementById('mobile_menu');
 
     hamburger.addEventListener('click', function() {
         menu.classList.toggle('show');
