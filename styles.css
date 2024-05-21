@@ -62,8 +62,11 @@ nav ul li a {
     text-decoration: none;
     color: white;
     padding: 10px 15px;
-    position: relative;
-    transition: color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+header:hover nav ul li a:hover {
+    color: red;  /* ホバー時に文字色を赤に変更 */
 }
 
 nav ul li a:hover {
