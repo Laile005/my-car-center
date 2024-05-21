@@ -67,32 +67,11 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    color: white;
-}
-
-nav ul li a::before {
-    content: "";
-    position: absolute;
-    top: -20px;  /* ヘッダーのpaddingを考慮 */
-    left: -15px;
-    right: -15px;
-    bottom: -20px;
-    background-color: rgba(0, 0, 0, 0.8);  /* 半透明の黒 */
-    z-index: -1;
-    transition: opacity 0.3s;
-    opacity: 0;
-}
-
-nav ul li a:hover::before {
-    opacity: 1;
-}
-
-nav ul li.active a::before {
-    opacity: 1;
+    color: red;  /* ホバー時に文字色を赤に変更 */
 }
 
 nav ul li.active a {
-    color: white;
+    color: red;  /* アクティブなリンクの文字色を赤に変更 */
 }
 
 .hero {
