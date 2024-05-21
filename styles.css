@@ -18,7 +18,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 20px 0;  /* 上下の内側の余白のみ */
     z-index: 10;
     transition: background-color 0.3s, color 0.3s;
 }
@@ -51,18 +51,23 @@ nav {
 nav ul {
     list-style: none;
     display: inline-block;
+    height: 100%;  /* ヘッダーと同じ高さに設定 */
 }
 
 nav ul li {
     display: inline;
     margin-left: 20px;
+    height: 100%;  /* ヘッダーと同じ高さに設定 */
 }
 
 nav ul li a {
     text-decoration: none;
     color: white;
-    padding: 10px 15px;
+    padding: 0;  /* 内側の余白を0に設定 */
+    height: 60px;  /* ヘッダーの高さに合わせる */
+    line-height: 60px;  /* テキストを中央に配置 */
     position: relative;
+    display: inline-block;
     transition: color 0.3s;
 }
 
@@ -73,10 +78,10 @@ nav ul li a:hover {
 nav ul li a::before {
     content: "";
     position: absolute;
-    top: -20px;  /* ヘッダーのpaddingを考慮 */
-    left: -15px;
-    right: -15px;
-    bottom: -20px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-color: rgba(0, 0, 0, 0.8);  /* 半透明の黒 */
     z-index: -1;
     transition: opacity 0.3s;
