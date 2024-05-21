@@ -89,16 +89,15 @@ nav ul li.active a {
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, display 0.3s ease;
 }
 
 .hamburger {
-    display: none;
+    display: block;
 }
 
 .close-menu {
     display: none;
-    opacity: 0;
 }
 
 .hero {
@@ -125,10 +124,6 @@ nav ul li.active a {
 @media (max-width: 992px) {
     header {
         background-color: rgba(255, 255, 255, 0.8);
-    }
-
-    .hamburger {
-        display: block;
     }
 
     nav ul {
@@ -171,7 +166,6 @@ nav ul li.active a {
 
     .close-menu.show {
         display: block;
-        opacity: 1;
     }
 
     nav ul li a:hover {
