@@ -62,34 +62,36 @@ nav ul li a {
     text-decoration: none;
     color: white;
     padding: 10px 15px;
-    position: relative;  /* 相対位置に設定 */
-    z-index: 1;  /* 背景色よりも前面に表示 */
-    transition: background-color 0.3s, color 0.3s;
-}
-
-nav ul li a::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.8);  /* 半透明の黒 */
-    z-index: -1;  /* テキストの背面に表示 */
-    transition: background-color 0.3s;
-    opacity: 0;  /* 初期状態では透明 */
-}
-
-header:hover nav ul li a:hover::before {
-    opacity: 1;  /* ホバー時に表示 */
+    position: relative;
+    transition: color 0.3s;
 }
 
 nav ul li a:hover {
     color: white;
 }
 
+nav ul li a::before {
+    content: "";
+    position: absolute;
+    top: -20px;  /* ヘッダーのpaddingを考慮 */
+    left: -15px;
+    right: -15px;
+    bottom: -20px;
+    background-color: rgba(0, 0, 0, 0.8);  /* 半透明の黒 */
+    z-index: -1;
+    transition: opacity 0.3s;
+    opacity: 0;
+}
+
+nav ul li a:hover::before {
+    opacity: 1;
+}
+
+nav ul li.active a::before {
+    opacity: 1;
+}
+
 nav ul li.active a {
-    background-color: rgba(0, 0, 0, 0.8);
     color: white;
 }
 
