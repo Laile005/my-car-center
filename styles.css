@@ -80,8 +80,7 @@ nav ul li.active a {
     color: red;
 }
 
-.hamburger {
-    display: none;
+.hamburger, .close-menu {
     font-size: 24px;
     cursor: pointer;
     color: black;
@@ -90,6 +89,16 @@ nav ul li.active a {
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
+    transition: opacity 0.3s ease;
+}
+
+.hamburger {
+    display: none;
+}
+
+.close-menu {
+    display: none;
+    opacity: 0;
 }
 
 .hero {
@@ -153,15 +162,4 @@ nav ul li.active a {
     }
 
     nav ul.show {
-        right: 0; /* メニューを表示するときに右端に移動 */
-    }
-
-    nav ul li a:hover {
-        background-color: red;
-        color: white;
-    }
-
-    nav ul li.active a {
-        color: red;
-    }
-}
+        right: 0; /* メ
