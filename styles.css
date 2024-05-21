@@ -28,17 +28,12 @@ header:hover {
     color: black;
 }
 
-header:hover .logo img {
-    filter: brightness(0) invert(1); /* 白黒反転 */
-}
-
 header:hover nav ul li a {
     color: black;
 }
 
 .logo img {
     max-height: 60px;
-    transition: filter 0.3s;
 }
 
 nav {
