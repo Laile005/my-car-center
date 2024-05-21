@@ -172,7 +172,7 @@ nav ul li.active a {
     }
 
     nav ul li a:hover {
-        background-color: rgba(128, 128, 128, 0.5); /* 薄い半透明のグレーに設定 */
+        background-color: rgba(242, 242, 242, 0.8); /* 薄い半透明のグレーに設定 */
         color: black;
     }
 
