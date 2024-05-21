@@ -90,15 +90,7 @@ nav ul li.active a {
     top: 50%;
     transform: translateY(-50%);
     transition: opacity 0.3s ease, display 0.3s ease;
-}
-
-.hamburger {
-    display: block;
-}
-
-.close-menu {
-    display: none;
-    opacity: 0;
+    display: none; /* デフォルトで非表示に設定 */
 }
 
 .hero {
@@ -180,8 +172,8 @@ nav ul li.active a {
     }
 
     nav ul li a:hover {
-        background-color: red;
-        color: white;
+        background-color: rgba(128, 128, 128, 0.5); /* 薄い半透明のグレーに設定 */
+        color: black;
     }
 
     nav ul li.active a {
