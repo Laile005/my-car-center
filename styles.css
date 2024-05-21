@@ -65,6 +65,11 @@ nav ul li a {
     transition: background-color 0.3s, color 0.3s;
 }
 
+header:hover nav ul li a:hover {
+    background-color: black;
+    color: white;
+}
+
 nav ul li a:hover {
     background-color: black;
     color: white;
