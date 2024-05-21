@@ -162,4 +162,24 @@ nav ul li.active a {
     }
 
     nav ul.show {
-        right: 0; /* メ
+        right: 0; /* メニューを表示するときに右端に移動 */
+    }
+
+    .hamburger.hidden {
+        display: none;
+    }
+
+    .close-menu.show {
+        display: block;
+        opacity: 1;
+    }
+
+    nav ul li a:hover {
+        background-color: red;
+        color: white;
+    }
+
+    nav ul li.active a {
+        color: red;
+    }
+}
