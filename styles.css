@@ -148,17 +148,22 @@ nav ul li.active a {
     }
 
     nav ul li {
-        margin: 10px 0;
+        border-top: 1px solid #ccc;
         border-bottom: 1px solid #ccc;
     }
 
+    nav ul li:first-child {
+        border-top: none; /* 最初の項目には上の線を付けない */
+    }
+
     nav ul li:last-child {
-        border-bottom: none;
+        border-bottom: none; /* 最後の項目には下の線を付けない */
     }
 
     nav ul li a {
         color: black;
         padding: 15px;
+        display: block; /* 長方形の枠を作るためにブロック要素にする */
     }
 
     nav ul.show {
