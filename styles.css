@@ -127,7 +127,7 @@ nav ul li.active a {
         flex-direction: column;
         position: fixed;
         top: 0;
-        right: -100%;
+        right: -250px;
         background-color: white;
         width: 250px;
         height: 100vh;
@@ -153,6 +153,7 @@ nav ul li.active a {
     }
 
     nav ul.show {
+        display: flex;
         right: 0;
     }
 
