@@ -24,7 +24,7 @@ header {
 }
 
 header:hover {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.8);
     color: black;
 }
 
@@ -62,7 +62,17 @@ nav ul li a {
     text-decoration: none;
     color: white;
     padding: 10px 15px;
-    transition: color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: black;
+    color: white;
+}
+
+nav ul li.active a {
+    background-color: black;
+    color: white;
 }
 
 .hero {
