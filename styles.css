@@ -20,11 +20,6 @@ header {
     align-items: center;
     padding: 20px;
     z-index: 10;
-    transition: background-color 0.3s;
-}
-
-header:hover {
-    background-color: black;
 }
 
 .logo {
@@ -54,6 +49,10 @@ nav ul li a {
     color: white;
     padding: 10px 15px;
     transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: black;
 }
 
 .hero {
