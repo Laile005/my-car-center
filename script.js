@@ -5,13 +5,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     hamburger.addEventListener('click', function() {
         menu.classList.toggle('show');
-        hamburger.style.display = 'none';
-        closeMenu.classList.add('show');
+        hamburger.classList.add('hidden');
+        setTimeout(() => closeMenu.classList.add('show'), 300); // メニューが展開されると同時に×アイコンを表示
     });
 
     closeMenu.addEventListener('click', function() {
         menu.classList.remove('show');
         closeMenu.classList.remove('show');
-        setTimeout(() => hamburger.style.display = 'block', 300); // メニューが閉じた後にハンバーガーアイコンを表示
+        setTimeout(() => hamburger.classList.remove('hidden'), 300); // メニューが閉じた後にハンバーガーアイコンを表示
     });
 });
