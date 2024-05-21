@@ -88,6 +88,8 @@ nav ul li.active a {
     padding: 10px 20px;
     position: absolute;
     right: 20px;
+    top: 50%; /* ヘッダーの中央に配置 */
+    transform: translateY(-50%); /* ヘッダーの中央に配置 */
 }
 
 .hero {
@@ -111,7 +113,7 @@ nav ul li.active a {
     color: black;
 }
 
-@media (max-width: 992px) {  /* ここでハンバーガーメニューに切り替える */
+@media (max-width: 992px) {
     header {
         background-color: rgba(255, 255, 255, 0.8);
     }
@@ -132,10 +134,12 @@ nav ul li.active a {
         width: 100%;
         text-align: right;
         padding-right: 20px;
+        border-top: 1px solid #ccc; /* 仕切り線 */
     }
 
     nav ul li {
         margin: 10px 0;
+        border-bottom: 1px solid #ccc; /* 仕切り線 */
     }
 
     nav ul li a {
@@ -148,7 +152,8 @@ nav ul li.active a {
     }
 
     nav ul li a:hover {
-        color: red;
+        background-color: red; /* ホバー時に背景を赤に */
+        color: white; /* ホバー時に文字色を白に */
     }
 
     nav ul li.active a {
