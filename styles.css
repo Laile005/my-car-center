@@ -61,22 +61,22 @@ nav ul li {
 nav ul li a {
     text-decoration: none;
     color: white;
-    padding: 10px 15px;
+    padding: 20px 15px; /* ヘッダーの高さに合わせる */
     transition: background-color 0.3s, color 0.3s;
 }
 
 header:hover nav ul li a:hover {
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.8); /* 半透明の黒 */
     color: white;
 }
 
 nav ul li a:hover {
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.8); /* 半透明の黒 */
     color: white;
 }
 
 nav ul li.active a {
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.8); /* 半透明の黒 */
     color: white;
 }
 
