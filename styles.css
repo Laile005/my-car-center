@@ -11,7 +11,7 @@ body {
 }
 
 header {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -20,11 +20,20 @@ header {
     align-items: center;
     padding: 20px;
     z-index: 10;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 header:hover {
-    background-color: black;
+    background-color: white;
+    color: black;
+}
+
+header:hover .logo {
+    color: black;
+}
+
+header:hover nav ul li a {
+    color: black;
 }
 
 .logo {
@@ -53,7 +62,7 @@ nav ul li a {
     text-decoration: none;
     color: white;
     padding: 10px 15px;
-    transition: background-color 0.3s;
+    transition: color 0.3s;
 }
 
 .hero {
