@@ -88,8 +88,19 @@ nav ul li.active a {
     padding: 10px 20px;
     position: absolute;
     right: 20px;
-    top: 50%; /* ヘッダーの中央に配置 */
-    transform: translateY(-50%); /* ヘッダーの中央に配置 */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.close-menu {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: black;
+    padding: 10px 20px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
 }
 
 .hero {
@@ -120,26 +131,30 @@ nav ul li.active a {
 
     .hamburger {
         display: block;
-        right: 20px;
-        color: black;
     }
 
     nav ul {
         display: none;
         flex-direction: column;
-        position: absolute;
-        top: 60px;
+        position: fixed;
+        top: 0;
         right: 0;
         background-color: white;
-        width: 100%;
-        text-align: right;
+        width: 250px;
+        height: 100vh;
+        padding-top: 60px;
         padding-right: 20px;
-        border-top: 1px solid #ccc; /* 仕切り線 */
+        box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+        text-align: right;
     }
 
     nav ul li {
         margin: 10px 0;
-        border-bottom: 1px solid #ccc; /* 仕切り線 */
+        border-bottom: 1px solid #ccc;
+    }
+
+    nav ul li:last-child {
+        border-bottom: none; /* 最後の項目には仕切り線を付けない */
     }
 
     nav ul li a {
@@ -152,11 +167,15 @@ nav ul li.active a {
     }
 
     nav ul li a:hover {
-        background-color: red; /* ホバー時に背景を赤に */
-        color: white; /* ホバー時に文字色を白に */
+        background-color: red;
+        color: white;
     }
 
     nav ul li.active a {
         color: red;
+    }
+
+    .close-menu {
+        display: block;
     }
 }
