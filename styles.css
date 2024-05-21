@@ -92,17 +92,6 @@ nav ul li.active a {
     transform: translateY(-50%);
 }
 
-.close-menu {
-    display: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: black;
-    padding: 10px 20px;
-    position: absolute;
-    right: 20px;
-    top: 20px;
-}
-
 .hero {
     position: relative;
     width: 100%;
@@ -174,9 +163,5 @@ nav ul li.active a {
 
     nav ul li.active a {
         color: red;
-    }
-
-    .close-menu {
-        display: block;
     }
 }
