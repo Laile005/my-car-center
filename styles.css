@@ -123,11 +123,11 @@ nav ul li.active a {
     }
 
     nav ul {
-        display: none;
+        display: flex;
         flex-direction: column;
         position: fixed;
         top: 0;
-        right: -250px;
+        right: -250px; /* 初期位置を右にオフセット */
         background-color: white;
         width: 250px;
         height: 100vh;
@@ -153,8 +153,7 @@ nav ul li.active a {
     }
 
     nav ul.show {
-        display: flex;
-        right: 0;
+        right: 0; /* メニューを表示するときに右端に移動 */
     }
 
     nav ul li a:hover {
