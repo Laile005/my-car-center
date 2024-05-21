@@ -65,7 +65,8 @@ nav ul li a {
     text-decoration: none;
     color: white;
     padding: 20px 15px;
-    display: block;
+    display: flex;
+    align-items: center;
     height: 100%;
     transition: background-color 0.3s, color 0.3s;
 }
