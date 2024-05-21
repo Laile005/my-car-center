@@ -6,12 +6,12 @@ document.addEventListener('DOMContentLoaded', function() {
     hamburger.addEventListener('click', function() {
         menu.classList.toggle('show');
         hamburger.classList.toggle('hidden');
-        closeMenu.classList.toggle('show');
+        setTimeout(() => closeMenu.classList.toggle('show'), 300); // 300msの遅延を追加
     });
 
     closeMenu.addEventListener('click', function() {
         menu.classList.remove('show');
-        hamburger.classList.remove('hidden');
         closeMenu.classList.remove('show');
+        setTimeout(() => hamburger.classList.remove('hidden'), 300); // 300msの遅延を追加
     });
 });
