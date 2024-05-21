@@ -18,7 +18,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 0;  /* 上下の余白のみ */
+    padding: 20px;
     z-index: 10;
     transition: background-color 0.3s, color 0.3s;
 }
@@ -51,37 +51,32 @@ nav {
 nav ul {
     list-style: none;
     display: inline-block;
-    height: 100%;  /* ヘッダーと一致させる */
 }
 
 nav ul li {
-    display: inline-block;
+    display: inline;
     margin-left: 20px;
-    height: 100%;  /* ヘッダーと一致させる */
 }
 
 nav ul li a {
     text-decoration: none;
     color: white;
-    padding: 20px 15px;  /* 高さをヘッダーと一致させる */
-    display: flex;
-    align-items: center;  /* 中央に揃える */
-    height: 100%;
+    padding: 10px 15px;
     transition: background-color 0.3s, color 0.3s;
 }
 
 header:hover nav ul li a:hover {
-    background-color: rgba(0, 0, 0, 0.8);  /* 半透明の黒 */
+    background-color: black;
     color: white;
 }
 
 nav ul li a:hover {
-    background-color: rgba(0, 0, 0, 0.8);  /* 半透明の黒 */
+    background-color: black;
     color: white;
 }
 
 nav ul li.active a {
-    background-color: rgba(0, 0, 0, 0.8);  /* 半透明の黒 */
+    background-color: black;
     color: white;
 }
 
