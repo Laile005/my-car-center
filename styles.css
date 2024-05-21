@@ -138,7 +138,7 @@ nav ul li.active a {
         flex-direction: column;
         position: fixed;
         top: 0;
-        right: 0;
+        right: -100%;
         background-color: white;
         width: 250px;
         height: 100vh;
@@ -146,6 +146,7 @@ nav ul li.active a {
         padding-right: 20px;
         box-shadow: -2px 0 5px rgba(0,0,0,0.5);
         text-align: right;
+        transition: right 0.3s ease;
     }
 
     nav ul li {
@@ -154,7 +155,7 @@ nav ul li.active a {
     }
 
     nav ul li:last-child {
-        border-bottom: none; /* 最後の項目には仕切り線を付けない */
+        border-bottom: none;
     }
 
     nav ul li a {
@@ -163,7 +164,7 @@ nav ul li.active a {
     }
 
     nav ul.show {
-        display: flex;
+        right: 0;
     }
 
     nav ul li a:hover {
