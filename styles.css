@@ -137,7 +137,6 @@ nav#mobile_menu ul li a:hover {
 @media (max-width: 950px) {
     .hamburger {
         display: block;
-        align-self: center; /* アイコンの位置を中央に揃える */
     }
 
     nav .menu {
