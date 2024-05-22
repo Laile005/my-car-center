@@ -33,13 +33,19 @@ header:hover nav ul li a {
 }
 
 .logo {
+    flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
     max-height: 60px;
+    width: 60%; /* ロゴのサイズを60%に戻す */
 }
 
 nav {
     flex-grow: 1;
     text-align: center;
-    position: relative;
 }
 
 nav ul {
@@ -106,7 +112,7 @@ nav ul li.active a {
     z-index: -1;
 }
 
-@media (max-width: 992px) { /* ロゴとメニューが重なったとき */
+@media (max-width: 1200px) { /* ロゴとメニューが重なったとき */
     nav ul {
         display: none;
     }
