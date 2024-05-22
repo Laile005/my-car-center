@@ -38,7 +38,7 @@ header:hover nav ul li a {
 
 .logo img {
     max-height: 60px;
-    width: 60%; /* ロゴのサイズを60%に設定 */
+    width: 60%;
 }
 
 nav {
@@ -52,11 +52,11 @@ nav ul {
     list-style: none;
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* メニューを右端に揃える */
 }
 
 nav ul li {
     margin-left: 20px;
+    position: relative;
 }
 
 nav ul li a {
@@ -66,16 +66,50 @@ nav ul li a {
     transition: background-color 0.3s, color 0.3s;
 }
 
-header:hover nav ul li a:hover {
-    color: red;
-}
-
-nav ul li a:hover {
+nav ul li:hover > a {
     color: red;
 }
 
 nav ul li.active a {
     color: red;
+}
+
+/* ドロップダウンメニューのスタイル */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content li {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.dropdown-content li:first-child {
+    border-top: none;
+}
+
+.dropdown-content li:last-child {
+    border-bottom: none;
+}
+
+.dropdown-content li a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content li a:hover {
+    background-color: rgba(128, 128, 128, 0.5);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
 }
 
 .hamburger, .close-menu {
@@ -88,7 +122,7 @@ nav ul li.active a {
     top: 50%;
     transform: translateY(-50%);
     transition: opacity 0.3s ease, display 0.3s ease;
-    display: none; /* デフォルトで非表示に設定 */
+    display: none;
 }
 
 .hero {
@@ -111,21 +145,21 @@ nav ul li.active a {
     z-index: -1;
 }
 
-@media (max-width: 992px) {
-    header {
-        background-color: rgba(255, 255, 255, 0.8);
+@media (max-width: 1280px) {
+    nav ul {
+        display: none;
     }
 
     .hamburger {
         display: block;
     }
 
-    nav ul {
+    nav ul.show {
         display: flex;
         flex-direction: column;
         position: fixed;
         top: 0;
-        right: -250px; /* 初期位置を右にオフセット */
+        right: 0;
         background-color: white;
         width: 250px;
         height: 100vh;
@@ -142,21 +176,17 @@ nav ul li.active a {
     }
 
     nav ul li:first-child {
-        border-top: none; /* 最初の項目には上の線を付けない */
+        border-top: none;
     }
 
     nav ul li:last-child {
-        border-bottom: none; /* 最後の項目には下の線を付けない */
+        border-bottom: none;
     }
 
     nav ul li a {
         color: black;
         padding: 15px;
-        display: block; /* 長方形の枠を作るためにブロック要素にする */
-    }
-
-    nav ul.show {
-        right: 0; /* メニューを表示するときに右端に移動 */
+        display: block;
     }
 
     .hamburger.hidden {
@@ -169,7 +199,7 @@ nav ul li.active a {
     }
 
     nav ul li a:hover {
-        background-color: rgba(128, 128, 128, 0.5); /* 薄い半透明のグレーに設定 */
+        background-color: rgba(128, 128, 128, 0.5);
         color: black;
     }
 
