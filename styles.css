@@ -8,6 +8,7 @@ body {
     font-family: Arial, sans-serif;
     color: white;
     background-color: #000;
+    overflow-x: hidden;
 }
 
 header {
@@ -17,23 +18,9 @@ header {
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 20px;
     z-index: 10;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-header:hover {
-    background-color: rgba(255, 255, 255, 0.8);
-    color: black;
-}
-
-header:hover nav ul li a {
-    color: black;
-}
-
-.logo {
-    position: absolute;
-    left: 20px;
 }
 
 .logo img {
@@ -41,54 +28,10 @@ header:hover nav ul li a {
     width: 60%;
 }
 
-nav {
-    flex-grow: 1;
-    display: flex;
-    justify-content: flex-end;
-    position: relative;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-nav ul li {
-    margin-left: 20px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: white;
-    padding: 10px 15px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-header:hover nav ul li a:hover {
-    color: red;
-}
-
-nav ul li a:hover {
-    color: red;
-}
-
-nav ul li.active a {
-    color: red;
-}
-
-.hamburger, .close-menu {
+.hamburger {
     font-size: 24px;
     cursor: pointer;
-    color: black;
-    padding: 10px 20px;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: opacity 0.3s ease, display 0.3s ease;
-    display: none;
+    color: white;
 }
 
 .hero {
@@ -111,76 +54,62 @@ nav ul li.active a {
     z-index: -1;
 }
 
-@media (max-width: 950px) {
-    nav ul {
-        display: none;
-    }
+nav#mobile_menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 20;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
 
+nav#mobile_menu.show {
+    display: flex;
+    animation: fadeIn 0.5s;
+}
+
+nav#mobile_menu .close-menu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 36px;
+    cursor: pointer;
+    color: white;
+}
+
+nav#mobile_menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav#mobile_menu ul li {
+    margin: 20px 0;
+}
+
+nav#mobile_menu ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 24px;
+    transition: color 0.3s;
+}
+
+nav#mobile_menu ul li a:hover {
+    color: red;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (max-width: 950px) {
     .hamburger {
         display: block;
-    }
-
-    nav ul.show {
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        right: 0;
-        background-color: rgba(255, 255, 255, 0.9); /* 背景を少し透明に */
-        width: 70%; /* 幅を狭くしてスタイリッシュに */
-        max-width: 300px;
-        height: 100vh;
-        padding-top: 60px;
-        box-shadow: -2px 0 5px rgba(0,0,0,0.5);
-        text-align: right;
-        transition: right 0.3s ease; /* アニメーションの追加 */
-        right: -300px; /* 初期位置を右にオフセット */
-    }
-
-    nav ul.show {
-        right: 0; /* メニューを表示するときに右端に移動 */
-    }
-
-    nav ul li {
-        border-top: 1px solid #ccc;
-        border-bottom: 1px solid #ccc;
-    }
-
-    nav ul li:first-child {
-        border-top: none;
-    }
-
-    nav ul li:last-child {
-        border-bottom: none;
-    }
-
-    nav ul li a {
-        color: black;
-        padding: 15px 20px;
-        display: block;
-        font-size: 18px; /* フォントサイズを少し大きくして見やすく */
-    }
-
-    .hamburger.hidden {
-        display: none;
-    }
-
-    .close-menu.show {
-        display: block;
-        opacity: 1;
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        font-size: 24px;
-        cursor: pointer;
-    }
-
-    nav ul li a:hover {
-        background-color: rgba(255, 0, 0, 0.2); /* ホバー時の背景色を変更 */
-        color: black;
-    }
-
-    nav ul li.active a {
-        color: red;
     }
 }
