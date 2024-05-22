@@ -38,7 +38,7 @@ header:hover nav ul li a {
 
 .logo img {
     max-height: 60px;
-    width: 60%;
+    width: 60%; /* ロゴのサイズを60%に設定 */
 }
 
 nav {
@@ -52,7 +52,7 @@ nav ul {
     list-style: none;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-end; /* メニューを右端に揃える */
 }
 
 nav ul li {
@@ -88,7 +88,7 @@ nav ul li.active a {
     top: 50%;
     transform: translateY(-50%);
     transition: opacity 0.3s ease, display 0.3s ease;
-    display: none;
+    display: none; /* デフォルトで非表示に設定 */
 }
 
 .hero {
@@ -111,21 +111,21 @@ nav ul li.active a {
     z-index: -1;
 }
 
-@media (max-width: 1280px) {
-    nav ul {
-        display: none;
+@media (max-width: 992px) {
+    header {
+        background-color: rgba(255, 255, 255, 0.8);
     }
 
     .hamburger {
         display: block;
     }
 
-    nav ul.show {
+    nav ul {
         display: flex;
         flex-direction: column;
         position: fixed;
         top: 0;
-        right: 0;
+        right: -250px; /* 初期位置を右にオフセット */
         background-color: white;
         width: 250px;
         height: 100vh;
@@ -142,17 +142,21 @@ nav ul li.active a {
     }
 
     nav ul li:first-child {
-        border-top: none;
+        border-top: none; /* 最初の項目には上の線を付けない */
     }
 
     nav ul li:last-child {
-        border-bottom: none;
+        border-bottom: none; /* 最後の項目には下の線を付けない */
     }
 
     nav ul li a {
         color: black;
         padding: 15px;
-        display: block;
+        display: block; /* 長方形の枠を作るためにブロック要素にする */
+    }
+
+    nav ul.show {
+        right: 0; /* メニューを表示するときに右端に移動 */
     }
 
     .hamburger.hidden {
@@ -165,7 +169,7 @@ nav ul li.active a {
     }
 
     nav ul li a:hover {
-        background-color: rgba(128, 128, 128, 0.5);
+        background-color: rgba(128, 128, 128, 0.5); /* 薄い半透明のグレーに設定 */
         color: black;
     }
 
