@@ -28,6 +28,33 @@ header {
     width: 60%;
 }
 
+nav {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    padding: 10px 15px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+nav ul li a:hover {
+    color: red;
+}
+
 .hamburger {
     font-size: 24px;
     cursor: pointer;
@@ -110,6 +137,10 @@ nav#mobile_menu ul li a:hover {
     .hamburger {
         display: block;
         align-self: center; /* アイコンの位置を中央に揃える */
+    }
+
+    nav .menu {
+        display: none;
     }
 
     nav#mobile_menu.show {
