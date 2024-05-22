@@ -32,6 +32,7 @@ header {
     font-size: 24px;
     cursor: pointer;
     color: white;
+    display: none;
 }
 
 .hero {
@@ -58,7 +59,7 @@ nav#mobile_menu {
     display: none;
     position: fixed;
     top: 0;
-    left: 0;
+    right: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.9);
@@ -67,11 +68,13 @@ nav#mobile_menu {
     align-items: center;
     justify-content: center;
     text-align: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
 nav#mobile_menu.show {
     display: flex;
-    animation: fadeIn 0.5s;
+    opacity: 1;
 }
 
 nav#mobile_menu .close-menu {
@@ -103,13 +106,14 @@ nav#mobile_menu ul li a:hover {
     color: red;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
 @media (max-width: 950px) {
     .hamburger {
         display: block;
+        align-self: center; /* アイコンの位置を中央に揃える */
+    }
+
+    nav#mobile_menu.show {
+        display: flex;
+        opacity: 1;
     }
 }
