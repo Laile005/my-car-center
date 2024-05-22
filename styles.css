@@ -111,7 +111,7 @@ nav ul li.active a {
     z-index: -1;
 }
 
-@media (max-width: 1280px) {
+@media (max-width: 950px) {
     nav ul {
         display: none;
     }
