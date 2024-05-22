@@ -133,7 +133,12 @@ nav ul li.active a {
         padding-top: 60px;
         box-shadow: -2px 0 5px rgba(0,0,0,0.5);
         text-align: right;
-        transition: right 0.3s ease;
+        transition: right 0.3s ease; /* アニメーションの追加 */
+        right: -300px; /* 初期位置を右にオフセット */
+    }
+
+    nav ul.show {
+        right: 0; /* メニューを表示するときに右端に移動 */
     }
 
     nav ul li {
