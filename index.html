@@ -1,175 +1,42 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    color: white;
-    background-color: #000;
-}
-
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    z-index: 10;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-header:hover {
-    background-color: rgba(255, 255, 255, 0.8);
-    color: black;
-}
-
-header:hover nav ul li a {
-    color: black;
-}
-
-.logo img {
-    max-height: 60px;
-    width: 60%; /* ロゴのサイズを60%に変更 */
-}
-
-nav {
-    flex-grow: 1;
-    text-align: center;
-    position: relative;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-nav ul li {
-    display: inline;
-    margin-left: 20px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: white;
-    padding: 10px 15px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-header:hover nav ul li a:hover {
-    color: red;
-}
-
-nav ul li a:hover {
-    color: red;
-}
-
-nav ul li.active a {
-    color: red;
-}
-
-.hamburger, .close-menu {
-    font-size: 24px;
-    cursor: pointer;
-    color: black;
-    padding: 10px 20px;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: opacity 0.3s ease, display 0.3s ease;
-    display: none; /* デフォルトで非表示に設定 */
-}
-
-.hero {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.video-background {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-}
-
-@media (max-width: 992px) {
-    header {
-        background-color: rgba(255, 255, 255, 0.8);
-    }
-
-    .hamburger {
-        display: block;
-    }
-
-    nav ul {
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        right: -250px; /* 初期位置を右にオフセット */
-        background-color: white;
-        width: 250px;
-        height: 100vh;
-        padding-top: 60px;
-        padding-right: 20px;
-        box-shadow: -2px 0 5px rgba(0,0,0,0.5);
-        text-align: right;
-        transition: right 0.3s ease;
-    }
-
-    nav ul li {
-        border-top: 1px solid #ccc;
-        border-bottom: 1px solid #ccc;
-    }
-
-    nav ul li:first-child {
-        border-top: none; /* 最初の項目には上の線を付けない */
-    }
-
-    nav ul li:last-child {
-        border-bottom: none; /* 最後の項目には下の線を付けない */
-    }
-
-    nav ul li a {
-        color: black;
-        padding: 15px;
-        display: block; /* 長方形の枠を作るためにブロック要素にする */
-    }
-
-    nav ul.show {
-        right: 0; /* メニューを表示するときに右端に移動 */
-    }
-
-    .hamburger.hidden {
-        display: none;
-    }
-
-    .close-menu.show {
-        display: block;
-        opacity: 1;
-    }
-
-    nav ul li a:hover {
-        background-color: rgba(128, 128, 128, 0.5); /* 薄い半透明のグレーに設定 */
-        color: black;
-    }
-
-    nav ul li.active a {
-        color: red;
-    }
-}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自動車整備会社</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/Logo.png" alt="Logo">
+        </div>
+        <nav>
+            <ul class="menu" id="mobile_menu">
+                <li><a href="#strengths">弊社の強み</a></li>
+                <li><a href="#paint">板金・塗装</a></li>
+                <li><a href="#inspection">点検・車検</a></li>
+                <li><a href="#cars">新車・中古車</a></li>
+                <li><a href="#towing">レッカーサービス</a></li>
+                <li><a href="#pricing">各種料金</a></li>
+                <li><a href="#news">お知らせ</a></li>
+                <li><a href="#company">会社概要</a></li>
+                <li><a href="#contact">問い合わせ</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                &#9776;
+            </div>
+            <div class="close-menu" id="close-menu">
+                &times;
+            </div>
+        </nav>
+    </header>
+    <div class="hero">
+        <video class="video-background" autoplay muted loop>
+            <source src="videos/painting.webm" type="video/webm">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</body>
+</html>
