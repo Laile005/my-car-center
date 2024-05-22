@@ -2,25 +2,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.getElementById('hamburger');
     const closeMenu = document.getElementById('close-menu');
     const menu = document.getElementById('main_menu');
-    const logo = document.querySelector('.logo img');
     const nav = document.querySelector('nav');
     const body = document.body;
 
-    function checkOverlap() {
-        const logoWidth = logo.clientWidth;
-        const menuWidth = menu.clientWidth;
+    function checkScreenWidth() {
         const screenWidth = window.innerWidth;
-        const padding = 40; // 左右の余白（ロゴの位置から計算）
 
-        if (logoWidth + menuWidth + padding * 2 > screenWidth) {
+        if (screenWidth < 1280) {
             nav.classList.add('mobile');
         } else {
             nav.classList.remove('mobile');
         }
     }
 
-    window.addEventListener('resize', checkOverlap);
-    checkOverlap();
+    window.addEventListener('resize', checkScreenWidth);
+    checkScreenWidth();
 
     hamburger.addEventListener('click', function() {
         menu.classList.toggle('show');
