@@ -16,6 +16,7 @@ header {
     left: 0;
     width: 100%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     padding: 20px;
     z-index: 10;
@@ -31,30 +32,26 @@ header:hover nav ul li a {
     color: black;
 }
 
-.logo {
-    position: absolute;
-    left: 20px;
-}
-
 .logo img {
     max-height: 60px;
-    width: 60%; /* ロゴのサイズを60%に設定 */
+    width: 60%; /* ロゴのサイズを60%に変更 */
 }
 
 nav {
     flex-grow: 1;
-    display: flex;
-    justify-content: flex-end;
+    text-align: center;
     position: relative;
 }
 
 nav ul {
     list-style: none;
     display: flex;
-    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 nav ul li {
+    display: inline;
     margin-left: 20px;
 }
 
@@ -110,21 +107,21 @@ nav ul li.active a {
     z-index: -1;
 }
 
-@media (max-width: 1280px) {
-    nav ul {
-        display: none;
+@media (max-width: 992px) {
+    header {
+        background-color: rgba(255, 255, 255, 0.8);
     }
 
     .hamburger {
         display: block;
     }
 
-    nav ul.show {
+    nav ul {
         display: flex;
         flex-direction: column;
         position: fixed;
         top: 0;
-        right: 0;
+        right: -250px; /* 初期位置を右にオフセット */
         background-color: white;
         width: 250px;
         height: 100vh;
@@ -141,34 +138,38 @@ nav ul li.active a {
     }
 
     nav ul li:first-child {
-        border-top: none;
+        border-top: none; /* 最初の項目には上の線を付けない */
     }
 
     nav ul li:last-child {
-        border-bottom: none;
+        border-bottom: none; /* 最後の項目には下の線を付けない */
     }
 
     nav ul li a {
         color: black;
         padding: 15px;
+        display: block; /* 長方形の枠を作るためにブロック要素にする */
+    }
+
+    nav ul.show {
+        right: 0; /* メニューを表示するときに右端に移動 */
+    }
+
+    .hamburger.hidden {
+        display: none;
+    }
+
+    .close-menu.show {
         display: block;
+        opacity: 1;
     }
 
     nav ul li a:hover {
-        background-color: rgba(128, 128, 128, 0.5);
+        background-color: rgba(128, 128, 128, 0.5); /* 薄い半透明のグレーに設定 */
         color: black;
     }
 
     nav ul li.active a {
         color: red;
     }
-}
-
-/* 追加のCSSコード */
-nav.mobile ul {
-    display: none;
-}
-
-nav.mobile .hamburger {
-    display: block;
 }
