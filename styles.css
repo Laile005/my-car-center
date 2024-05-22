@@ -126,11 +126,11 @@ nav ul li.active a {
         position: fixed;
         top: 0;
         right: 0;
-        background-color: white;
-        width: 250px;
+        background-color: rgba(255, 255, 255, 0.9); /* 背景を少し透明に */
+        width: 70%; /* 幅を狭くしてスタイリッシュに */
+        max-width: 300px;
         height: 100vh;
         padding-top: 60px;
-        padding-right: 20px;
         box-shadow: -2px 0 5px rgba(0,0,0,0.5);
         text-align: right;
         transition: right 0.3s ease;
@@ -151,8 +151,9 @@ nav ul li.active a {
 
     nav ul li a {
         color: black;
-        padding: 15px;
+        padding: 15px 20px;
         display: block;
+        font-size: 18px; /* フォントサイズを少し大きくして見やすく */
     }
 
     .hamburger.hidden {
@@ -162,10 +163,15 @@ nav ul li.active a {
     .close-menu.show {
         display: block;
         opacity: 1;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 24px;
+        cursor: pointer;
     }
 
     nav ul li a:hover {
-        background-color: rgba(128, 128, 128, 0.5);
+        background-color: rgba(255, 0, 0, 0.2); /* ホバー時の背景色を変更 */
         color: black;
     }
 
