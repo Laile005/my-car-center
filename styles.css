@@ -164,4 +164,16 @@ nav ul li.active a {
         color: black;
     }
 
-    nav ul li.ac
+    nav ul li.active a {
+        color: red;
+    }
+}
+
+/* 追加のCSSコード */
+nav.mobile ul {
+    display: none;
+}
+
+nav.mobile .hamburger {
+    display: block;
+}
