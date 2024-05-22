@@ -32,15 +32,21 @@ header:hover nav ul li a {
     color: black;
 }
 
+.logo {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
 .logo img {
     max-height: 60px;
     width: 60%; /* ロゴのサイズを60%に変更 */
 }
 
 nav {
-    flex-grow: 1;
+    flex: 1;
     display: flex;
-    justify-content: center; /* メニューを中央に揃える */
+    justify-content: center;
     position: relative;
 }
 
@@ -109,6 +115,10 @@ nav ul li.active a {
 }
 
 @media (max-width: 1200px) { /* ロゴとメニューの合計の長さが画面の横の長さを超えたとき */
+    .logo {
+        flex: none;
+    }
+
     nav ul {
         display: none;
     }
@@ -163,3 +173,6 @@ nav ul li.active a {
     }
 
     nav ul li.active a {
+        color: red;
+    }
+}
