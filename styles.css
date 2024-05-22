@@ -110,18 +110,22 @@ nav ul li.active a {
     z-index: -1;
 }
 
-@media (max-width: 992px) { /* ロゴとメニューが重なったとき */
+/* 追加のCSSコード */
+nav.mobile ul {
+    display: none;
+}
+
+nav.mobile .hamburger {
+    display: block;
+}
+
+@media (max-width: 992px) {
     nav ul {
         display: none;
     }
 
     .hamburger {
         display: block;
-    }
-
-    .close-menu.show {
-        display: block;
-        opacity: 1;
     }
 
     nav ul.show {
@@ -167,13 +171,4 @@ nav ul li.active a {
     nav ul li.active a {
         color: red;
     }
-}
-
-/* 追加のCSSコード */
-nav.mobile ul {
-    display: none;
-}
-
-nav.mobile .hamburger {
-    display: block;
 }
