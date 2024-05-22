@@ -16,7 +16,6 @@ header {
     left: 0;
     width: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 20px;
     z-index: 10;
@@ -33,19 +32,20 @@ header:hover nav ul li a {
 }
 
 .logo {
-    flex: 0 1 auto;
-    display: flex;
-    align-items: center;
+    position: absolute;
+    left: 20px;
 }
 
 .logo img {
     max-height: 60px;
-    width: 60%; /* ロゴのサイズを60%に戻す */
+    width: 60%; /* ロゴのサイズを60%に変更 */
 }
 
 nav {
-    flex-grow: 1;
-    text-align: center;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
 }
 
 nav ul {
@@ -110,63 +110,4 @@ nav ul li.active a {
     top: 0;
     left: 0;
     z-index: -1;
-}
-
-@media (max-width: 1200px) { /* ロゴとメニューが重なったとき */
-    nav ul {
-        display: none;
-    }
-
-    .hamburger {
-        display: block;
-    }
-
-    .close-menu.show {
-        display: block;
-        opacity: 1;
-    }
-
-    nav ul.show {
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        right: 0;
-        background-color: white;
-        width: 250px;
-        height: 100vh;
-        padding-top: 60px;
-        padding-right: 20px;
-        box-shadow: -2px 0 5px rgba(0,0,0,0.5);
-        text-align: right;
-        transition: right 0.3s ease;
-    }
-
-    nav ul li {
-        border-top: 1px solid #ccc;
-        border-bottom: 1px solid #ccc;
-    }
-
-    nav ul li:first-child {
-        border-top: none;
-    }
-
-    nav ul li:last-child {
-        border-bottom: none;
-    }
-
-    nav ul li a {
-        color: black;
-        padding: 15px;
-        display: block;
-    }
-
-    nav ul li a:hover {
-        background-color: rgba(128, 128, 128, 0.5);
-        color: black;
-    }
-
-    nav ul li.active a {
-        color: red;
-    }
 }
