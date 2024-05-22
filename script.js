@@ -7,10 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const body = document.body;
 
     function checkOverlap() {
-        const logoRect = logo.getBoundingClientRect();
-        const menuRect = menu.getBoundingClientRect();
+        const logoWidth = logo.clientWidth;
+        const menuWidth = menu.clientWidth;
+        const screenWidth = window.innerWidth;
+        const padding = 40; // 左右の余白（ロゴの位置から計算）
 
-        if (logoRect.right > menuRect.left) {
+        if (logoWidth + menuWidth + padding * 2 > screenWidth) {
             nav.classList.add('mobile');
         } else {
             nav.classList.remove('mobile');
