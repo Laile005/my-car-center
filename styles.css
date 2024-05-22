@@ -58,8 +58,9 @@ nav#mobile_menu {
     display: none;
     position: fixed;
     top: 0;
-    left: 0;
-    width: 100%;
+    right: -100%;
+    width: 70%;
+    max-width: 300px;
     height: 100%;
     background: rgba(0, 0, 0, 0.9);
     z-index: 20;
@@ -67,11 +68,12 @@ nav#mobile_menu {
     align-items: center;
     justify-content: center;
     text-align: center;
+    transition: right 0.5s ease;
 }
 
 nav#mobile_menu.show {
+    right: 0;
     display: flex;
-    animation: fadeIn 0.5s;
 }
 
 nav#mobile_menu .close-menu {
@@ -101,11 +103,6 @@ nav#mobile_menu ul li a {
 
 nav#mobile_menu ul li a:hover {
     color: red;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
 }
 
 @media (max-width: 950px) {
