@@ -44,10 +44,15 @@ header:hover nav ul li a {
 }
 
 nav {
-    flex: 1;
+    flex: 3;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     position: relative;
+}
+
+.menu-placeholder {
+    flex: 1;
 }
 
 nav ul {
