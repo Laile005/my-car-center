@@ -1,115 +1,24 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.getElementById('hamburger');
+    const closeMenu = document.getElementById('close-menu');
+    const menu = document.getElementById('mobile_menu');
+    const body = document.body;
 
-body {
-    font-family: Arial, sans-serif;
-    color: white;
-    background-color: #000;
-    overflow-x: hidden;
-}
+    hamburger.addEventListener('click', function() {
+        menu.classList.add('show');
+        body.classList.add('no-scroll');
+    });
 
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    z-index: 10;
-}
+    closeMenu.addEventListener('click', function() {
+        menu.classList.remove('show');
+        body.classList.remove('no-scroll');
+    });
 
-.logo img {
-    max-height: 60px;
-    width: 60%;
-}
-
-.hamburger {
-    font-size: 24px;
-    cursor: pointer;
-    color: white;
-}
-
-.hero {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.video-background {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-}
-
-nav#mobile_menu {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    z-index: 20;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-nav#mobile_menu.show {
-    display: flex;
-    animation: fadeIn 0.5s;
-}
-
-nav#mobile_menu .close-menu {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 36px;
-    cursor: pointer;
-    color: white;
-}
-
-nav#mobile_menu ul {
-    list-style: none;
-    padding: 0;
-}
-
-nav#mobile_menu ul li {
-    margin: 20px 0;
-}
-
-nav#mobile_menu ul li a {
-    text-decoration: none;
-    color: white;
-    font-size: 24px;
-    transition: color 0.3s;
-}
-
-nav#mobile_menu ul li a:hover {
-    color: red;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@media (max-width: 950px) {
-    .hamburger {
-        display: block;
-    }
-}
+    // メニュー外をクリックして閉じる
+    document.addEventListener('click', function(event) {
+        if (!menu.contains(event.target) && event.target !== hamburger && menu.classList.contains('show')) {
+            menu.classList.remove('show');
+            body.classList.remove('no-scroll');
+        }
+    });
+});
