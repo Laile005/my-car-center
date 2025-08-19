@@ -17,32 +17,34 @@ function initCurrentYear() {
 
 // ハンバーガーメニュー処理
 function setupHamburgerMenu() {
-  const hamburger = document.getElementById('hamburger');
-  const navMobile = document.getElementById('nav-mobile');
-  const closeMenu = document.getElementById('close-menu');
-  const body = document.body;
+  const btn  = document.getElementById('hamburger');
+  const menu = document.getElementById('nav-mobile');
+  const close= document.getElementById('close-menu');
 
-  if (!hamburger || !navMobile || !closeMenu) return;
+  if(!btn || !menu) return;
 
-  hamburger.addEventListener('click', () => {
-    navMobile.classList.add('show');
-    body.classList.add('no-scroll');
+  const open = () => {
+    menu.classList.add('show');
+    document.body.classList.add('no-scroll');  // スクロールロック
+    btn.setAttribute('aria-expanded', 'true');
+  };
+  const hide = () => {
+    menu.classList.remove('show');
+    document.body.classList.remove('no-scroll');
+    btn.setAttribute('aria-expanded', 'false');
+  };
+
+  btn.addEventListener('click', open);
+  if(close) close.addEventListener('click', hide);
+
+  // メニュー内リンクを押したら閉じる
+  menu.addEventListener('click', (e) => {
+    if(e.target.closest('a')) hide();
   });
 
-  closeMenu.addEventListener('click', () => {
-    navMobile.classList.remove('show');
-    body.classList.remove('no-scroll');
-  });
-
-  document.addEventListener('click', (e) => {
-    if (
-      navMobile.classList.contains('show') &&
-      !navMobile.contains(e.target) &&
-      !hamburger.contains(e.target)
-    ) {
-      navMobile.classList.remove('show');
-      body.classList.remove('no-scroll');
-    }
+  // Escで閉じる
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') hide();
   });
 }
 
@@ -73,7 +75,7 @@ function startHeroSlideshow() {
 
 // 創業年数計算
 function initCompanyYears() {
-  const established = 1964;
+  const established = 1981;
   const yearsEl = document.getElementById('company-years');
   if (yearsEl) {
     const now = new Date().getFullYear();
