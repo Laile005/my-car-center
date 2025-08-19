@@ -73,7 +73,7 @@ function startHeroSlideshow() {
 
 // 創業年数計算
 function initCompanyYears() {
-  const established = 1981;
+  const established = 1964;
   const yearsEl = document.getElementById('company-years');
   if (yearsEl) {
     const now = new Date().getFullYear();
