@@ -127,7 +127,6 @@ img {
 }
 
 /* モバイルメニュー */
-/* モバイルメニュー（全画面オーバーレイで堅く） */
 .nav-mobile{
   position: fixed;
   inset: 0;                         /* top/left/right/bottom:0 の省略形 */
@@ -247,10 +246,10 @@ img {
    ===================================== */
 /* ヒーローセクション全体 */
 .section-hero {
-  top: 0;
   position: relative;
   width: 100%;
-  height: calc((100dvh) - var(--header-height));
+  min-height: calc(100svh - var(--header-height));
+  height: auto;
   overflow: hidden;
   margin-top: var(--header-height);
 }
@@ -303,9 +302,6 @@ img {
   drop-shadow(0 0 12px rgba(0, 0, 0, 0.15))
   drop-shadow(0 0 20px rgba(0, 0, 0, 0.1));
 }
-.hero::before {
-  background-attachment: scroll;
-}
 
 /* マスク処理 */
 .masked-wrapper {
@@ -344,7 +340,10 @@ img {
     overflow-x: hidden;
   }
   .section-hero {
-    height: calc(100dvh - var(--header-height));
+    min-height: calc(100svh - var(--header-height)); height:auto;
+  }
+  .hero-mask {
+    filter: none;
   }
   .masked-wrapper {
     mask: none !important;
