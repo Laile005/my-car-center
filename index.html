@@ -1,1 +1,366 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>山本マイカーセンター株式会社</title>
 
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+JP:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Font Awesome（アイコン用） -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-pQQbFiHuvvIvvf tuhgJbQdxrjWDgr13rLPmE EG8qNRLvaR1dQz VWErhN9dK Ov6GgjcvNniM3MnO4GZyZxw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <!-- 独自スタイル -->
+  <link rel="stylesheet" href="styles.css" />
+  <!-- スクリプト -->
+  <script defer src="script.js"></script>
+</head>
+
+<body>
+<!-- ===========================
+    ヘッダー
+=========================== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#hero" class="logo logo--edge">
+        <img src="image/Logo.webp" alt="山本マイカーセンターのロゴ" />
+      </a>
+      <nav class="nav-desktop nav-desktop--edge" aria-label="グローバルナビゲーション">
+        <ul>
+          <li><a href="#service">事業案内</a></li>
+          <li><a href="#flow">作業の流れ</a></li>
+          <li><a href="#works">施工事例</a></li>
+          <li><a href="recruit.html">採用情報</a></li>
+          <li><a href="#company">会社案内</a></li>
+        </ul>
+      </nav>
+      <div class="hamburger hamburger--edge" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <nav class="nav-mobile" id="nav-mobile" aria-label="モバイルメニュー">
+      <div class="close-menu" id="close-menu">&times;</div>
+      <ul>
+        <li><a href="#service">事業案内</a></li>
+        <li><a href="#works">施工事例</a></li>
+        <li><a href="#company">会社案内</a></li>
+        <li><a href="#flow">作業の流れ</a></li>
+        <li><a href="#recruit">採用情報</a></li>
+        <li><a href="#contact">お問い合わせ</a></li>
+      </ul>
+    </nav>
+  </header>
+
+<!-- ===========================
+    ヒーローセクション
+=========================== -->
+<section id="hero" class="section section-hero skin-hero-soft" role="region" aria-labelledby="hero-title">
+  <!-- マスク（シルエット）と画像 -->
+  <div class="hero-mask">
+    <div class="masked-wrapper">
+      <img
+        src="image/hero1.webp"
+        alt="自動車整備のイメージ画像1"
+        class="hero-img img1"
+        loading="lazy"
+        width="1920"
+        height="1080"
+      />
+    </div>
+  </div>
+
+  <!-- キャッチコピー -->
+  <div class="hero-content">
+    <h1 class="hero-title" id="hero-title">
+      <span class="line1">傷は消しても、</span><br>
+      <span class="line2">思い出は残す。</span>
+    </h1>
+  </div>
+</section>
+
+<!-- ===========================
+    企業ステートメント
+=========================== -->
+<section id="statement" class="section section-statement bg-voice-tint" aria-label="企業ステートメント">
+  <div class="container stmt">
+    <p class="stmt-kicker">SINCE 1964</p>
+    <h2 class="stmt-title">
+      <span>創業<span id="company-years"></span>年の信頼と技術</span>
+    </h2>
+
+    <div class="stmt-body">
+      <p class="stmt-para">
+        <span class="stmt-line">1964年（昭和39年）創業。板金塗装からスタートし、</span>
+        <span class="stmt-line">いまでは<strong>販売・整備・塗装・車検</strong>を一貫対応。</span>
+      </p>
+
+      <p class="stmt-para">
+        <span class="stmt-line">仕事の<strong>約8割はディーラー様や保険会社様からのご紹介</strong>。</span>
+        <span class="stmt-line">地域で積み上げた実績が、日々の安心につながっています。</span>
+      </p>
+
+      <p class="stmt-para">
+        <span class="stmt-line">社内には<strong>自動車検査員</strong>が在籍。</span>
+        <span class="stmt-line">最終検査〜保安基準適合証の発行、車検証の更新まで<strong>社内完結</strong>。</span>
+        <span class="stmt-line">だから車検は<strong>最短 半日〜1日</strong>で対応できます。</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================
+    事業案内
+=========================== -->
+<section id="service" class="section section-service" role="region" aria-labelledby="service-title">
+  <div class="container">
+    <h2 class="section-title" id="service-title">事業案内</h2>
+    <p class="section-subtitle">
+      新車・中古車販売、車検・整備、板金塗装、ロードサービスまで。<br>
+      日常のメンテから万一のトラブルまで一貫対応します。
+    </p>
+
+    <div class="svc-rows">
+      <!-- 1. 修理・塗装 -->
+      <article class="svc-row svc-opt-indent">
+        <div class="svc-photo" style="background-image:url('image/fa-car-side.webp');" aria-hidden="true"></div>
+        <div class="svc-body">
+          <div class="svc-kicker">修理・塗装</div>
+          <h3 class="svc-title svc-title--underline">小さなキズから保険修理まで、美しく長持ち。</h3>
+          <ul class="svc-list">
+            <li>色合わせ・面出しを徹底し、自然な仕上がり</li>
+            <li>保険書類のサポート、代車対応あり</li>
+            <li>国産主要色に即応、短納期に配慮</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- 2. 車検・整備（左右反転） -->
+      <article class="svc-row svc-row--rev svc-opt-indent">
+        <div class="svc-photo" style="background-image:url('image/fa-tools.webp');" aria-hidden="true"></div>
+        <div class="svc-body">
+          <div class="svc-kicker">車検・整備</div>
+          <h3 class="svc-title svc-title--underline">検査員在籍。社内完結で最短 半日〜1日。</h3>
+          <ul class="svc-list">
+            <li>最終検査〜証明交付まで自社で完結</li>
+            <li>予約制で待ち時間を最小化</li>
+            <li>予防整備で安心を長くキープ</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- 3. 新車・中古車販売 -->
+      <article class="svc-row svc-opt-indent">
+        <div class="svc-photo" style="background-image:url('image/fa-store.webp');" aria-hidden="true"></div>
+        <div class="svc-body">
+          <div class="svc-kicker">新車・中古車販売</div>
+          <h3 class="svc-title svc-title--underline">用途とご予算に寄り添った一台をご提案。</h3>
+          <ul class="svc-list">
+            <li>購入後のメンテ・車検までワンストップ</li>
+            <li>下取り・保険の見直しもまとめて対応</li>
+            <li>中古車は仕入れから修理まで全て自社対応可能</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- 4. ロードサービス（左右反転） -->
+      <article class="svc-row svc-row--rev svc-opt-indent">
+        <div class="svc-photo" style="background-image:url('image/fa-road.webp');" aria-hidden="true"></div>
+        <div class="svc-body">
+          <div class="svc-kicker">ロードサービス</div>
+          <h3 class="svc-title svc-title--underline">急なトラブルも、地域密着で迅速サポート。</h3>
+          <ul class="svc-list">
+            <li>バッテリー上がり・パンク等の駆けつけ</li>
+            <li>レッカー手配、修理・代車へスムーズ連携</li>
+            <li>まずはお電話ください<a href="tel:0849761000">（084-976-1000）</a></li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================
+    作業の流れ
+=========================== -->
+<section id="flow" class="section section-flow skin-slab" role="region" aria-labelledby="flow-title">
+  <div class="container">
+    <h2 class="section-title" id="flow-title">作業の流れ</h2>
+    <p class="section-subtitle">
+      ご相談から納車までスムーズで安心なサポート体制
+    </p>
+    <div class="flow-timeline">
+      <div class="flow-line"></div>
+
+      <div class="flow-step">
+        <div class="flow-icon" style="--step-index: 0">1</div>
+        <div class="flow-content">
+          <h3 class="flow-step-title">お問い合わせ</h3>
+          <p>お電話またはご来店にて、お気軽にご相談ください。</p>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-icon" style="--step-index: 1">2</div>
+        <div class="flow-content">
+          <h3 class="flow-step-title">ご来店・お見積り</h3>
+          <p>ご希望の日時にご来店いただき、車両を拝見しながらお見積りいたします。</p>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-icon" style="--step-index: 2">3</div>
+        <div class="flow-content">
+          <h3 class="flow-step-title">作業開始</h3>
+          <p>ご承認いただいた後、熟練スタッフが速やかに作業に着手します。</p>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-icon" style="--step-index: 3">4</div>
+        <div class="flow-content">
+          <h3 class="flow-step-title">完成検査</h3>
+          <p>作業完了後、最終チェックを丁寧に行い、品質を保証します。</p>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-icon" style="--step-index: 4">5</div>
+        <div class="flow-content">
+          <h3 class="flow-step-title">納車・お引き取り</h3>
+          <p>仕上がりをご確認いただき、ご納車致します。またはお引き取りにお越しください。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================
+  施工事例
+=========================== -->
+<section id="works" class="section section-works" role="region" aria-labelledby="works-title">
+  <div class="container">
+    <h2 class="section-title" id="works-title">施工事例</h2>
+    <p class="section-subtitle">最近の修理・整備の事例をご紹介します。</p>
+
+    <div class="works-grid">
+      <!-- 実績1 -->
+      <article class="work-card">
+        <figure class="work-media">
+          <img src="image/works_1.webp" alt="works_1.webp" />
+        </figure>
+        <div class="work-body">
+          <p class="work-date">2025.5.01</p>
+          <h3 class="work-title">塗装修理</h3>
+          <p class="work-text"></p>
+        </div>
+      </article>
+
+      <!-- 実績2 -->
+      <article class="work-card">
+        <figure class="work-media">
+          <img src="image/sample-work2.webp" alt="coming soon ..." />
+        </figure>
+        <div class="work-body">
+          <p class="work-date">0000.00.00</p>
+          <h3 class="work-title">coming soon ...</h3>
+          <p class="work-text">coming soon ...</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================
+    採用情報
+=========================== -->
+<section id="recruit" class="section section-recruit" role="region" aria-labelledby="recruit-title">
+  <div class="container">
+    <h2 class="section-title" id="recruit-title">採用情報</h2>
+
+    <div class="recruit-body">
+      <p class="recruit-lead">
+        これからの未来の車を想像し<br />
+        共に働くメンバーを求めています。
+      </p>
+      <div class="recruit-actions">
+        <a href="recruit.html" class="recruit-cta" aria-label="採用サイトへ">採用サイトへ</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===========================
+    会社案内
+=========================== -->
+<section id="company" class="section section-company skin-paper" role="region" aria-labelledby="company-title">
+  <div class="container">
+    <h2 class="section-title" id="company-title">会社案内</h2>
+    <div class="company-flex">
+      <div class="company-details">
+        <p><strong>定休日：</strong>日・祝</p>
+        <p><strong>営業時間：</strong>8:30 – 17:30</p>
+        <p><strong>電話番号：</strong><a href="tel:0849761000">084-976-1000</a></p>
+        <p><strong>住所：</strong>広島県福山市駅家町坊寺174-2</a></p>
+      </div>
+      <div class="company-image-placeholder" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================
+    フッター
+=========================== -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo">
+          <!-- CSS でフィルターをかけ、白く見せる -->
+          <img src="image/Logo.webp" alt="山本マイカーセンターのロゴ" class="footer-logo-img" />
+        </div>
+        <p>
+          〒720-1144<br />
+          広島県福山市駅家町坊寺174-2
+        </p>
+        <p><a href="tel:0849761000">084-976-1000</a></p>
+      </div>
+      <div class="footer-col">
+        <h4><a href="index.html">企業TOP</a></h4>
+        <ul>
+          <li><a href="index.html#service">- 事業内容</a></li>
+          <li><a href="index.html#flow">- 作業の流れ</a></li>
+          <li><a href="index.html#works">- 施工事例</a></li>
+          <li><a href="recruit.html">- 採用情報</a></li>
+          <li><a href="index.html#company">- 会社案内</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4><a href="recruit.html">採用TOP</a></h4>
+        <ul>
+          <li><a href="recruit.html#job">- 仕事内容</a></li>
+          <li><a href="recruit.html#growth">- 入社後のステップ</a></li>
+          <li><a href="recruit.html#voice">- 先輩のリアル</a></li>
+          <li><a href="recruit.html#requirements">- 募集要項</a></li>
+          <li><a class="footer-cta" href="recruit.html#entry">- エントリー</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-copy">
+      &copy; <span id="year"></span> 山本マイカーセンター株式会社
+    </div>
+  </footer>
+</body>
+</html>
