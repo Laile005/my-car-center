@@ -1,1 +1,1029 @@
+/*-------------------------------------
+  カラーパレット（青系 + 白を適宜ミックス）
+-------------------------------------*/
+/* ========== Tokens (common) ========== */
+:root{
+  /* Color */
+  --ink:#0f172a;
+  --paper:#ffffff;
+  --sky:#60a5fa;
+  --mint:#22d3ee;
+  --line:#e5e7eb;
+  --wash:#f8fbff;
+  --muted:#334155;
+  --lemon:#facc15;
 
+  /* RGB (淡いグラデ用) */
+  --sky-rgb:96,165,250;
+  --mint-rgb:34,211,238;
+
+  /* UI */
+  --radius:16px;
+  --shadow:0 8px 24px rgba(15,23,42,.06);
+  --container:min(1120px, 92vw);
+  --header-height:70px;
+}
+
+
+/*=====================================
+  リセット＆ベーススタイル
+=====================================*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  color: var(--ink);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/*-------------------------------------
+  コンテナ共通
+-------------------------------------*/
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/*=====================================
+  ヘッダー
+=====================================*/
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  padding: 0 1rem;
+}
+.logo--edge {
+  display: flex;
+  align-items: center;
+  height: 100%;  /* 親の高さ（header-inner）を継承 */
+}
+.logo--edge img {
+  height: 60%;   /* ヘッダーの80%に自動でフィット */
+  width: auto;
+  margin: 0;     /* 必要に応じて調整 */
+}
+.nav-desktop--edge {
+  margin-right: 0;
+}
+.hamburger--edge {
+  margin-right: 0;
+}
+
+/* PCナビ */
+.nav-desktop ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+.nav-desktop ul li a {
+  font-weight: 500;
+  color: var(--ink);
+  transition: color 0.3s;
+}
+.nav-desktop ul li a:hover {
+  color: var(--sky);
+}
+
+/* ハンバーガー（モバイル） */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: var(--ink);
+  border-radius: 2px;
+}
+
+/* モバイルメニュー */
+.nav-mobile {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(30, 41, 59, 0.95);
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s;
+}
+.nav-mobile.show {
+  opacity: 1;
+  visibility: visible;
+}
+.nav-mobile .close-menu {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-size: 32px;
+  color: var(--paper);
+  cursor: pointer;
+}
+.nav-mobile ul {
+  list-style: none;
+}
+.nav-mobile ul li {
+  margin: 16px 0;
+}
+.nav-mobile ul li a {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--paper);
+  transition: color 0.3s;
+}
+.nav-mobile ul li a:hover {
+  color: var(--sky);
+}
+
+/* レスポンシブ：ヘッダー */
+@media screen and (max-width: 991px) {
+  :root {
+    --header-height: 60px;
+  }
+  .nav-desktop {
+    display: none;
+  }
+  .hamburger {
+    display: flex;
+  }
+  .logo--edge img {
+    height: 50%;
+  }
+}
+
+/* =====================================
+  セクション共通
+   ===================================== */
+/* 共通セクション余白・背景 */
+.section {
+  padding: 4rem 1rem;
+  background-color: var(--paper);
+  scroll-margin-top: var(--header-height);
+}
+.section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.section-subtitle {
+  text-align: center;
+  color: var(--muted);
+  font-size: 1rem;
+  margin-bottom: 3rem;
+}
+.section-link {
+  text-align: center;
+  margin-top: 2.5rem;
+}
+.link-with-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.link-with-arrow .arrow {
+  margin-left: 0.5rem;
+  transition: transform 0.3s ease, color 0.3s;
+}
+.link-with-arrow:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* =====================================
+  ヒーローセクション
+   ===================================== */
+/* ヒーローセクション全体 */
+.section-hero {
+  top: 0;
+  position: relative;
+  width: 100%;
+  height: calc((100vw) * 10 / 21 - var(--header-height));
+  overflow: hidden;
+  margin-top: var(--header-height);
+}
+.section.skin-hero-soft{
+  background:
+    radial-gradient(1200px 600px at 12% -10%, rgba(59,130,246,.18), transparent 60%),
+    radial-gradient(1200px 600px at 110% 20%, rgba(184,200,235,.20), transparent 60%),
+    var(--paper);
+}
+
+/* 画像共通 */
+.hero-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 1s ease;
+  opacity: 0;
+  z-index: 0;
+}
+.hero-img.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.img1 {
+  object-position: right top;
+}
+.img2 {
+  object-position: left bottom;
+}
+.img3 {
+  object-position: center;
+}
+
+/* ▼追加ラッパー（画像をマスクし、影を当てる） */
+.hero-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+
+  /* SVG影を適用 */
+  filter:
+  drop-shadow(0 0 6px rgba(0, 0, 0, 0.2))
+  drop-shadow(0 0 12px rgba(0, 0, 0, 0.15))
+  drop-shadow(0 0 20px rgba(0, 0, 0, 0.1));
+}
+
+/* マスク処理 */
+.masked-wrapper {
+  width: 100%;
+  height: 100%;
+  mask: url('image/car-shape.svg') no-repeat center center;
+  mask-size: auto 110%;
+  mask-position: calc(100% + 40px) -3px;
+  -webkit-mask: url('image/car-shape.svg') no-repeat center center;
+  -webkit-mask-size: auto 110%;
+  -webkit-mask-position: calc(100% + 40px) -3px;
+  position: relative;
+}
+
+/* キャッチコピー */
+.hero-content {
+  position: absolute;
+  top: 10%;
+  left: 8%;
+  z-index: 3;
+  color: var(--ink);
+  max-width: 600px;
+}
+.hero-content .hero-title {
+  margin: 0;
+  font-size: clamp(1.5rem, 3.5vw, 4rem);
+  line-height: 1.2;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+@media screen and (max-width: 480px) {
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  .section-hero {
+    height: calc(100vh - var(--header-height));
+  }
+  .masked-wrapper {
+    mask: none !important;
+    -webkit-mask: none !important;
+  }
+  .img1 {
+    object-position: 70% 50% !important;
+  }
+  .img2 {
+    object-position: 60% 50% !important;
+  }
+  .hero-content {
+    top:    auto !important;
+    left:   auto !important;
+    bottom: 3rem  !important;
+    right:  1rem  !important;
+    text-align: right;
+    z-index: 4;
+    pointer-events: none;
+  }
+  .hero-content .hero-title {
+    color: #fff;
+    /* 影を多重レイヤーで重ねる */
+    text-shadow:
+      /* 外側に広がる柔らかい光彩 */
+      0 0 4px  var(--muted),
+      0 0 8px  var(--muted),
+      0 0 12px var(--muted);
+    font-size: clamp(2rem, 5vw, 4rem);
+    margin: 0;
+    line-height: 1.2;
+  }
+}
+
+@media (min-width: 1921px) {
+  .hero-mask {
+    margin-left: calc((100vw - 1920px) / 2);
+  }
+}
+
+/* ===========================
+  PR文（Statement）
+=========================== */
+.stmt{
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.stmt-kicker{
+  letter-spacing: .18em;
+  font-weight: 700;
+  font-size: .82rem;
+  color: #6b7a90;
+  margin: 0 0 .6rem;
+}
+
+.stmt-title{
+  display: inline-block;
+  font-family: 'Montserrat','Noto Sans JP',sans-serif;
+  font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: .02em;
+  margin: 0 0 1.4rem;
+  position: relative;
+}
+.stmt-title > span{
+  display: inline-block;
+  padding: 0 .2em;
+}
+.stmt-title::after{
+  content: "";
+  display: block;
+  width: 56%;
+  height: 6px;
+  margin: .7rem auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--sky), var(--line));
+  opacity: .25; /* うるさければ 0.18〜0.22 に調整 */
+}
+
+.stmt-body{
+  font-size: 1.05rem;
+  line-height: 2;
+  color: var(--ink);
+}
+.stmt-para{ margin: 1.1rem 0; }
+
+/* “デザインされた改行”：PCでは行ごとに改行、SPでは自動改行に戻す */
+.stmt-line{
+  display: inline;            /* SP: 1段落 */
+}
+@media (min-width: 900px){
+  .stmt-line{
+    display: block;           /* PC: 意図した位置で改行 */
+  }
+}
+
+/* 強調のニュアンス（太字だけで終わらせない） */
+.stmt-body strong{
+  font-weight: 800;
+  background: linear-gradient(transparent 70%, rgba(59,130,246,.22) 0);
+  padding: 0 .06em;
+}
+
+/*=====================================
+  事業案内 (Service)
+=====================================*/
+.section-service{
+  position: relative;
+  background: linear-gradient(180deg, rgba(59,130,246,.06), rgba(34,211,238,.08));
+}
+
+/* ===== Service：交互レイアウト ===== */
+.svc-rows{
+  display: grid;
+  gap: 2.2rem;
+}
+
+.svc-row{
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.svc-row--rev{
+  flex-direction: row-reverse;
+}
+
+.svc-photo{
+  flex: 1 1 55%;
+  aspect-ratio: 16 / 9;
+  background: #e5e7eb center / cover no-repeat;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.svc-body{
+  flex: 1 1 45%;
+  display: grid;
+  gap: .6rem;
+  color: var(--ink);
+}
+
+.svc-kicker{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size:1rem;
+  letter-spacing: 0.02em;
+  color:#fff;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--sky), var(--mint));
+  border: 0;
+  box-shadow: 0 6px 16px rgba(59,130,246,.25);
+  backdrop-filter: saturate(120%) blur(2px); /* 対応ブラウザでほんのり */
+}
+
+/* 見出しと本文を右に少しだけ寄せて、ピルと左端を揃える（B案） */
+.svc-row.svc-opt-indent .svc-title, .svc-row.svc-opt-indent .svc-list{
+  margin-left: 1.1rem;
+}
+
+.svc-title{
+  font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+  margin: .2rem 0 .2rem;
+}
+
+.svc-list{
+  list-style: none;
+  margin: .2rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: .35rem;
+  color: var(--muted);
+}
+.svc-list li{
+  position: relative;
+  padding-left: 1.3rem;
+}
+.svc-list li::before{
+  content: "";
+  position: absolute;
+  left: 0; top: .5em;
+  width: .55rem; height: .55rem;
+  border-radius: 2px;
+  background: linear-gradient(135deg, var(--sky), #B8C8EB);
+}
+
+/* SP：縦積み */
+@media (max-width: 900px){
+  .svc-row{
+    flex-direction: column;
+  }
+  .svc-row--rev{
+    flex-direction: column;
+  }
+  .svc-photo, .svc-body{
+    flex-basis: auto; width: 100%;
+  }
+  .svc-row.svc-opt-indent .svc-title, .svc-row.svc-opt-indent .svc-list{
+    margin-left: 0;
+  }
+}
+
+/*=====================================
+  作業・納車までの流れ (Flow)
+=====================================*/
+.section-flow{
+  position: relative;
+  background: var(--paper);
+}
+.section-flow::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image: radial-gradient(rgba(59,130,246,.10) 1px, transparent 1px);
+  background-size: 22px 22px;
+  opacity:.5;
+  pointer-events:none;
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+}
+
+/* タイムライン全体の設定 */
+.flow-timeline {
+    position: relative;
+    padding: 40px 0; /* 上下の余白 */
+}
+
+/* 左側に縦に通るライン */
+.flow-line{
+  position:absolute;
+  top:0; left:30px;
+  width:4px; height:100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(59,130,246,.55) 0 10px,
+    transparent 10px 22px
+  );
+  transform: translateX(-50%);
+  z-index:0;
+  opacity:.8;
+}
+
+/* 各ステップの全体（アイコン＋コンテンツ） */
+.flow-step {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;  /* 各ステップ間のスペース */
+    position: relative;
+    flex-direction: row-reverse; /* アイコン左、内容右に配置 */
+}
+
+/* 最後のステップだけ下余白をなくす */
+.flow-step:last-child {
+  margin-bottom: 0;
+}
+
+/* ステップ番号の丸アイコン */
+.flow-icon{
+  display:flex;
+  left:30px;
+  width:50px; height:50px;
+  justify-content:center; align-items:center;
+  color:#fff; font-size:1.5em; font-weight:700;
+  position:absolute; transform:translateX(-50%);
+  border-radius:50%;
+  background: linear-gradient(135deg, var(--sky), var(--mint));
+  box-shadow:
+    0 0 0 6px var(--paper),            /* 白いリング */
+    0 10px 22px rgba(59,130,246,.25);  /* ふわっと影 */
+  z-index:2;
+}
+
+/* ステップごとの内容ボックス */
+.flow-content{
+  width: calc(100% - 80px);
+  position: relative; z-index:1;
+  padding: 24px 24px 24px 36px;        /* 左にバー分の余白を追加 */
+  background: var(--wash);             /* ごく薄い青の下地 */
+  border: 1px solid var(--line);       /* うっすら枠 */
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(2,18,46,.06);
+}
+.flow-content::before{
+  content:"";
+  position:absolute;
+  left:12px; top:14px; bottom:14px;
+  width:6px; border-radius:4px;
+  background: linear-gradient(180deg, var(--sky), var(--mint));
+  opacity:.85;
+}
+
+/* ステップタイトル */
+.flow-step-title{
+  color: var(--ink);
+  font-weight:800;
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  margin: 0 0 6px;
+}
+.flow-content p{
+  color: var(--muted);
+  font-size: .98rem;
+  line-height: 1.8;
+  margin: .2rem 0 0;
+}
+
+@media (max-width: 768px) {
+
+  /* セクション上下余白調整 */
+  .section-flow {
+    padding: 64px;
+  }
+
+  /* タイムライン内余白調整 */
+  .flow-timeline {
+    padding: 0;
+  }
+
+  /* ラインを中央に寄せる */
+  .flow-line {
+    left: 50%;
+    transform: translateX(0);
+  }
+
+  /* ステップを縦並びに変更 */
+  .flow-step {
+    flex-direction: column !important;
+    align-items: flex-start;
+    margin: 40px 0 40px;
+  }
+
+  /* ステップ番号（アイコン）を非表示に */
+  .flow-icon {
+    display: none;
+  }
+
+  /* 内容ボックスを全幅に */
+  .flow-content {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  /* タイトルを中央揃えに */
+  .flow-step-title {
+    text-align: center;
+  }
+}
+
+/*=====================================
+  施工実績 (Works)
+=====================================*/
+.section-works{
+  background:
+    radial-gradient(1100px 480px at 15% 0%,   rgba(59,130,246,.14),  transparent 60%),
+    radial-gradient(1100px 480px at 85% 100%, rgba(34,211,238,.14),  transparent 60%),
+    var(--paper);
+}
+.works-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 1.6rem;
+}
+.work-card{
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: grid;
+}
+.work-media{
+  aspect-ratio: 16 / 9;
+  background: #e5e7eb;
+}
+.work-media img{
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+.work-body{
+  padding: 1rem 1.1rem 1.2rem;
+}
+.work-date{
+  color: var(--muted);
+  font-size: .9rem;
+  margin: 0 0 .25rem;
+}
+.work-title{
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  font-weight: 800;
+  margin: 0 0 .4rem;
+}
+.work-text{
+  color: var(--ink);
+  line-height: 1.8;
+  font-size: .98rem;
+}
+
+/* SPは1カラム */
+@media (max-width: 900px){
+  .works-grid{ grid-template-columns: 1fr; }
+}
+
+/* =====================================
+  採用情報
+===================================== */
+.section-recruit{
+  position: relative;
+
+  /* セクションの下限高（必要に応じて上書き可能） */
+  min-height: var(--recruit-min-h, clamp(420px, 58vw, 700px));
+
+  /* 背景の薄いシェード（そのまま） */
+  background-image: linear-gradient(90deg,
+    rgba(15,23,42,.22),
+    rgba(15,23,42,.12) 38%,
+    rgba(15,23,42,0) 68%);
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: center;
+
+  /* 調整用トークン（画像はCSSトリミング不要になったので --crop-right は未使用） */
+  --recruit-min-h: 700px;
+  --pos-y: 30%;
+  overflow: hidden;
+}
+
+/* 画像レイヤー：右寄せ＋縦位置は --pos-y、左右余白ゼロで cover */
+.section-recruit::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('image/recruit.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 83% var(--pos-y);  /* ← 右揃え＆縦位置可変 */
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* テキストは前面（そのまま） */
+.section-recruit .section-title{
+  color: var(--paper);
+  margin-bottom: .6rem;
+  text-shadow: 0 2px 6px rgba(0,0,0,.6);
+  position: relative;
+  z-index: 1;
+}
+
+.section-recruit .container{
+  min-height: 0;
+  display: block;
+}
+
+.recruit-body{
+  max-width: 800px;
+  width: min(92%, 800px);
+  padding: clamp(28px, 10vw, 120px) 0 40px;
+  position: relative;
+  display: grid;
+  place-content: center;
+  justify-content: start;
+  transform: translateY(
+    clamp(
+      20%,
+      calc(20% + (80 - 20) * (700px - 100vw) / (700 - 420)),
+      60%
+    )
+  );
+  z-index: 1;
+}
+
+/* タイポ */
+.recruit-lead{
+  color: var(--paper);
+  font-weight: 500;
+  font-size: clamp(1.25rem, 2.8vw, 2rem);
+  line-height: 1.8;
+  text-wrap: balance;
+  margin: .5rem 0 1.2rem;
+  text-shadow: 0 2px 6px rgba(0,0,0,.6);
+}
+
+/* CTA */
+.recruit-actions{ text-align: left; }
+.recruit-cta{
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .65rem 1.15rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--sky), var(--mint));
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(15,23,42,.12);
+  transition: transform .15s ease, filter .15s ease;
+}
+.recruit-cta::after{ content:"›"; font-size:1.2em; line-height:1; transition: transform .15s ease; }
+.recruit-cta:hover{ transform: translateY(-1px); filter: brightness(1.04); }
+.recruit-cta:hover::after{ transform: translateX(2px); }
+
+/* スマホ調整 */
+@media (max-width: 900px){
+  .recruit-actions{
+    text-align: center;
+  }
+  .recruit-body{
+    margin: 0 auto;
+    justify-content: center;
+    padding: clamp(24px, 14vw, 96px) 0 28px;
+  }
+  .recruit-lead{
+    font-size: clamp(1.1rem, 4.2vw, 1.6rem);
+    text-align: center;
+  }
+}
+
+/*=====================================
+  会社案内
+=====================================*/
+.section-company .section-title {
+  margin-bottom: 3rem; /* サブタイトルありと同じ余白にする */
+}
+.company-card {
+  background-color: var(--color-blue-light);
+  border-radius: 16px;
+  width: 280px;
+  padding: 1.5rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif; /* 太めフォント */
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.company-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px var(--sky); /* ← 青色の影を追加 */
+}
+
+.company-flex {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.company-details {
+  flex: 1 1 300px;
+  font-size: 1rem;
+  color: var(--ink);
+  line-height: 1.8;
+}
+.company-details a:hover {
+  color: var(--sky);
+}
+.btn-primary-outline {
+  display: inline-block;
+  background-color: transparent;
+  color: var(--sky);
+  border: 2px solid var(--sky);
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: 30px;
+  margin-top: 1rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+.btn-primary-outline:hover {
+  background-color: var(--sky);
+  color: var(--paper);
+}
+.company-image-placeholder {
+  flex: 1 1 400px;
+  height: 300px;
+  background-image: url('image/factory.webp');
+  background-size: cover;
+  background-position: center;
+  border-radius: 16px;
+  filter: brightness(1.05) saturate(1.6);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 991px){
+  .company-flex{
+    flex-direction: column;
+    align-items: stretch;        /* 子を幅いっぱいに */
+    gap: 1.2rem;                 /* 大きすぎる余白を圧縮 */
+    text-align: left;            /* ← 中央寄せを解除 */
+  }
+  .company-details{
+    flex: 1 1 auto;
+  }
+  .company-details p{
+    margin: .2rem 0;            /* 段落の下マージンを詰める */
+    line-height: 1.7;
+  }
+  /* 画像が“必ず”見えるように高さを保証（固定300pxはやめる） */
+  .company-image-placeholder{
+    flex: 0 0 auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;       /* ← 比率で高さを確保 */
+    min-height: 220px;          /* 最低限の見え幅を確保 */
+    background-position: 60% center; /* 被写体が右なら少し右寄せも可 */
+    border-radius: var(--radius);
+  }
+}
+
+/* ==============================
+   Footer
+   ============================== */
+.footer{
+  background: var(--sky);
+  color: var(--paper);
+  border-top: none;
+  padding: 28px 0 22px;
+}
+.footer a:hover {
+  color: var(--lemon);
+}
+
+/* 3カラム：会社情報 / 企業TOP / 採用TOP */
+.footer-grid{
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 2rem 2.4rem;
+  align-items: start;
+}
+
+/* 見出し */
+.footer-col h4{
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 .6rem;
+  color: var(--paper);
+}
+
+/* リンク一覧 */
+.footer-col ul{
+  list-style: none;
+  margin: 0; padding: 0;
+  display: grid; gap: .45rem;
+}
+.footer-col ul li a{
+  color: rgba(255,255,255,.9);
+  font-size: .95rem;
+  text-decoration: none;
+  transition: opacity .2s ease, color .2s ease;
+}
+
+/* 会社情報・電話リンク */
+.footer-logo-img{
+  height: 36px; width: auto;
+  margin-bottom: .75rem;
+  filter: brightness(0) invert(1);   /* ロゴを白で表示 */
+}
+
+/* コピーライト */
+.footer-copy{
+  text-align: center;
+  margin-top: 1.4rem;
+  font-size: .9rem;
+  color: rgba(255,255,255,.9);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px){
+  .footer-grid{
+    grid-template-columns: 1fr 1fr;   /* 会社情報 + メニュー2列 */
+  }
+  .footer-col:nth-child(2){ order: 2; } /* 企業TOP */
+  .footer-col:nth-child(3){ order: 3; } /* 採用TOP */
+}
+@media (max-width: 560px){
+  .footer-grid{
+    grid-template-columns: 1fr;       /* さらに狭い時は1列 */
+    gap: 1.2rem;
+  }
+  .footer-copy{ font-size: .85rem; }
+}
+
+/* 年表示用 */
+#year {
+  font-weight: 600;
+}
+
+/* モバイルメニュー開閉時にスクロール禁止 */
+.no-scroll {
+  overflow: hidden;
+}
