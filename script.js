@@ -62,10 +62,10 @@ function showHeroImage(index) {
 function startHeroSlideshow() {
   const images = document.querySelectorAll('.hero-img');
   if (images.length === 0) return;
-
   // 初期表示
-  showHeroImage(currentIndex);
-
+  showHeroImage(0);
+  // 1枚しか無ければ切替を回さない（無駄な再描画を防ぐ）
+  if (images.length <= 1) return;
   // 一定間隔で切り替え
   setInterval(() => {
     currentIndex = (currentIndex + 1) % images.length;
