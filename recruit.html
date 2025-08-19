@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>採用情報 | Light Garage Recruit</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="recruit.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html#hero" class="logo logo--edge">
+      <img src="image/Logo.webp" alt="山本マイカーセンターのロゴ" />
+    </a>
+    <nav class="nav-desktop nav-desktop--edge" aria-label="グローバルナビゲーション">
+      <ul>
+        <li><a href="index.html">企業TOP</a></li>
+        <li><a href="recruit.html#job">仕事内容</a></li>
+        <li><a href="recruit.html#growth">入社後のステップ</a></li>
+        <li><a href="recruit.html#voice">先輩のリアル</a></li>
+        <li><a href="recruit.html#requirements">募集要項</a></li>
+        <li><a href="recruit.html#entry">エントリー</a></li>
+      </ul>
+    </nav>
+    <div class="hamburger hamburger--edge" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <!-- モバイルメニュー -->
+  <nav class="nav-mobile" id="nav-mobile" aria-label="モバイルメニュー">
+    <div class="close-menu" id="close-menu">&times;</div>
+    <ul>
+      <li><a href="recruit.html#job">仕事内容</a></li>
+      <li><a href="recruit.html#growth">入社後のステップ</a></li>
+      <li><a href="recruit.html#voice">先輩のリアル</a></li>
+      <li><a href="recruit.html#requirements">募集要項</a></li>
+      <li><a href="recruit.html#entry">エントリー</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="rg-hero" id="top" aria-labelledby="hero-title">
+    <div class="rg-container rg-hero__inner">
+      <div class="rg-hero__copy">
+        <h1 class="rg-hero__title" id="hero-title">
+          WORK × LIFE<br>どっちも大事に。
+        </h1>
+        <p class="rg-hero__lead">
+          家庭・趣味・仕事が両立しやすい体制。<br>段取りは自分発。詰め込まないから続けられる。
+        </p>
+
+        <ul class="rg-facts">
+          <li class="rg-fact"><span>ほぼ100%</span><small>有給取得率</small></li>
+          <li class="rg-fact"><span>2時間以内</span><small>月平均残業時間</small></li>
+          <li class="rg-fact"><span>休憩75分</span><small>実勤務7.45時間</small></li>
+        </ul>
+
+        <a href="#entry" class="rg-btn rg-btn--grad">1分でエントリー</a>
+      </div>
+
+      <div class="rg-hero__ph">
+        <img src="image/recruit_hero.webp" alt="採用ヒーロー写真">
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT（仕事の考え方・雰囲気） -->
+  <section class="rg-section rg-skin--dots" id="about">
+    <div class="rg-container rg-grid-2">
+      <div>
+        <h2 class="rg-sec__eyebrow">ABOUT</h2>
+        <h3 class="rg-sec__title">無理はしない。手も抜かない。</h3>
+        <p class="rg-sec__text">
+          仕事は無理に詰め込まず、計画重視。<br>
+          作業はチームで段取りし、定時で上がれる日を増やす。<br>
+          「プライベートも仕事もどっちも大事に」
+        </p>
+      </div>
+      <div class="rg-ph rg-ph--16x9">
+        <img src="image/recruit_1.webp" alt="作業風景の写真" class="rg-ph__img">
+      </div>
+    </div>
+  </section>
+
+  <!-- JOB（仕事内容） -->
+  <section class="rg-section rg-skin--slab" id="job">
+    <div class="rg-container">
+      <h2 class="rg-sec__eyebrow">JOB</h2>
+      <h3 class="rg-sec__title">オートサービスエンジニア（自動車整備士 / 板金塗装工）</h3>
+
+      <div class="rg-cards rg-cards--2">
+        <article class="rg-card">
+          <h4 class="rg-card__title">主な業務</h4>
+          <ul class="rg-list--ticks">
+            <li>点検・整備・修理（オイル/タイヤ交換 含む）</li>
+            <li>車検（自社検査員対応でスピーディー）</li>
+            <li>納車・引き取り、基本的なお客様対応</li>
+            <li>見積り補助、作業段取りの設計</li>
+          </ul>
+        </article>
+
+        <article class="rg-card">
+          <h4 class="rg-card__title">1日の流れ（例）</h4>
+          <ol class="rg-flow">
+            <li><span>AM</span> 予約確認・来客対応／点検・整備</li>
+            <li><span>PM</span> 車検対応・修理／納車前仕上げ</li>
+            <li><span>FIN</span> 納車・引取り／翌日の段取り</li>
+          </ol>
+          <p class="rg-note">※内容により同日〜翌日で完了するケースあり</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROWTH（成長・資格支援） -->
+  <section class="rg-section" id="growth">
+    <div class="rg-container">
+      <h2 class="rg-sec__eyebrow">GROWTH</h2>
+      <h3 class="rg-sec__title">入社後のステップ</h3>
+
+      <div class="rg-steps">
+        <div class="rg-step">
+          <div class="rg-step__head"><span>STEP 1</span>実務・安全基礎</div>
+          <p>洗車・補助からスタート。先輩が同行して基本を習得。</p>
+        </div>
+        <div class="rg-step">
+          <div class="rg-step__head"><span>STEP 2</span>整備士取得</div>
+          <p>車検・点検・修理といった実務を通じて整備士資格の取得を目指す。</p>
+        </div>
+        <div class="rg-step">
+          <div class="rg-step__head"><span>STEP 3</span>検査員取得</div>
+          <p>資格取得は会社が学費・受験費用をサポート。学校に通うための時間調整も。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VOICES（先輩のリアル） -->
+  <section id="voices" class="rg-section rg-section--voices">
+    <div class="rg-container">
+      <h2 class="rg-sec__eyebrow">VOICE</h2>
+      <h3 class="rg-sec__title">先輩のリアル</h3>
+
+      <div class="rg-cards rg-cards--2 rg-voices">
+        <!-- 前田さん -->
+        <article class="rg-card rg-card--voice">
+          <div class="rg-voice__head">
+            <!-- 写真が無いので頭文字アバター（後で<img>に差し替え可） -->
+            <div class="rg-avatar" aria-hidden="true">M</div>
+            <div class="rg-voice__meta">
+              <span class="rg-name">前田さん</span>
+              <span class="rg-role">2019年中途入社・整備担当</span>
+            </div>
+          </div>
+          <h4 class="rg-card__title">趣味の時間が戻った。</h4>
+          <p class="rg-card__text">
+            前職は日曜出勤＋20時までで、プライベートが取れない日々。いまは日曜休みで17:30に切り上げ、キャンプや自転車の時間が確保できています。有給も計画的に取得でき、無理なく働けます。
+          </p>
+          <h5 class="rg-voice__sub">段取りは自分発、やりやすい。</h5>
+          <p class="rg-card__text">
+            少人数だから自分で考えて動けるのが魅力。お客様に感謝される瞬間が、最高のモチベーションです。
+          </p>
+        </article>
+
+        <!-- 鳥越さん -->
+        <article class="rg-card rg-card--voice">
+          <div class="rg-voice__head">
+            <div class="rg-avatar" aria-hidden="true">T</div>
+            <div class="rg-voice__meta">
+              <span class="rg-name">鳥越さん</span>
+              <span class="rg-role">1999年新卒入社・板金塗装担当</span>
+            </div>
+          </div>
+          <h4 class="rg-card__title">20年以上、続けられる理由。</h4>
+          <p class="rg-card__text">
+            新卒で入社。当時は板金塗装に詳しかったわけではありませんが、続けるほどに面白さが増していきました。
+            一台ごとに課題が違い、手を動かすほど上達が目に見える——その実感がやりがいです。
+          </p>
+          <h5 class="rg-voice__sub">メリハリのある職場。残業は“必要な時だけ”。</h5>
+          <p class="rg-card__text">
+            残業は自分の采配で、毎日ではありません。基本は定時で切り上げ、必要な時だけ集中して残る。
+            だからプライベートの時間も確保できます。仕事はキッチリ、話すときは楽しく——この雰囲気が気に入っています。
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- REQUIREMENTS（募集要項） -->
+  <section id="req" class="rg-section rg-section--req">
+    <div class="rg-container">
+      <h2 class="rg-sec__eyebrow">REQUIREMENTS</h2>
+      <h3 class="rg-sec__title">募集要項</h3>
+
+      <dl class="rg-spec">
+        <div><dt>募集職種</dt><dd>オートサービスエンジニア（自動車整備士）</dd></div>
+        <div><dt>雇用形態</dt><dd>正社員</dd></div>
+        <div><dt>勤務地</dt><dd>広島県福山市駅家町坊寺174-2</dd></div>
+        <div><dt>勤務時間</dt><dd>8:30–17:30（残業：月平均2時間以内、休憩：75分）</dd></div>
+        <div><dt>休日</dt><dd>日・祝、ほか会社カレンダー（有給取得率ほぼ100%）</dd></div>
+        <div><dt>給与</dt><dd>月給 200,000円〜350,000円（経験・スキルを考慮し決定 / 面談時にご案内）</dd></div>
+        <div><dt>待遇</dt><dd>社保完備 / 交通費 / 資格取得支援（学費・受験費用会社負担）</dd></div>
+        <div><dt>応募条件</dt><dd>学歴不問 / 要普免（AT可） / 未経験OK・経験者優遇</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ENTRY（明るいグラデーション） -->
+  <section class="rg-entry" id="entry" aria-labelledby="entry-title">
+    <div class="rg-container rg-entry__inner">
+      <div class="rg-entry__copy">
+        <h2 class="rg-entry__title" id="entry-title">エントリー</h2>
+        <p class="rg-entry__lead">見学だけでもOK。お気軽にどうぞ！</p>
+        <ul class="rg-list--ticks">
+          <li>最短1分で完了</li>
+          <li>履歴書は面談時でOK</li>
+          <li>スマホだけで応募OK</li>
+          <li>電話での応募もOK（Tel：<a href="tel:0849761000">084-976-1000</a>）</li>
+        </ul>
+      </div>
+      <p id="entry-result" class="rg-form__note" role="alert" aria-live="polite" style="display:none"></p>
+
+      <form class="rg-form rg-form--grid"
+            action="https://script.google.com/macros/s/AKfycbxLb7veXPDvXX_3Zm68HRK8LjAeeyOzMX2nb2UtiGsNi1mmNjlnYw8ezbcl9S0AKi-F/exec"
+            method="post"
+            target="submitFrame">
+        <div class="rg-form__grid">
+          <!-- 必須 -->
+          <label>
+            <span class="label-title">姓 <span class="req-inline">*必須</span></span>
+            <input type="text" name="last_name" placeholder="山田" required autocomplete="family-name">
+          </label>
+          <label>
+            <span class="label-title">名 <span class="req-inline">*必須</span></span>
+            <input type="text" name="first_name" placeholder="太郎" required autocomplete="given-name">
+          </label>
+
+          <label>
+            <span class="label-title">ふりがな（姓） <span class="req-inline">*必須</span></span>
+            <input type="text" name="kana_last" placeholder="やまだ" required autocomplete="off" pattern="^[ぁ-ゖー\s]+$" title="ひらがなで入力してください">
+          </label>
+          <label>
+            <span class="label-title">ふりがな（名） <span class="req-inline">*必須</span></span>
+            <input type="text" name="kana_first" placeholder="たろう" required autocomplete="off" pattern="^[ぁ-ゖー\s]+$" title="ひらがなで入力してください">
+          </label>
+
+          <label>
+            <span class="label-title">メールアドレス <span class="req-inline">*必須</span></span>
+            <input type="email" name="email" placeholder="sample@example.com" required autocomplete="email">
+          </label>
+          <label>
+            <span class="label-title">携帯番号（ハイフンあり） <span class="req-inline">*必須</span></span>
+            <input type="tel" name="phone" placeholder="090-1234-5678"
+                  required inputmode="tel"
+                  pattern="^(070|080|090)-\d{4}-\d{4}$"
+                  title="例：090-1234-5678（ハイフンあり）">
+          </label>
+
+          <label>
+            <span class="label-title">業界経験年数 <span class="req-inline">*必須</span></span>
+            <select name="exp_years" required>
+              <option value="" selected disabled>選択してください</option>
+              <option>未経験</option>
+              <option>1年未満</option>
+              <option>1〜2年</option>
+              <option>3〜5年</option>
+              <option>6〜9年</option>
+              <option>10年以上</option>
+            </select>
+          </label>
+          <!-- 任意 -->
+          <label>
+            <span class="label-title">年齢（任意）</span>
+            <select name="age" id="age-select">
+              <option value="" selected>選択してください</option>
+              <!-- JSで 15〜64 を自動追加 -->
+            </select>
+          </label>
+
+          <!-- コメント：資格・免許の記入例もここで案内 -->
+          <label class="span-2">
+            <span class="label-title">コメント（任意）</span>
+            <textarea name="msg" rows="4" placeholder="保有資格・志望動機・質問など自由にどうぞ（例：二級整備士・中型免許 など）"></textarea>
+          </label>
+          <input type="text" name="hp" tabindex="-1" autocomplete="off"
+                style="position:absolute;left:-9999px" aria-hidden="true">
+
+          <!-- 親ページのオリジン（JSで埋める） -->
+          <input type="hidden" name="origin" id="origin-field" value="">
+          <div class="span-2 actions">
+            <label class="rg-consent">
+              <input type="checkbox" id="consent" required>
+              <span><a href="#" id="open-privacy" class="rg-link">個人情報の取扱い</a>に同意する</span>
+              <span class="error" aria-live="polite">同意が必要です</span>
+            </label>
+
+            <button type="submit" class="rg-btn rg-btn--grad" id="submit-btn" disabled>送信する</button>
+          </div>
+        </div>
+      </form>
+      <iframe name="submitFrame" id="submitFrame" style="display:none;"></iframe>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div class="footer-col">
+      <div class="footer-logo">
+        <!-- CSS でフィルターをかけ、白く見せる -->
+        <img src="image/Logo.webp" alt="山本マイカーセンターのロゴ" class="footer-logo-img" />
+      </div>
+      <p>
+        〒720-1144<br />
+        広島県福山市駅家町坊寺174-2
+      </p>
+      <p><a href="tel:0849761000">084-976-1000</a></p>
+    </div>
+    <div class="footer-col">
+      <h4><a href="index.html">企業TOP</a></h4>
+        <ul>
+          <li><a href="index.html#service">- 事業内容</a></li>
+          <li><a href="index.html#flow">- 作業の流れ</a></li>
+          <li><a href="index.html#works">- 施工事例</a></li>
+          <li><a href="recruit.html">- 採用情報</a></li>
+          <li><a href="index.html#company">- 会社案内</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4><a href="recruit.html">採用TOP</a></h4>
+        <ul>
+          <li><a href="recruit.html#job">- 仕事内容</a></li>
+          <li><a href="recruit.html#growth">- 入社後のステップ</a></li>
+          <li><a href="recruit.html#voice">- 先輩のリアル</a></li>
+          <li><a href="recruit.html#requirements">- 募集要項</a></li>
+          <li><a class="footer-cta" href="recruit.html#entry">- エントリー</a></li>
+        </ul>
+    </div>
+  </div>
+  <div class="footer-copy">
+    &copy; <span id="year"></span> 山本マイカーセンター株式会社
+  </div>
+</footer>
+<!-- 浮遊CTA（常に右下） -->
+<a href="#entry" class="rg-fab">ENTRY</a>
+
+<!-- ===== プライバシーポリシー（モーダル） ===== -->
+<div id="privacy-modal" class="rg-modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="rg-modal__card" role="document">
+    <div class="rg-modal__head">
+      <h2 class="rg-modal__title">個人情報の取扱い</h2>
+      <button class="rg-modal__close" id="close-privacy" aria-label="閉じる">&times;</button>
+    </div>
+    <div class="rg-modal__body">
+      <h3>1. 取得する情報</h3>
+      <p>応募フォームでご提供いただく氏名・ふりがな・メールアドレス・電話番号・業界経験年数・年齢（任意）・コメント等。</p>
+
+      <h3>2. 利用目的</h3>
+      <ul>
+        <li>採用選考および連絡（説明会・面接案内、結果通知、入社手続等）</li>
+        <li>将来の採用可否の再検討、応募データの統計的把握</li>
+        <li>上記目的達成のために必要な範囲での業務委託</li>
+      </ul>
+
+      <h3>3. 第三者提供</h3>
+      <p>法令に基づく場合等を除き、本人の同意なく第三者に提供しません。利用目的の達成に必要な範囲で委託する場合は、適切な契約・監督の下で取り扱います。</p>
+
+      <h3>4. 安全管理</h3>
+      <p>漏洩・滅失・毀損の防止等のため、アクセス権限管理、通信の暗号化、保存先のアクセス制御等、必要かつ適切な安全管理措置を講じます。</p>
+
+      <h3>5. 開示・訂正・利用停止等</h3>
+      <p>ご本人からの請求に対して、法令に基づき合理的な範囲で対応します。具体的な手続は下記窓口へお問い合わせください。</p>
+
+      <h3>6. 変更</h3>
+      <p>本取扱いは、法令改正や運用変更等に応じて改定することがあります。改定後は本サイト上で告知します。</p>
+
+      <h3>7. 事業者・お問い合わせ窓口</h3>
+      <p>
+        山本マイカーセンター株式会社<br>
+        〒720-1144 広島県福山市駅家町坊寺174-2<br>
+        Tel：084-976-1000
+      </p>
+      <p style="font-size:.9rem;color:#64748b">策定日：2025年8月20日</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
