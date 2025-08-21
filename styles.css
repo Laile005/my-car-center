@@ -288,7 +288,7 @@ img {
 }
 
 .img1 {
-  object-position: right top;
+  object-position: center;
 }
 .img2 {
   object-position: left bottom;
