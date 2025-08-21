@@ -293,9 +293,6 @@ img {
 .img2 {
   object-position: left bottom;
 }
-.img3 {
-  object-position: center;
-}
 
 /* ▼追加ラッパー（画像をマスクし、影を当てる） */
 .hero-mask {
@@ -360,7 +357,7 @@ img {
     -webkit-mask: none !important;
   }
   .img1 {
-    object-position: 70% 50% !important;
+    object-position: 60% 50% !important;
   }
   .img2 {
     object-position: 60% 50% !important;
