@@ -246,6 +246,18 @@ img {
   transform: translateX(4px);
 }
 
+/* どの画面でも：<wbr>を優先し、オーバーフローしそうな時だけ追加の改行を許可 */
+.u-smart-break{
+  word-break: keep-all;      /* CJKの任意位置改行を止める＝勝手に割れない */
+  overflow-wrap: anywhere;   /* それでも溢れそうなら緊急改行で救済 */
+  line-break: strict;        /* 句読点の禁則を厳しめに */
+  hyphens: auto;             /* 英単語は自動ハイフン（対応ブラウザ） */
+}
+
+/* Flex/Gridの子で効かない時の保険（必要な要素にだけ付ける） */
+.u-minw0{ min-width: 0; }
+
+
 /* =====================================
   ヒーローセクション
    ===================================== */
@@ -292,6 +304,9 @@ img {
 }
 .img2 {
   object-position: left bottom;
+}
+.img3 {
+  object-position: center;
 }
 
 /* ▼追加ラッパー（画像をマスクし、影を当てる） */
@@ -817,8 +832,8 @@ img {
   justify-content: start;
   transform: translateY(
     clamp(
-      20%,
-      calc(20% + (80 - 20) * (700px - 100vw) / (700 - 420)),
+      0%,
+      calc(0% + (80 - 20) * (900px - 100vw) / (700 - 420)),
       60%
     )
   );
