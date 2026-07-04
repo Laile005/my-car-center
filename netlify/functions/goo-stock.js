@@ -49,6 +49,8 @@ function pickPrice(block) {
 function pickTitle(block) {
   const headings = [
     /<h[1-4][^>]*>([\s\S]*?)<\/h[1-4]>/i,
+    /<img[^>]+alt=["']([^"']+)["']/i,
+    /<img[^>]+title=["']([^"']+)["']/i,
     /class=["'][^"']*(?:carName|vehicleName|ttl|title)[^"']*["'][^>]*>([\s\S]*?)<\//i,
     /<a[^>]+href=["'][^"']*usedcar[^"']*["'][^>]*>([\s\S]*?)<\/a>/i
   ];
@@ -62,7 +64,7 @@ function pickTitle(block) {
 
 function parseStock(html) {
   const normalized = html.replace(/\r?\n/g, ' ');
-  const linkMatches = [...normalized.matchAll(/href=["']([^"']*(?:usedcar|ucar|catalog)[^"']*\.html[^"']*)["']/gi)];
+  const linkMatches = [...normalized.matchAll(/<a[^>]+href=["']([^"']*(?:usedcar|ucar|catalog)[^"']*\.html[^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi)];
   const seen = new Set();
   const cars = [];
 
@@ -74,7 +76,8 @@ function parseStock(html) {
     const start = Math.max(0, match.index - 2200);
     const end = Math.min(normalized.length, match.index + 3200);
     const block = normalized.slice(start, end);
-    const title = pickTitle(block);
+    const anchorTitle = stripTags(match[2]);
+    const title = anchorTitle && !/詳細|在庫|一覧|グーネット|画像/.test(anchorTitle) ? anchorTitle : pickTitle(block);
     const image = pickImage(block);
     const price = pickPrice(block);
     const text = stripTags(block);
@@ -83,7 +86,7 @@ function parseStock(html) {
 
     if (!title || title.length > 80) continue;
     cars.push({ title, price, year, mileage, image, url: href });
-    if (cars.length >= 6) break;
+    if (cars.length >= 30) break;
   }
 
   return cars;
