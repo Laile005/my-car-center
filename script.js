@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initMarketingAnalytics();
   initEntryFormFeedback();
   setupConsentGate();
-  setupPrivacyModal();
 });
 
 // 年表示を現在の年に更新
@@ -27,7 +26,7 @@ function setupHamburgerMenu() {
 
   const open = () => {
     menu.classList.add('show');
-    document.body.classList.add('no-scroll');
+    document.body.classList.add('no-scroll');  // スクロールロック
     btn.setAttribute('aria-expanded', 'true');
   };
   const hide = () => {
@@ -39,15 +38,18 @@ function setupHamburgerMenu() {
   btn.addEventListener('click', open);
   if(close) close.addEventListener('click', hide);
 
+  // メニュー内リンクを押したら閉じる
   menu.addEventListener('click', (e) => {
     if(e.target.closest('a')) hide();
   });
 
+  // Escで閉じる
   document.addEventListener('keydown', (e) => {
     if(e.key === 'Escape') hide();
   });
 }
 
+// ヒーロー画像スライドショー
 const SLIDE_INTERVAL = 5000;
 let currentIndex = 0;
 
@@ -61,14 +63,18 @@ function showHeroImage(index) {
 function startHeroSlideshow() {
   const images = document.querySelectorAll('.hero-img');
   if (images.length === 0) return;
+  // 初期表示
   showHeroImage(0);
+  // 1枚しか無ければ切替を回さない（無駄な再描画を防ぐ）
   if (images.length <= 1) return;
+  // 一定間隔で切り替え
   setInterval(() => {
     currentIndex = (currentIndex + 1) % images.length;
     showHeroImage(currentIndex);
   }, SLIDE_INTERVAL);
 }
 
+// 創業年数計算
 function initCompanyYears() {
   const established = 1964;
   const yearsEl = document.getElementById('company-years');
@@ -78,6 +84,7 @@ function initCompanyYears() {
   }
 }
 
+// 年齢セレクト
 function initAgeSelect() {
   const sel = document.getElementById('age-select');
   if (!sel) return;
@@ -93,6 +100,7 @@ function initEntryFormFeedback() {
   const form = document.querySelector('form.rg-form');
   if (!form) return;
 
+  // 親オリジンをhiddenにセット
   const originField = document.getElementById('origin-field');
   if (originField) originField.value = location.origin;
 
@@ -100,12 +108,15 @@ function initEntryFormFeedback() {
   const submitBtn = document.getElementById('submit-btn');
   let waitingForGasMessage = false;
 
+  // 送信開始時（多重送信防止＆状態表示）
   form.addEventListener('submit', () => {
     trackMarketingEvent('recruit_form_submit_start');
     waitingForGasMessage = true;
     if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '送信中…'; }
     if (resultEl)  { resultEl.style.display = 'block'; resultEl.textContent = '送信中…'; }
 
+    // iframeのloadではなく、GAS側HTMLからのpostMessageだけを成功判定に使う。
+    // GASのメール送信・スプレッドシート保存が遅い時に備え、失敗とは断定しない。
     clearTimeout(initEntryFormFeedback._t);
     initEntryFormFeedback._t = setTimeout(() => {
       waitingForGasMessage = false;
@@ -114,8 +125,10 @@ function initEntryFormFeedback() {
     }, 30000);
   });
 
+  // GAS からの postMessage を受信
   window.addEventListener('message', (ev) => {
     if (!waitingForGasMessage) return;
+    // 送信元のオリジンを確認（script.google.com / script.googleusercontent.com）
     let okOrigin = false;
     try {
       okOrigin = /^https:\/\/script\.google(usercontent)?\.com$/i.test(new URL(ev.origin).origin);
@@ -130,12 +143,14 @@ function initEntryFormFeedback() {
     const data = ev.data || {};
     if (data.ok) {
       trackMarketingEvent('recruit_form_submit_success');
+      // 成功：フォームをリセットしてメッセージ表示
       form.reset();
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '送信する'; }
       if (resultEl)  { resultEl.style.display = 'block'; resultEl.textContent = '送信ありがとうございました。担当よりご連絡します。'; }
       resultEl && resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
       trackMarketingEvent('recruit_form_submit_error', { error_message: String(data.error || '') });
+      // 失敗：エラーメッセージ
       if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '送信する'; }
       if (resultEl)  { resultEl.style.display = 'block'; resultEl.textContent = '送信に失敗しました。時間をおいて再度お試しください。'; }
       console.error('Entry submit error:', data.error);
@@ -174,14 +189,19 @@ function addGlobalSalesStyles() {
   style.id = 'codex-sales-styles';
   style.textContent = `
     .stock-status{text-align:center;color:#475569;margin:-1.3rem auto 1.3rem}
-    .stock-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
-    .stock-card{border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:var(--shadow);overflow:hidden}
+    .guide-grid,.column-card-grid,.stock-grid{align-items:stretch}
+    .guide-card,.column-card{display:flex;flex-direction:column}
+    .guide-card p:has(.recruit-cta){text-align:center;margin-top:auto}
+    .guide-card .recruit-cta{align-self:center;justify-content:center}
+    .stock-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;align-items:stretch}
+    .stock-card{border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;height:100%}
+    .stock-card>a{display:block}
     .stock-card img{width:100%;aspect-ratio:4/3;object-fit:cover;background:#e5e7eb}
-    .stock-card__body{padding:1rem}
+    .stock-card__body{padding:1rem;display:flex;flex-direction:column;flex:1}
     .stock-card__body h3{font-size:1rem;margin:0 0 .4rem}
-    .stock-card__meta{color:#64748b;font-size:.9rem;margin:0 0 .35rem}
+    .stock-card__meta{color:#64748b;font-size:.9rem;margin:0 0 .75rem}
     .stock-card__price{color:var(--sky);font-weight:800;margin:0 0 .7rem}
-    .stock-card__link{display:inline-flex;color:#2563eb;font-weight:700;font-size:.9rem}
+    .stock-card__link{display:inline-flex;color:#2563eb;font-weight:700;font-size:.9rem;margin-top:auto;align-self:center;text-align:center;justify-content:center}
     @media (max-width:900px){.stock-grid{grid-template-columns:1fr}}
   `;
   document.head.appendChild(style);
