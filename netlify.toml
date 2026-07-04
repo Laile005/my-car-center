@@ -1,5 +1,6 @@
 [build]
   publish = "."
+  functions = "netlify/functions"
 
 [[headers]]
   for = "/*"
@@ -27,3 +28,9 @@
   from = "/column.html"
   to = "/column/"
   status = 301
+
+[[redirects]]
+  from = "/column/recruit-work-life/"
+  to = "/recruit-column/work-life/"
+  status = 301
+  force = true
