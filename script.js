@@ -122,8 +122,12 @@ function initEntryFormFeedback() {
   // GAS からの postMessage を受信
   window.addEventListener('message', (ev) => {
     // 送信元のオリジンを確認（script.google.com / script.googleusercontent.com）
-    const o = ev.origin;
-    const okOrigin = /^https:\/\/script\.google(usercontent)?\.com$/i.test(new URL(o).origin);
+    let okOrigin = false;
+    try {
+      okOrigin = /^https:\/\/script\.google(usercontent)?\.com$/i.test(new URL(ev.origin).origin);
+    } catch (_) {
+      okOrigin = false;
+    }
     if (!okOrigin) return;
 
     clearTimeout(initEntryFormFeedback._t);
@@ -132,7 +136,7 @@ function initEntryFormFeedback() {
     if (data.ok) {
       // 成功：フォームをリセットしてメッセージ表示
       form.reset();
-      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '送信する'; }
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '送信する'; }
       if (resultEl)  { resultEl.style.display = 'block'; resultEl.textContent = '送信ありがとうございました。担当よりご連絡します。'; }
       resultEl && resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
