@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMarketingAnalytics();
   initEntryFormFeedback();
   setupConsentGate();
+  setupPrivacyModal();
 });
 
 // 年表示を現在の年に更新
@@ -190,6 +191,8 @@ function addGlobalSalesStyles() {
   style.textContent = `
     .stock-status{text-align:center;color:#475569;margin:-1.3rem auto 1.3rem}
     .guide-grid,.column-card-grid,.stock-grid{align-items:stretch}
+    .section-faq{background:linear-gradient(180deg,rgba(96,165,250,.06),rgba(34,211,238,.05)),var(--wash);border-top:1px solid rgba(226,232,240,.7);border-bottom:1px solid rgba(226,232,240,.7)}
+    .section-company.skin-white{background:var(--paper)}
     .guide-card,.column-card{display:flex;flex-direction:column}
     .guide-card p:has(.recruit-cta){text-align:center;margin-top:auto}
     .guide-card .recruit-cta{align-self:center;justify-content:center}
@@ -220,9 +223,18 @@ function enhanceGlobalNavigation() {
           a.textContent = 'お役立ち情報';
         }
       }
+      if (a.textContent.trim() === '事業案内' || a.textContent.trim() === '事業内容') a.textContent = 'サービス';
       if (a.textContent.trim() === '企業TOP' || a.textContent.trim() === '企業トップ') a.textContent = 'TOP';
       if (a.textContent.trim() === '採用TOP') a.textContent = '採用トップ';
     });
+    if (!isRecruitPage && !links.some((a) => (a.getAttribute('href') || '').includes('#faq') || a.textContent.trim() === 'よくある質問')) {
+      const column = links.find((a) => /#column$|column\/?$/.test(a.getAttribute('href') || ''));
+      if (column) {
+        const li = document.createElement('li');
+        li.innerHTML = '<a href="/#faq">よくある質問</a>';
+        column.closest('li').after(li);
+      }
+    }
     if (!links.some((a) => (a.getAttribute('href') || '').includes('used-cars') || a.textContent.trim() === '車を買う')) {
       const service = links.find((a) => /#service$/.test(a.getAttribute('href') || ''));
       if (service) {
@@ -233,7 +245,7 @@ function enhanceGlobalNavigation() {
     }
     const isHomePage = location.pathname === '/' || /\/index\.html$/.test(location.pathname);
     if (isHomePage) {
-      const order = ['#service', '#sales', '#column', '#flow', '#works', 'recruit', '#company', 'tel:0849761000'];
+      const order = ['#service', '#sales', '#column', '#faq', '#flow', '#works', 'recruit', '#company', 'tel:0849761000'];
       Array.from(list.children)
         .sort((a, b) => {
           const ah = a.querySelector('a')?.getAttribute('href') || '';
@@ -253,7 +265,7 @@ function enhanceHomeSalesAndColumns() {
     const localGuide = document.getElementById('local-guide');
     const section = document.createElement('section');
     section.id = 'sales';
-    section.className = 'section section-sales skin-paper';
+    section.className = 'section section-sales skin-white';
     section.setAttribute('role', 'region');
     section.setAttribute('aria-labelledby', 'sales-title');
     section.innerHTML = `
