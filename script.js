@@ -5,24 +5,29 @@ document.addEventListener('DOMContentLoaded', () => {
   initCompanyYears();
   initAgeSelect();
   initSiteEnhancements();
+  initMarketingAnalytics();
   initEntryFormFeedback();
   setupConsentGate();
   setupPrivacyModal();
 });
 
+// 年表示を現在の年に更新
 function initCurrentYear() {
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 }
 
+// ハンバーガーメニュー処理
 function setupHamburgerMenu() {
-  const btn = document.getElementById('hamburger');
+  const btn  = document.getElementById('hamburger');
   const menu = document.getElementById('nav-mobile');
-  const close = document.getElementById('close-menu');
-  if (!btn || !menu) return;
+  const close= document.getElementById('close-menu');
+
+  if(!btn || !menu) return;
+
   const open = () => {
     menu.classList.add('show');
-    document.body.classList.add('no-scroll');
+    document.body.classList.add('no-scroll');  // スクロールロック
     btn.setAttribute('aria-expanded', 'true');
   };
   const hide = () => {
@@ -30,16 +35,22 @@ function setupHamburgerMenu() {
     document.body.classList.remove('no-scroll');
     btn.setAttribute('aria-expanded', 'false');
   };
+
   btn.addEventListener('click', open);
-  if (close) close.addEventListener('click', hide);
+  if(close) close.addEventListener('click', hide);
+
+  // メニュー内リンクを押したら閉じる
   menu.addEventListener('click', (e) => {
-    if (e.target.closest('a')) hide();
+    if(e.target.closest('a')) hide();
   });
+
+  // Escで閉じる
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') hide();
+    if(e.key === 'Escape') hide();
   });
 }
 
+// ヒーロー画像スライドショー
 const SLIDE_INTERVAL = 5000;
 let currentIndex = 0;
 
@@ -53,14 +64,18 @@ function showHeroImage(index) {
 function startHeroSlideshow() {
   const images = document.querySelectorAll('.hero-img');
   if (images.length === 0) return;
+  // 初期表示
   showHeroImage(0);
+  // 1枚しか無ければ切替を回さない（無駄な再描画を防ぐ）
   if (images.length <= 1) return;
+  // 一定間隔で切り替え
   setInterval(() => {
     currentIndex = (currentIndex + 1) % images.length;
     showHeroImage(currentIndex);
   }, SLIDE_INTERVAL);
 }
 
+// 創業年数計算
 function initCompanyYears() {
   const established = 1964;
   const yearsEl = document.getElementById('company-years');
@@ -70,6 +85,7 @@ function initCompanyYears() {
   }
 }
 
+// 年齢セレクト
 function initAgeSelect() {
   const sel = document.getElementById('age-select');
   if (!sel) return;
@@ -84,24 +100,36 @@ function initAgeSelect() {
 function initEntryFormFeedback() {
   const form = document.querySelector('form.rg-form');
   if (!form) return;
+
+  // 親オリジンをhiddenにセット
   const originField = document.getElementById('origin-field');
   if (originField) originField.value = location.origin;
+
   const resultEl = document.getElementById('entry-result');
   const submitBtn = document.getElementById('submit-btn');
   let waitingForGasMessage = false;
+
+  // 送信開始時（多重送信防止＆状態表示）
   form.addEventListener('submit', () => {
+    trackMarketingEvent('recruit_form_submit_start');
     waitingForGasMessage = true;
     if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '送信中…'; }
-    if (resultEl) { resultEl.style.display = 'block'; resultEl.textContent = '送信中…'; }
+    if (resultEl)  { resultEl.style.display = 'block'; resultEl.textContent = '送信中…'; }
+
+    // iframeのloadではなく、GAS側HTMLからのpostMessageだけを成功判定に使う。
+    // GASのメール送信・スプレッドシート保存が遅い時に備え、失敗とは断定しない。
     clearTimeout(initEntryFormFeedback._t);
     initEntryFormFeedback._t = setTimeout(() => {
       waitingForGasMessage = false;
       if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '送信する'; }
-      if (resultEl) { resultEl.style.display = 'block'; resultEl.textContent = '送信結果の確認に時間がかかっています。応募が届いている可能性がありますので、再送前にお電話でも確認できます。'; }
+      if (resultEl)  { resultEl.style.display = 'block'; resultEl.textContent = '送信結果の確認に時間がかかっています。応募が届いている可能性がありますので、再送前にお電話でも確認できます。'; }
     }, 30000);
   });
+
+  // GAS からの postMessage を受信
   window.addEventListener('message', (ev) => {
     if (!waitingForGasMessage) return;
+    // 送信元のオリジンを確認（script.google.com / script.googleusercontent.com）
     let okOrigin = false;
     try {
       okOrigin = /^https:\/\/script\.google(usercontent)?\.com$/i.test(new URL(ev.origin).origin);
@@ -109,17 +137,23 @@ function initEntryFormFeedback() {
       okOrigin = false;
     }
     if (!okOrigin) return;
+
     clearTimeout(initEntryFormFeedback._t);
     waitingForGasMessage = false;
+
     const data = ev.data || {};
     if (data.ok) {
+      trackMarketingEvent('recruit_form_submit_success');
+      // 成功：フォームをリセットしてメッセージ表示
       form.reset();
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '送信する'; }
-      if (resultEl) { resultEl.style.display = 'block'; resultEl.textContent = '送信ありがとうございました。担当よりご連絡します。'; }
+      if (resultEl)  { resultEl.style.display = 'block'; resultEl.textContent = '送信ありがとうございました。担当よりご連絡します。'; }
       resultEl && resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
+      trackMarketingEvent('recruit_form_submit_error', { error_message: String(data.error || '') });
+      // 失敗：エラーメッセージ
       if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '送信する'; }
-      if (resultEl) { resultEl.style.display = 'block'; resultEl.textContent = '送信に失敗しました。時間をおいて再度お試しください。'; }
+      if (resultEl)  { resultEl.style.display = 'block'; resultEl.textContent = '送信に失敗しました。時間をおいて再度お試しください。'; }
       console.error('Entry submit error:', data.error);
     }
   });
@@ -130,6 +164,24 @@ function initSiteEnhancements() {
   enhanceGlobalNavigation();
   enhanceHomeSalesAndColumns();
   enhanceRecruitColumns();
+}
+
+function initMarketingAnalytics() {
+  if (document.getElementById('mcc-analytics')) return;
+  const script = document.createElement('script');
+  script.id = 'mcc-analytics';
+  script.src = '/analytics.js';
+  script.defer = true;
+  document.head.appendChild(script);
+}
+
+function trackMarketingEvent(name, params = {}) {
+  window.MCC_EVENT_QUEUE = window.MCC_EVENT_QUEUE || [];
+  if (typeof window.MCCTrackEvent === 'function') {
+    window.MCCTrackEvent(name, params);
+  } else {
+    window.MCC_EVENT_QUEUE.push({ name, params });
+  }
 }
 
 function addGlobalSalesStyles() {
@@ -187,9 +239,20 @@ function enhanceHomeSalesAndColumns() {
     section.className = 'section section-sales skin-paper';
     section.setAttribute('role', 'region');
     section.setAttribute('aria-labelledby', 'sales-title');
-    section.innerHTML = `<div class="container"><h2 class="section-title" id="sales-title">車の購入相談</h2><p class="section-subtitle">スズキの看板が目印ですが、新車は国内全メーカー相談可能です。中古車はグーネット掲載在庫も確認できます。</p><div class="guide-grid"><article class="guide-card"><h3>新車相談</h3><p>軽自動車、コンパクト、ミニバン、商用車まで、用途・予算・納期に合わせて国内メーカーからご提案します。</p></article><article class="guide-card"><h3>中古車在庫</h3><p>掲載在庫はグーネットで更新しています。気になる車は、来店前に電話で在庫状況をご確認ください。</p></article><article class="guide-card"><h3>購入後も安心</h3><p>納車後の点検、車検、整備、板金塗装まで同じ窓口で相談できます。</p></article></div><div class="section-link"><a href="/used-cars/" class="link-with-arrow">在庫車・購入相談を見る <span class="arrow">›</span></a></div></div>`;
+    section.innerHTML = `
+      <div class="container">
+        <h2 class="section-title" id="sales-title">車の購入相談</h2>
+        <p class="section-subtitle">スズキの看板が目印ですが、新車は国内全メーカー相談可能です。中古車はグーネット掲載在庫も確認できます。</p>
+        <div class="guide-grid">
+          <article class="guide-card"><h3>新車相談</h3><p>軽自動車、コンパクト、ミニバン、商用車まで、用途・予算・納期に合わせて国内メーカーからご提案します。</p></article>
+          <article class="guide-card"><h3>中古車在庫</h3><p>掲載在庫はグーネットで更新しています。気になる車は、来店前に電話で在庫状況をご確認ください。</p></article>
+          <article class="guide-card"><h3>購入後も安心</h3><p>納車後の点検、車検、整備、板金塗装まで同じ窓口で相談できます。</p></article>
+        </div>
+        <div class="section-link"><a href="/used-cars/" class="link-with-arrow">在庫車・購入相談を見る <span class="arrow">›</span></a></div>
+      </div>`;
     if (localGuide) localGuide.before(section);
   }
+
   const column = document.getElementById('column');
   if (column) {
     const title = column.querySelector('.section-title');
@@ -198,7 +261,11 @@ function enhanceHomeSalesAndColumns() {
     if (title) title.textContent = 'カーライフお役立ち情報';
     if (subtitle) subtitle.textContent = '車検・修理・保険・購入相談のことを、地域のお客様に向けてわかりやすく発信します。';
     if (grid) {
-      grid.innerHTML = `<article class="column-card"><p class="column-card__date">2026.07.02</p><h3><a href="/column/shaken-fukuyama/">車検を受ける前に確認したいこと</a></h3><p>費用・日数・必要書類・整備内容を、予約前に見ておきたいポイントに絞って整理しました。</p></article><article class="column-card"><p class="column-card__date">2026.06.28</p><h3><a href="/column/used-car-checkpoints/">中古車を選ぶ前に確認したいこと</a></h3><p>価格だけで決める前に、整備履歴・保証・購入後のメンテナンスを確認しましょう。</p></article><article class="column-card"><p class="column-card__date">2026.06.24</p><h3><a href="/column/bankin-paint-insurance/">板金塗装と保険修理の流れ</a></h3><p>キズ・へこみ・事故修理で迷いやすい、見積りから納車までの流れをまとめています。</p></article>`;
+      grid.innerHTML = `
+        <article class="column-card"><p class="column-card__date">2026.07.02</p><h3><a href="/column/shaken-fukuyama/">車検を受ける前に確認したいこと</a></h3><p>費用・日数・必要書類・整備内容を、予約前に見ておきたいポイントに絞って整理しました。</p></article>
+        <article class="column-card"><p class="column-card__date">2026.06.28</p><h3><a href="/column/used-car-checkpoints/">中古車を選ぶ前に確認したいこと</a></h3><p>価格だけで決める前に、整備履歴・保証・購入後のメンテナンスを確認しましょう。</p></article>
+        <article class="column-card"><p class="column-card__date">2026.06.24</p><h3><a href="/column/bankin-paint-insurance/">板金塗装と保険修理の流れ</a></h3><p>キズ・へこみ・事故修理で迷いやすい、見積りから納車までの流れをまとめています。</p></article>
+      `;
     }
     const listLink = column.querySelector('.section-link a');
     if (listLink) listLink.innerHTML = 'お役立ち情報を見る <span class="arrow">›</span>';
@@ -211,32 +278,44 @@ function enhanceRecruitColumns() {
   const section = document.createElement('section');
   section.className = 'rg-section';
   section.id = 'recruit-column';
-  section.innerHTML = `<div class="rg-container"><h2 class="rg-sec__eyebrow">CAREER GUIDE</h2><h3 class="rg-sec__title">求職者向け情報</h3><div class="rg-cards rg-cards--2"><article class="rg-card"><p class="column-card__date">2026.06.12</p><h4 class="rg-card__title"><a href="/recruit-column/work-life/">整備士として無理なく働く職場選び</a></h4><p class="rg-card__text">休日・残業・資格取得支援など、長く働ける職場を見極める観点を紹介します。</p></article><article class="rg-card"><p class="column-card__date">見学歓迎</p><h4 class="rg-card__title"><a href="#entry">まずは話を聞くだけでもOK</a></h4><p class="rg-card__text">応募前の見学や仕事内容の確認も歓迎しています。フォームまたはお電話でご相談ください。</p></article></div></div>`;
+  section.innerHTML = `
+    <div class="rg-container">
+      <h2 class="rg-sec__eyebrow">CAREER GUIDE</h2>
+      <h3 class="rg-sec__title">求職者向け情報</h3>
+      <div class="rg-cards rg-cards--2">
+        <article class="rg-card"><p class="column-card__date">2026.06.12</p><h4 class="rg-card__title"><a href="/recruit-column/work-life/">整備士として無理なく働く職場選び</a></h4><p class="rg-card__text">休日・残業・資格取得支援など、長く働ける職場を見極める観点を紹介します。</p></article>
+        <article class="rg-card"><p class="column-card__date">見学歓迎</p><h4 class="rg-card__title"><a href="#entry">まずは話を聞くだけでもOK</a></h4><p class="rg-card__text">応募前の見学や仕事内容の確認も歓迎しています。フォームまたはお電話でご相談ください。</p></article>
+      </div>
+    </div>`;
   requirements.before(section);
 }
 
-function setupConsentGate() {
+function setupConsentGate(){
   const agree = document.getElementById('consent');
   const submit = document.getElementById('submit-btn');
   const label = document.querySelector('.rg-consent');
   if (!agree || !submit || !label) return;
+
   const sync = () => {
-    if (agree.checked) { submit.disabled = false; label.classList.remove('invalid'); } else { submit.disabled = true; }
+    if (agree.checked){ submit.disabled = false; label.classList.remove('invalid'); }
+    else { submit.disabled = true; }
   };
   agree.addEventListener('change', sync);
   submit.addEventListener('click', (e) => {
-    if (!agree.checked) { e.preventDefault(); label.classList.add('invalid'); }
+    if (!agree.checked){ e.preventDefault(); label.classList.add('invalid'); }
   });
   sync();
 }
 
-function setupPrivacyModal() {
+function setupPrivacyModal(){
   const open = document.getElementById('open-privacy');
   const modal = document.getElementById('privacy-modal');
   const close = document.getElementById('close-privacy');
   if (!open || !modal || !close) return;
+
   const show = () => { modal.classList.add('show'); document.body.classList.add('no-scroll'); };
   const hide = () => { modal.classList.remove('show'); document.body.classList.remove('no-scroll'); };
+
   open.addEventListener('click', (e) => { e.preventDefault(); show(); });
   close.addEventListener('click', hide);
   modal.addEventListener('click', (e) => { if (e.target === modal) hide(); });
