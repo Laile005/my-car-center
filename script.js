@@ -243,19 +243,25 @@ function enhanceGlobalNavigation() {
         service.closest('li').after(li);
       }
     }
-    const isHomePage = location.pathname === '/' || /\/index\.html$/.test(location.pathname);
-    if (isHomePage) {
-      const order = ['#service', '#sales', '#column', '#faq', '#flow', '#works', 'recruit', '#company', 'tel:0849761000'];
-      Array.from(list.children)
-        .sort((a, b) => {
-          const ah = a.querySelector('a')?.getAttribute('href') || '';
-          const bh = b.querySelector('a')?.getAttribute('href') || '';
-          const ai = order.findIndex((key) => ah === key || ah.endsWith(key));
-          const bi = order.findIndex((key) => bh === key || bh.endsWith(key));
-          return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
-        })
-        .forEach((item) => list.appendChild(item));
-    }
+    const navRank = (item) => {
+      const link = item.querySelector('a');
+      const href = link?.getAttribute('href') || '';
+      const text = link?.textContent.trim() || '';
+      if (text === 'TOP' || href === '/' || href === '../' || href === './index.html') return 0;
+      if (href.endsWith('#service') || text === 'サービス') return 1;
+      if (href.includes('used-cars') || href.endsWith('#sales') || text === '車を買う') return 2;
+      if (href.endsWith('#column') || /column\/?$/.test(href) || text === 'お役立ち情報') return 3;
+      if (href.endsWith('#faq') || text === 'よくある質問') return 4;
+      if (href.endsWith('#flow') || text === '作業の流れ') return 5;
+      if (href.endsWith('#works') || text === '施工事例') return 6;
+      if (href.includes('recruit') || text === '採用情報' || text === '採用トップ') return 7;
+      if (href.endsWith('#company') || text === '会社案内') return 8;
+      if (href.startsWith('tel:') || text === 'お問い合わせ') return 9;
+      return 99;
+    };
+    Array.from(list.children)
+      .sort((a, b) => navRank(a) - navRank(b))
+      .forEach((item) => list.appendChild(item));
   });
 }
 
