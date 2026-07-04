@@ -102,7 +102,17 @@ function pickTitle(block) {
   return '';
 }
 
-async function fetchDetailImage(url) {
+function pickDetailMileage(html) {
+  const text = stripTags(html);
+  return /走行距離\s*([0-9.,]+(?:万)?km)/i.exec(text)?.[1] || '';
+}
+
+function pickDetailYear(html) {
+  const text = stripTags(html);
+  return /年式(?:\s*（初度登録）)?\s*((?:20\d{2}\s*\([^)]*\)|20\d{2}|令和\d+|平成\d+)年)/.exec(text)?.[1] || '';
+}
+
+async function fetchDetailData(url) {
   try {
     const response = await fetch(url, {
       headers: {
@@ -110,7 +120,7 @@ async function fetchDetailImage(url) {
         'accept-language': 'ja,en;q=0.8'
       }
     });
-    if (!response.ok) return '';
+    if (!response.ok) return {};
 
     const buffer = await response.arrayBuffer();
     const html = decodeHtml(buffer, response.headers.get('content-type') || '');
@@ -120,17 +130,25 @@ async function fetchDetailImage(url) {
       /<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i.exec(html)?.[1]
     ].map(absolutize).filter(Boolean);
     const allImages = [...metaImages, ...imageCandidates(html)].filter((src) => !isPlaceholderImage(src));
-    return allImages.find((src) => vehicleId && src.includes(vehicleId)) || allImages[0] || '';
+    return {
+      image: allImages.find((src) => vehicleId && src.includes(vehicleId)) || allImages[0] || '',
+      mileage: pickDetailMileage(html),
+      year: pickDetailYear(html)
+    };
   } catch (_) {
-    return '';
+    return {};
   }
 }
 
-async function enrichImages(cars) {
+async function enrichCars(cars) {
   return Promise.all(cars.map(async (car) => {
-    if (car.image && !isPlaceholderImage(car.image)) return car;
-    const detailImage = await fetchDetailImage(car.url);
-    return detailImage ? { ...car, image: detailImage } : { ...car, image: '' };
+    const detail = await fetchDetailData(car.url);
+    return {
+      ...car,
+      image: detail.image || (car.image && !isPlaceholderImage(car.image) ? car.image : ''),
+      mileage: detail.mileage || car.mileage || '',
+      year: detail.year || car.year || ''
+    };
   }));
 }
 
@@ -154,7 +172,7 @@ function parseStock(html) {
     const price = pickPrice(block);
     const text = stripTags(block);
     const year = /(20\d{2}|令和\d+|平成\d+)年/.exec(text)?.[0] || '';
-    const mileage = /([0-9.]+万?km)/i.exec(text)?.[1] || '';
+    const mileage = /走行距離\s*([0-9.,]+(?:万)?km)/i.exec(text)?.[1] || '';
 
     if (!title || title.length > 160) continue;
     cars.push({ title, price, year, mileage, image, url: href });
@@ -182,7 +200,7 @@ exports.handler = async () => {
 
     const buffer = await response.arrayBuffer();
     const html = decodeHtml(buffer, response.headers.get('content-type') || '');
-    const cars = await enrichImages(parseStock(html));
+    const cars = await enrichCars(parseStock(html));
 
     return {
       statusCode: 200,
