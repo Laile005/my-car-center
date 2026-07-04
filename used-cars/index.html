@@ -181,6 +181,15 @@
       { title: '購入後の整備まで同じ窓口', url: 'tel:0849761000', note: '納車後の点検、車検、修理までまとめて相談できます。' }
     ];
 
+    const formatMeta = (car) => {
+      if (car.note) return car.note;
+      const values = [
+        car.year ? `年式：${car.year}` : '',
+        car.mileage ? `走行距離：${car.mileage}` : ''
+      ].filter(Boolean);
+      return values.join(' / ') || '詳細はグーネットでご確認ください';
+    };
+
     const renderCars = (cars, isFallback = false) => {
       status.textContent = isFallback
         ? '在庫情報の自動取得に時間がかかっています。掲載在庫の確認や条件に合う車探しはお電話でご相談ください。'
@@ -190,7 +199,7 @@
           ${car.image ? `<a href="${escapeHtml(car.url)}" target="_blank" rel="noopener"><img src="${escapeHtml(car.image)}" alt="${escapeHtml(car.title)}"></a>` : ''}
           <div class="stock-card__body">
             <h3>${escapeHtml(car.title)}</h3>
-            <p class="stock-card__meta">${escapeHtml(car.note || [car.year, car.mileage].filter(Boolean).join(' / ') || '詳細はグーネットでご確認ください')}</p>
+            <p class="stock-card__meta">${escapeHtml(formatMeta(car))}</p>
             ${car.price ? `<p class="stock-card__price">${escapeHtml(car.price)}</p>` : ''}
             <a class="stock-card__link" href="${escapeHtml(car.url || gooStockUrl)}" ${String(car.url || '').startsWith('tel:') ? '' : 'target="_blank" rel="noopener"'}>${String(car.url || '').startsWith('tel:') ? '電話で問い合わせる' : '詳細をグーネットで見る'}</a>
           </div>
