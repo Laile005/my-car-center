@@ -35,6 +35,16 @@ function absolutize(url) {
   }
 }
 
+function isVehicleDetailUrl(url) {
+  try {
+    const parsed = new URL(url);
+    if (!parsed.hostname.endsWith('goo-net.com')) return false;
+    return /\/usedcar\/spread\//.test(parsed.pathname);
+  } catch (_) {
+    return false;
+  }
+}
+
 function pickImage(block) {
   const img = /<img[^>]+(?:data-src|src)=["']([^"']+)["']/i.exec(block)?.[1];
   return absolutize(img);
@@ -64,13 +74,13 @@ function pickTitle(block) {
 
 function parseStock(html) {
   const normalized = html.replace(/\r?\n/g, ' ');
-  const linkMatches = [...normalized.matchAll(/<a[^>]+href=["']([^"']*(?:usedcar|ucar|catalog)[^"']*\.html[^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi)];
+  const linkMatches = [...normalized.matchAll(/<a[^>]+href=["']([^"']*\/usedcar\/spread\/[^"']*\.html[^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi)];
   const seen = new Set();
   const cars = [];
 
   for (const match of linkMatches) {
     const href = absolutize(match[1]);
-    if (!href || seen.has(href) || !href.includes('goo-net.com')) continue;
+    if (!href || seen.has(href) || !isVehicleDetailUrl(href)) continue;
     seen.add(href);
 
     const start = Math.max(0, match.index - 2200);
@@ -84,7 +94,7 @@ function parseStock(html) {
     const year = /(20\d{2}|令和\d+|平成\d+)年/.exec(text)?.[0] || '';
     const mileage = /([0-9.]+万?km)/i.exec(text)?.[1] || '';
 
-    if (!title || title.length > 80) continue;
+    if (!title || title.length > 160) continue;
     cars.push({ title, price, year, mileage, image, url: href });
     if (cars.length >= 30) break;
   }
