@@ -493,7 +493,7 @@ img {
 }
 
 /*=====================================
-  事業案内 (Service)
+  サービス (Service)
 =====================================*/
 .section-service{
   position: relative;
@@ -753,6 +753,7 @@ img {
 
 .section-local-guide{
   border-top: 1px solid rgba(226,232,240,.72);
+  border-bottom: 1px solid rgba(226,232,240,.72);
 }
 
 .section-column{
@@ -761,7 +762,10 @@ img {
 
 .section-faq{
   background:
-    linear-gradient(180deg, rgba(248,251,255,.96), #fff);
+    linear-gradient(180deg, rgba(96,165,250,.06), rgba(34,211,238,.05)),
+    var(--wash);
+  border-top: 1px solid rgba(226,232,240,.7);
+  border-bottom: 1px solid rgba(226,232,240,.7);
 }
 .works-grid{
   display: grid;
@@ -820,6 +824,7 @@ img {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
+  align-items: stretch;
 }
 
 .guide-card,
@@ -829,6 +834,8 @@ img {
   background: #fff;
   box-shadow: var(--shadow);
   padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .guide-card h3,
@@ -841,6 +848,16 @@ img {
 .guide-card p,
 .column-card p{
   color: #475569;
+}
+
+.guide-card p:has(.recruit-cta){
+  text-align: center;
+  margin-top: auto;
+}
+
+.guide-card .recruit-cta{
+  align-self: center;
+  justify-content: center;
 }
 
 .column-card__date{
@@ -868,6 +885,7 @@ img {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
+  align-items: stretch;
 }
 
 .stock-card{
@@ -876,6 +894,13 @@ img {
   background: #fff;
   box-shadow: var(--shadow);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.stock-card > a{
+  display: block;
 }
 
 .stock-card img{
@@ -887,6 +912,9 @@ img {
 
 .stock-card__body{
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .stock-card__body h3{
@@ -897,7 +925,7 @@ img {
 .stock-card__meta{
   color: #64748b;
   font-size: .9rem;
-  margin: 0 0 .35rem;
+  margin: 0 0 .75rem;
 }
 
 .stock-card__price{
@@ -911,6 +939,10 @@ img {
   color: #2563eb;
   font-weight: 700;
   font-size: .9rem;
+  margin-top: auto;
+  align-self: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .faq-list{
