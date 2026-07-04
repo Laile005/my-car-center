@@ -100,14 +100,17 @@ img {
 .nav-desktop ul {
   list-style: none;
   display: flex;
-  gap: 2rem;
+  gap: clamp(.55rem, 1.25vw, 1.25rem);
 }
 .nav-desktop ul li a {
   font-weight: 500;
   color: var(--ink);
   transition: color 0.3s;
+  white-space: nowrap;
+  font-size: clamp(.82rem, .92vw, .96rem);
 }
-.nav-desktop ul li a:hover {
+.nav-desktop ul li a:hover,
+.nav-desktop ul li a[aria-current="page"] {
   color: var(--sky);
 }
 
@@ -210,6 +213,24 @@ img {
   padding: 4rem 1rem;
   background-color: var(--paper);
   scroll-margin-top: var(--header-height);
+}
+.skin-white{
+  background: var(--paper);
+}
+.skin-paper{
+  background:
+    linear-gradient(180deg, rgba(96,165,250,.05), rgba(34,211,238,.04)),
+    var(--wash);
+  border-top: 1px solid rgba(226,232,240,.7);
+  border-bottom: 1px solid rgba(226,232,240,.7);
+}
+.skin-slab{
+  background:
+    linear-gradient(180deg, #fff 0%, var(--wash) 100%);
+}
+.bg-voice-tint{
+  background:
+    linear-gradient(180deg, #fff 0%, rgba(248,251,255,.92) 100%);
 }
 .section-title {
   font-family: 'Montserrat', sans-serif;
@@ -472,7 +493,7 @@ img {
 }
 
 /*=====================================
-  事業案内 (Service)
+  サービス (Service)
 =====================================*/
 .section-service{
   position: relative;
@@ -577,7 +598,6 @@ img {
 =====================================*/
 .section-flow{
   position: relative;
-  background: var(--paper);
 }
 .section-flow::before{
   content:"";
@@ -724,12 +744,37 @@ img {
   background:
     radial-gradient(1100px 480px at 15% 0%,   rgba(59,130,246,.14),  transparent 60%),
     radial-gradient(1100px 480px at 85% 100%, rgba(34,211,238,.14),  transparent 60%),
-    var(--paper);
+  var(--paper);
+}
+
+.section-sales{
+  position: relative;
+}
+
+.section-local-guide{
+  border-top: 1px solid rgba(226,232,240,.72);
+  border-bottom: 1px solid rgba(226,232,240,.72);
+}
+
+.section-column{
+  background: var(--paper);
+}
+
+.section-faq{
+  background:
+    linear-gradient(180deg, rgba(96,165,250,.06), rgba(34,211,238,.05)),
+    var(--wash);
+  border-top: 1px solid rgba(226,232,240,.7);
+  border-bottom: 1px solid rgba(226,232,240,.7);
 }
 .works-grid{
   display: grid;
   grid-template-columns: repeat(2, minmax(0,1fr));
   gap: 1.6rem;
+}
+.works-grid--single{
+  grid-template-columns: minmax(0, 680px);
+  justify-content: center;
 }
 .work-card{
   background: var(--paper);
@@ -769,6 +814,247 @@ img {
 /* SPは1カラム */
 @media (max-width: 900px){
   .works-grid{ grid-template-columns: 1fr; }
+}
+
+/*=====================================
+  地域相談・コラム
+=====================================*/
+.guide-grid,
+.column-card-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.guide-card,
+.column-card{
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: var(--shadow);
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.guide-card h3,
+.column-card h3,
+.column-card h2{
+  font-size: 1.08rem;
+  margin: 0 0 .55rem;
+}
+
+.guide-card p,
+.column-card p{
+  color: #475569;
+}
+
+.guide-card p:has(.recruit-cta){
+  text-align: center;
+  margin-top: auto;
+}
+
+.guide-card .recruit-cta{
+  align-self: center;
+  justify-content: center;
+}
+
+.column-card__date{
+  color: var(--sky);
+  font-weight: 700;
+  font-size: .86rem;
+  margin-bottom: .35rem;
+}
+
+.column-card a{
+  color: var(--ink);
+}
+
+.column-card a:hover{
+  color: var(--sky);
+}
+
+.stock-status{
+  text-align: center;
+  color: #475569;
+  margin: -1.3rem auto 1.3rem;
+}
+
+.stock-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.stock-card{
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.stock-card > a{
+  display: block;
+}
+
+.stock-card img{
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: #e5e7eb;
+}
+
+.stock-card__body{
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.stock-card__body h3{
+  font-size: 1rem;
+  margin: 0 0 .4rem;
+}
+
+.stock-card__meta{
+  color: #64748b;
+  font-size: .9rem;
+  margin: 0 0 .75rem;
+}
+
+.stock-card__price{
+  color: var(--sky);
+  font-weight: 800;
+  margin: 0 0 .7rem;
+}
+
+.stock-card__link{
+  display: inline-flex;
+  color: #2563eb;
+  font-weight: 700;
+  font-size: .9rem;
+  margin-top: auto;
+  align-self: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.faq-list{
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  gap: .9rem;
+}
+
+.faq-item{
+  border-bottom: 1px solid var(--line);
+  padding: 0 0 .9rem;
+}
+
+.faq-item h3{
+  font-size: 1.05rem;
+  margin: 0 0 .35rem;
+}
+
+.faq-item p{
+  color: #475569;
+}
+
+.column-hero{
+  margin-top: var(--header-height);
+  padding: clamp(72px, 12vw, 110px) 0 56px;
+  background:
+    linear-gradient(120deg, rgba(96,165,250,.18), rgba(34,211,238,.12)),
+    #fff;
+}
+
+.column-hero__title{
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.25;
+  margin: 0 0 .8rem;
+}
+
+.column-hero__lead{
+  color: #475569;
+  max-width: 720px;
+}
+
+.article{
+  margin-top: var(--header-height);
+  padding: 64px 0;
+}
+
+.article__header{
+  max-width: 820px;
+  margin: 0 auto 2rem;
+}
+
+.article__eyebrow,
+.article__date{
+  color: var(--sky);
+  font-weight: 700;
+}
+
+.article__title{
+  font-size: clamp(1.8rem, 3.6vw, 2.8rem);
+  line-height: 1.35;
+  margin: .35rem 0 .8rem;
+}
+
+.article__lead{
+  color: #475569;
+  font-size: 1.05rem;
+}
+
+.article__body{
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.article__body h2{
+  font-size: clamp(1.3rem, 2.4vw, 1.75rem);
+  margin: 2rem 0 .8rem;
+}
+
+.article__body p,
+.article__body li{
+  color: #334155;
+}
+
+.article__body ul,
+.article__body ol{
+  padding-left: 1.3rem;
+}
+
+.article__note{
+  border-left: 4px solid var(--sky);
+  background: var(--wash);
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+
+.breadcrumb{
+  color: #64748b;
+  font-size: .9rem;
+  margin-bottom: 1rem;
+}
+
+.breadcrumb a{
+  color: #2563eb;
+}
+
+@media (max-width: 900px){
+  .guide-grid,
+  .column-card-grid,
+  .stock-grid{
+    grid-template-columns: 1fr;
+  }
 }
 
 /* =====================================

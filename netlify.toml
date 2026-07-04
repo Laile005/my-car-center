@@ -1,0 +1,36 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/image/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[redirects]]
+  from = "/recruit.html"
+  to = "/recruit"
+  status = 301
+
+[[redirects]]
+  from = "/column.html"
+  to = "/column/"
+  status = 301
+
+[[redirects]]
+  from = "/column/recruit-work-life/"
+  to = "/recruit-column/work-life/"
+  status = 301
+  force = true
