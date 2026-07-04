@@ -182,11 +182,17 @@ function addGlobalSalesStyles() {
 }
 
 function enhanceGlobalNavigation() {
+  const isRecruitPage = !!document.querySelector('form.rg-form') || location.pathname.includes('/recruit');
   document.querySelectorAll('.nav-desktop ul, .nav-mobile ul').forEach((list) => {
     const links = Array.from(list.querySelectorAll('a'));
     links.forEach((a) => {
       if (/column\/?$/.test(a.getAttribute('href') || '') && a.textContent.trim() === 'コラム') {
-        a.textContent = 'お役立ち情報';
+        if (isRecruitPage) {
+          a.textContent = '求職者向け情報';
+          a.setAttribute('href', '#recruit-column');
+        } else {
+          a.textContent = 'お役立ち情報';
+        }
       }
       if (a.textContent.trim() === '企業TOP') a.textContent = '企業トップ';
       if (a.textContent.trim() === '採用TOP') a.textContent = '採用トップ';
