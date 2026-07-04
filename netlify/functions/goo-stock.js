@@ -105,7 +105,7 @@ function parseStock(html) {
 exports.handler = async () => {
   const headers = {
     'access-control-allow-origin': '*',
-    'cache-control': 'public, max-age=1800, stale-while-revalidate=86400',
+    'cache-control': 'no-store',
     'content-type': 'application/json; charset=utf-8'
   };
 
