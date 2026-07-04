@@ -27,7 +27,7 @@ function setupHamburgerMenu() {
 
   const open = () => {
     menu.classList.add('show');
-    document.body.classList.add('no-scroll');  // スクロールロック
+    document.body.classList.add('no-scroll');
     btn.setAttribute('aria-expanded', 'true');
   };
   const hide = () => {
@@ -39,18 +39,15 @@ function setupHamburgerMenu() {
   btn.addEventListener('click', open);
   if(close) close.addEventListener('click', hide);
 
-  // メニュー内リンクを押したら閉じる
   menu.addEventListener('click', (e) => {
     if(e.target.closest('a')) hide();
   });
 
-  // Escで閉じる
   document.addEventListener('keydown', (e) => {
     if(e.key === 'Escape') hide();
   });
 }
 
-// ヒーロー画像スライドショー
 const SLIDE_INTERVAL = 5000;
 let currentIndex = 0;
 
@@ -64,18 +61,14 @@ function showHeroImage(index) {
 function startHeroSlideshow() {
   const images = document.querySelectorAll('.hero-img');
   if (images.length === 0) return;
-  // 初期表示
   showHeroImage(0);
-  // 1枚しか無ければ切替を回さない（無駄な再描画を防ぐ）
   if (images.length <= 1) return;
-  // 一定間隔で切り替え
   setInterval(() => {
     currentIndex = (currentIndex + 1) % images.length;
     showHeroImage(currentIndex);
   }, SLIDE_INTERVAL);
 }
 
-// 創業年数計算
 function initCompanyYears() {
   const established = 1964;
   const yearsEl = document.getElementById('company-years');
@@ -85,7 +78,6 @@ function initCompanyYears() {
   }
 }
 
-// 年齢セレクト
 function initAgeSelect() {
   const sel = document.getElementById('age-select');
   if (!sel) return;
@@ -101,7 +93,6 @@ function initEntryFormFeedback() {
   const form = document.querySelector('form.rg-form');
   if (!form) return;
 
-  // 親オリジンをhiddenにセット
   const originField = document.getElementById('origin-field');
   if (originField) originField.value = location.origin;
 
@@ -109,15 +100,12 @@ function initEntryFormFeedback() {
   const submitBtn = document.getElementById('submit-btn');
   let waitingForGasMessage = false;
 
-  // 送信開始時（多重送信防止＆状態表示）
   form.addEventListener('submit', () => {
     trackMarketingEvent('recruit_form_submit_start');
     waitingForGasMessage = true;
     if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '送信中…'; }
     if (resultEl)  { resultEl.style.display = 'block'; resultEl.textContent = '送信中…'; }
 
-    // iframeのloadではなく、GAS側HTMLからのpostMessageだけを成功判定に使う。
-    // GASのメール送信・スプレッドシート保存が遅い時に備え、失敗とは断定しない。
     clearTimeout(initEntryFormFeedback._t);
     initEntryFormFeedback._t = setTimeout(() => {
       waitingForGasMessage = false;
@@ -126,10 +114,8 @@ function initEntryFormFeedback() {
     }, 30000);
   });
 
-  // GAS からの postMessage を受信
   window.addEventListener('message', (ev) => {
     if (!waitingForGasMessage) return;
-    // 送信元のオリジンを確認（script.google.com / script.googleusercontent.com）
     let okOrigin = false;
     try {
       okOrigin = /^https:\/\/script\.google(usercontent)?\.com$/i.test(new URL(ev.origin).origin);
@@ -144,14 +130,12 @@ function initEntryFormFeedback() {
     const data = ev.data || {};
     if (data.ok) {
       trackMarketingEvent('recruit_form_submit_success');
-      // 成功：フォームをリセットしてメッセージ表示
       form.reset();
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '送信する'; }
       if (resultEl)  { resultEl.style.display = 'block'; resultEl.textContent = '送信ありがとうございました。担当よりご連絡します。'; }
       resultEl && resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
       trackMarketingEvent('recruit_form_submit_error', { error_message: String(data.error || '') });
-      // 失敗：エラーメッセージ
       if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '送信する'; }
       if (resultEl)  { resultEl.style.display = 'block'; resultEl.textContent = '送信に失敗しました。時間をおいて再度お試しください。'; }
       console.error('Entry submit error:', data.error);
@@ -226,6 +210,19 @@ function enhanceGlobalNavigation() {
         li.innerHTML = '<a href="/used-cars/">車を買う</a>';
         service.closest('li').after(li);
       }
+    }
+    const isHomePage = location.pathname === '/' || /\/index\.html$/.test(location.pathname);
+    if (isHomePage) {
+      const order = ['#service', '#sales', '#column', '#flow', '#works', 'recruit', '#company', 'tel:0849761000'];
+      Array.from(list.children)
+        .sort((a, b) => {
+          const ah = a.querySelector('a')?.getAttribute('href') || '';
+          const bh = b.querySelector('a')?.getAttribute('href') || '';
+          const ai = order.findIndex((key) => ah === key || ah.endsWith(key));
+          const bi = order.findIndex((key) => bh === key || bh.endsWith(key));
+          return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
+        })
+        .forEach((item) => list.appendChild(item));
     }
   });
 }
