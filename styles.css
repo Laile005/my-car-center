@@ -100,12 +100,13 @@ img {
 .nav-desktop ul {
   list-style: none;
   display: flex;
-  gap: 2rem;
+  gap: clamp(1rem, 2vw, 2rem);
 }
 .nav-desktop ul li a {
   font-weight: 500;
   color: var(--ink);
   transition: color 0.3s;
+  white-space: nowrap;
 }
 .nav-desktop ul li a:hover {
   color: var(--sky);
@@ -730,6 +731,10 @@ img {
   display: grid;
   grid-template-columns: repeat(2, minmax(0,1fr));
   gap: 1.6rem;
+}
+.works-grid--single{
+  grid-template-columns: minmax(0, 680px);
+  justify-content: center;
 }
 .work-card{
   background: var(--paper);
