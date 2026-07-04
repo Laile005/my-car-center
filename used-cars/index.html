@@ -195,7 +195,7 @@
 
     const timeoutId = setTimeout(() => renderCars(fallbackItems, true), 8000);
 
-    fetch('/.netlify/functions/inventory-feed')
+    fetch(`/.netlify/functions/inventory-feed?ts=${Date.now()}`, { cache: 'no-store' })
       .then((res) => res.json())
       .then((data) => {
         clearTimeout(timeoutId);
