@@ -45,9 +45,39 @@ function isVehicleDetailUrl(url) {
   }
 }
 
-function pickImage(block) {
-  const img = /<img[^>]+(?:data-src|src)=["']([^"']+)["']/i.exec(block)?.[1];
-  return absolutize(img);
+function vehicleIdFromUrl(url) {
+  const pathname = new URL(url).pathname;
+  return /\/([0-9]{12,})\.html$/.exec(pathname)?.[1] || '';
+}
+
+function isPlaceholderImage(url) {
+  return /(?:no[_-]?image|no[_-]?photo|nophoto|nowprinting|dummy|blank|placeholder|comingsoon|star|icon|logo|common)/i.test(url);
+}
+
+function imageCandidates(block) {
+  const candidates = [];
+  const imgMatches = [...block.matchAll(/<img[^>]+>/gi)];
+  for (const [tag] of imgMatches) {
+    const attrs = [...tag.matchAll(/\s(?:data-src|data-original|data-lazy|data-url|src)=["']([^"']+)["']/gi)];
+    attrs.forEach((match) => candidates.push(match[1]));
+    const srcset = /\s(?:data-srcset|srcset)=["']([^"']+)["']/i.exec(tag)?.[1];
+    if (srcset) {
+      srcset.split(',').forEach((part) => candidates.push(part.trim().split(/\s+/)[0]));
+    }
+  }
+  const sourceMatches = [...block.matchAll(/<source[^>]+(?:data-srcset|srcset)=["']([^"']+)["']/gi)];
+  sourceMatches.forEach((match) => {
+    match[1].split(',').forEach((part) => candidates.push(part.trim().split(/\s+/)[0]));
+  });
+  return [...new Set(candidates.map(absolutize).filter(Boolean))];
+}
+
+function pickImage(block, detailUrl = '') {
+  const vehicleId = detailUrl ? vehicleIdFromUrl(detailUrl) : '';
+  const candidates = imageCandidates(block).filter((url) => !isPlaceholderImage(url));
+  const matchingVehicle = candidates.find((url) => vehicleId && url.includes(vehicleId));
+  if (matchingVehicle) return matchingVehicle;
+  return candidates.find((url) => /img\.goo-net\.com|picture|photo|car/i.test(url)) || '';
 }
 
 function pickPrice(block) {
@@ -72,6 +102,38 @@ function pickTitle(block) {
   return '';
 }
 
+async function fetchDetailImage(url) {
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'user-agent': 'Mozilla/5.0 (compatible; MyCarCenterSite/1.0; +https://mycarcenter.netlify.app/)',
+        'accept-language': 'ja,en;q=0.8'
+      }
+    });
+    if (!response.ok) return '';
+
+    const buffer = await response.arrayBuffer();
+    const html = decodeHtml(buffer, response.headers.get('content-type') || '');
+    const vehicleId = vehicleIdFromUrl(url);
+    const metaImages = [
+      /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i.exec(html)?.[1],
+      /<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i.exec(html)?.[1]
+    ].map(absolutize).filter(Boolean);
+    const allImages = [...metaImages, ...imageCandidates(html)].filter((src) => !isPlaceholderImage(src));
+    return allImages.find((src) => vehicleId && src.includes(vehicleId)) || allImages[0] || '';
+  } catch (_) {
+    return '';
+  }
+}
+
+async function enrichImages(cars) {
+  return Promise.all(cars.map(async (car) => {
+    if (car.image && !isPlaceholderImage(car.image)) return car;
+    const detailImage = await fetchDetailImage(car.url);
+    return detailImage ? { ...car, image: detailImage } : { ...car, image: '' };
+  }));
+}
+
 function parseStock(html) {
   const normalized = html.replace(/\r?\n/g, ' ');
   const linkMatches = [...normalized.matchAll(/<a[^>]+href=["']([^"']*\/usedcar\/spread\/[^"']*\.html[^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi)];
@@ -88,7 +150,7 @@ function parseStock(html) {
     const block = normalized.slice(start, end);
     const anchorTitle = stripTags(match[2]);
     const title = anchorTitle && !/詳細|在庫|一覧|グーネット|画像/.test(anchorTitle) ? anchorTitle : pickTitle(block);
-    const image = pickImage(block);
+    const image = pickImage(block, href);
     const price = pickPrice(block);
     const text = stripTags(block);
     const year = /(20\d{2}|令和\d+|平成\d+)年/.exec(text)?.[0] || '';
@@ -120,7 +182,7 @@ exports.handler = async () => {
 
     const buffer = await response.arrayBuffer();
     const html = decodeHtml(buffer, response.headers.get('content-type') || '');
-    const cars = parseStock(html);
+    const cars = await enrichImages(parseStock(html));
 
     return {
       statusCode: 200,
