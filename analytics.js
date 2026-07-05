@@ -15,7 +15,8 @@
   function sendEvent(name, params) {
     var payload = Object.assign({
       page_path: location.pathname,
-      page_title: document.title
+      page_title: document.title,
+      page_category: getPageCategory()
     }, params || {});
 
     if (typeof window.gtag === 'function') {
@@ -27,6 +28,19 @@
   }
 
   window.MCCTrackEvent = sendEvent;
+
+  function getPageCategory() {
+    var path = location.pathname;
+    if (path.indexOf('/recruit-column/') === 0) return 'recruit_column';
+    if (path.indexOf('/column/') === 0) return 'customer_column';
+    if (path.indexOf('/recruit') === 0) return 'recruit';
+    if (path.indexOf('/used-cars/') === 0) return 'used_cars';
+    if (path.indexOf('/bankin-toso/') === 0) return 'bankin_toso';
+    if (path.indexOf('/shaken/') === 0) return 'shaken';
+    if (path.indexOf('/maintenance/') === 0) return 'maintenance';
+    if (path.indexOf('/new-cars/') === 0) return 'new_cars';
+    return path === '/' ? 'home' : 'other';
+  }
 
   function flushQueue() {
     var queue = window.MCC_EVENT_QUEUE || [];
@@ -48,6 +62,8 @@
         sendEvent('phone_click', params);
       } else if (href.indexOf('goo-net.com') !== -1) {
         sendEvent('goo_net_click', params);
+      } else if (link.closest('.column-card') || link.closest('.rg-card')) {
+        sendEvent('article_card_click', params);
       } else if (link.classList.contains('recruit-cta') || link.classList.contains('link-with-arrow')) {
         sendEvent('cta_click', params);
       } else if (href.indexOf('/recruit') !== -1 || href === '#entry') {
@@ -99,9 +115,9 @@
     }
     if (grid) {
       grid.innerHTML = [
-        '<article class="column-card"><p class="column-card__date">2026.07.07</p><h3><a href="/column/insurance-repair-customer-flow/">保険修理でお客様がやること・工場が手伝えること</a></h3><p>保険会社との確認、見積り、代車、納車までの役割分担を整理しました。</p></article>',
-        '<article class="column-card"><p class="column-card__date">2026.07.05</p><h3><a href="/column/bankin-direct-repair-shop/">車のキズ・へこみ修理はどこに頼む？</a></h3><p>地域密着の板金塗装工場に直接相談するメリットと、見積りで確認したいポイントを解説します。</p></article>',
-        '<article class="column-card"><p class="column-card__date">2026.06.30</p><h3><a href="/column/repair-loaner-car/">車の修理中に代車は借りられる？</a></h3><p>代車の空き状況、借りられる期間、確認しておきたいことをまとめました。</p></article>'
+        '<article class="column-card"><p class="column-card__date">2026.07.04</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">板金塗装</span><span class="tag-pill tag-pill--subtle">修理判断</span></div><h3><a href="/column/bumper-repair-or-replace/">バンパーの擦りキズは修理と交換どちらがいい？</a></h3><p>キズの深さ、へこみ、割れ、取付部分の状態から、修理か交換かを判断するポイントを解説します。</p></article>',
+        '<article class="column-card"><p class="column-card__date">2026.06.23</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">保険修理</span><span class="tag-pill tag-pill--subtle">事故修理</span></div><h3><a href="/column/insurance-repair-customer-flow/">保険修理でお客様がやること・工場が手伝えること</a></h3><p>保険会社との確認、修理内容、代車、納車までの役割分担を整理しました。</p></article>',
+        '<article class="column-card"><p class="column-card__date">2026.06.08</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">中古車相談</span><span class="tag-pill tag-pill--subtle">条件相談</span></div><h3><a href="/column/used-car-order-budget/">予算内で中古車を探すなら掲載在庫だけで決めない方がいい？</a></h3><p>予算、用途、納期から中古車探しを相談するメリットを整理しました。</p></article>'
       ].join('');
     }
   }
@@ -154,13 +170,41 @@
     var grid = section.querySelector('.rg-cards');
     if (!grid) return;
     grid.innerHTML = [
-      '<article class="rg-card"><p class="column-card__date">2026.07.05</p><h4 class="rg-card__title"><a href="/recruit-column/salary-vs-work-life/">整備士求人は年収だけで選んでいい？</a></h4><p class="rg-card__text">給与だけでは見えにくい、残業・休日・有給・働き方の見方を整理します。</p></article>',
-      '<article class="rg-card"><p class="column-card__date">2026.07.03</p><h4 class="rg-card__title"><a href="/recruit-column/factory-tour-questions/">整備士求人の職場見学で聞いておきたいこと</a></h4><p class="rg-card__text">応募前に残業、休日、仕事内容、資格取得支援を確認する観点です。</p></article>',
-      '<article class="rg-card"><p class="column-card__date">2026.06.29</p><h4 class="rg-card__title"><a href="/recruit-column/inexperienced-mechanic/">未経験から自動車整備士を目指せる？</a></h4><p class="rg-card__text">最初の仕事、資格取得支援、職場選びで確認したいポイントを紹介します。</p></article>',
-      '<article class="rg-card"><p class="column-card__date">2026.06.22</p><h4 class="rg-card__title"><a href="/recruit-column/large-company-vs-local-shop/">大手整備工場と地域密着の整備工場、働き方の違い</a></h4><p class="rg-card__text">年収、残業、休日、裁量、身につく技術の違いを整理します。</p></article>',
-      '<article class="rg-card"><p class="column-card__date">2026.06.17</p><h4 class="rg-card__title"><a href="/recruit-column/bankin-paint-inexperienced/">板金塗装の仕事は未経験から目指せる？</a></h4><p class="rg-card__text">最初に覚えること、向いている人、職場選びの見方を紹介します。</p></article>',
-      '<article class="rg-card"><p class="column-card__date">2026.06.12</p><h4 class="rg-card__title"><a href="/recruit-column/work-life/">整備士として無理なく働く職場選び</a></h4><p class="rg-card__text">休日・残業・資格取得支援など、長く働ける職場を見極める観点です。</p></article>'
+      '<article class="rg-card"><p class="column-card__date">2026.07.05</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">働き方</span><span class="tag-pill tag-pill--subtle">年収比較</span></div><h4 class="rg-card__title"><a href="/recruit-column/salary-vs-work-life/">整備士求人は年収だけで選んでいい？</a></h4><p class="rg-card__text">給与だけでは見えにくい、残業・休日・有給・働き方の見方を整理します。</p></article>',
+      '<article class="rg-card"><p class="column-card__date">2026.07.03</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">職場見学</span><span class="tag-pill tag-pill--subtle">応募前確認</span></div><h4 class="rg-card__title"><a href="/recruit-column/factory-tour-questions/">整備士求人の職場見学で聞いておきたいこと</a></h4><p class="rg-card__text">応募前に残業、休日、仕事内容、資格取得支援を確認する観点です。</p></article>',
+      '<article class="rg-card"><p class="column-card__date">2026.06.29</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">未経験</span><span class="tag-pill tag-pill--subtle">資格取得支援</span></div><h4 class="rg-card__title"><a href="/recruit-column/inexperienced-mechanic/">未経験から自動車整備士を目指せる？</a></h4><p class="rg-card__text">最初の仕事、資格取得支援、職場選びで確認したいポイントを紹介します。</p></article>',
+      '<article class="rg-card"><p class="column-card__date">2026.06.22</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">職場選び</span><span class="tag-pill tag-pill--subtle">働き方比較</span></div><h4 class="rg-card__title"><a href="/recruit-column/large-company-vs-local-shop/">大手整備工場と地域密着の整備工場、働き方の違い</a></h4><p class="rg-card__text">年収、残業、休日、裁量、身につく技術の違いを整理します。</p></article>',
+      '<article class="rg-card"><p class="column-card__date">2026.06.17</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">板金塗装求人</span><span class="tag-pill tag-pill--subtle">未経験</span></div><h4 class="rg-card__title"><a href="/recruit-column/bankin-paint-inexperienced/">板金塗装の仕事は未経験から目指せる？</a></h4><p class="rg-card__text">最初に覚えること、向いている人、職場選びの見方を紹介します。</p></article>',
+      '<article class="rg-card"><p class="column-card__date">2026.06.12</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">働き方</span><span class="tag-pill tag-pill--subtle">整備士求人</span></div><h4 class="rg-card__title"><a href="/recruit-column/work-life/">整備士として無理なく働く職場選び</a></h4><p class="rg-card__text">休日・残業・資格取得支援など、長く働ける職場を見極める観点です。</p></article>',
+      '<article class="rg-card"><p class="column-card__date">2026.06.07</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">働き方</span><span class="tag-pill tag-pill--subtle">残業少なめ</span></div><h4 class="rg-card__title"><a href="/recruit-column/low-overtime-mechanic/">整備士で残業が少ない職場を探す時に見るポイント</a></h4><p class="rg-card__text">給与だけでなく、予約の入れ方、休日、有給、職場見学で確認したいことを整理します。</p></article>'
     ].join('');
+  }
+
+  function initVisibilityTracking() {
+    if (!('IntersectionObserver' in window)) return;
+    var watched = [
+      { selector: '#entry', event: 'recruit_entry_view' },
+      { selector: '#sales', event: 'sales_section_view' },
+      { selector: '#column', event: 'column_section_view' },
+      { selector: '.stock-grid', event: 'used_car_stock_view' }
+    ];
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var eventName = entry.target.getAttribute('data-mcc-view-event');
+        if (!eventName || entry.target.getAttribute('data-mcc-view-sent')) return;
+        entry.target.setAttribute('data-mcc-view-sent', '1');
+        sendEvent(eventName);
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.35 });
+
+    watched.forEach(function (item) {
+      var el = document.querySelector(item.selector);
+      if (!el) return;
+      el.setAttribute('data-mcc-view-event', item.event);
+      observer.observe(el);
+    });
   }
 
   initCtaLinkPresentation();
@@ -191,6 +235,7 @@
 
       if (config.enableCtaTracking !== false) initClickTracking();
       if (config.enableScrollDepth !== false) initScrollDepthTracking();
+      if (config.enableVisibilityTracking !== false) initVisibilityTracking();
       flushQueue();
     });
 })();

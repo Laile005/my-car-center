@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://mycarcenter.netlify.app/</loc>
-    <lastmod>2026-07-04</lastmod>
+    <lastmod>2026-07-05</lastmod>
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/recruit</loc>
-    <lastmod>2026-07-04</lastmod>
+    <lastmod>2026-07-05</lastmod>
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/used-cars/</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/column/</loc>
-    <lastmod>2026-07-04</lastmod>
+    <lastmod>2026-07-05</lastmod>
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/company-guide/</loc>
@@ -45,8 +45,12 @@
     <lastmod>2026-07-05</lastmod>
   </url>
   <url>
+    <loc>https://mycarcenter.netlify.app/column/bumper-repair-or-replace/</loc>
+    <lastmod>2026-07-04</lastmod>
+  </url>
+  <url>
     <loc>https://mycarcenter.netlify.app/column/insurance-repair-customer-flow/</loc>
-    <lastmod>2026-07-07</lastmod>
+    <lastmod>2026-06-23</lastmod>
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/column/dealer-vs-local-repair/</loc>
@@ -55,6 +59,10 @@
   <url>
     <loc>https://mycarcenter.netlify.app/column/bankin-paint-insurance/</loc>
     <lastmod>2026-06-24</lastmod>
+  </url>
+  <url>
+    <loc>https://mycarcenter.netlify.app/column/insurance-repair-loaner-delivery/</loc>
+    <lastmod>2026-06-21</lastmod>
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/column/repair-loaner-car/</loc>
@@ -74,7 +82,11 @@
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/column/used-car-order-consultation/</loc>
-    <lastmod>2026-07-09</lastmod>
+    <lastmod>2026-06-19</lastmod>
+  </url>
+  <url>
+    <loc>https://mycarcenter.netlify.app/column/used-car-order-budget/</loc>
+    <lastmod>2026-06-08</lastmod>
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/column/used-car-checkpoints/</loc>
@@ -107,6 +119,10 @@
   <url>
     <loc>https://mycarcenter.netlify.app/recruit-column/factory-tour-questions/</loc>
     <lastmod>2026-07-03</lastmod>
+  </url>
+  <url>
+    <loc>https://mycarcenter.netlify.app/recruit-column/low-overtime-mechanic/</loc>
+    <lastmod>2026-06-07</lastmod>
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/recruit-column/inexperienced-mechanic/</loc>

@@ -305,9 +305,9 @@ function enhanceHomeSalesAndColumns() {
     if (subtitle) subtitle.textContent = '車検・修理・保険・購入相談のことを、地域のお客様に向けてわかりやすく発信します。';
     if (grid) {
       grid.innerHTML = `
-        <article class="column-card"><p class="column-card__date">2026.07.05</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">板金塗装</span><span class="tag-pill tag-pill--subtle">キズ・へこみ</span></div><h3><a href="/column/bankin-direct-repair-shop/">車のキズ・へこみ修理はどこに頼む？</a></h3><p>地域密着の板金塗装工場に直接相談するメリットと、見積りで確認したいポイントを解説します。</p></article>
-        <article class="column-card"><p class="column-card__date">2026.07.01</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">車検</span><span class="tag-pill tag-pill--subtle">修理相談</span></div><h3><a href="/column/dealer-vs-local-repair/">ディーラー車検・修理と地域密着の整備工場の使い分け</a></h3><p>ディーラーの良さを活かしつつ、日常整備や板金修理を地域の整備工場へ相談する考え方です。</p></article>
-        <article class="column-card"><p class="column-card__date">2026.06.26</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">中古車相談</span><span class="tag-pill tag-pill--subtle">整備付き販売</span></div><h3><a href="/column/used-car-repair-shop-merit/">中古車を買う時に地域密着の整備工場へ相談するメリット</a></h3><p>仕入れ、整備、板金塗装、購入後の車検まで同じ窓口で相談できる安心感を整理しました。</p></article>
+        <article class="column-card"><p class="column-card__date">2026.07.04</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">板金塗装</span><span class="tag-pill tag-pill--subtle">修理判断</span></div><h3><a href="/column/bumper-repair-or-replace/">バンパーの擦りキズは修理と交換どちらがいい？</a></h3><p>キズの深さ、へこみ、割れ、取付部分の状態から、修理か交換かを判断するポイントを解説します。</p></article>
+        <article class="column-card"><p class="column-card__date">2026.06.23</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">保険修理</span><span class="tag-pill tag-pill--subtle">事故修理</span></div><h3><a href="/column/insurance-repair-customer-flow/">保険修理でお客様がやること・工場が手伝えること</a></h3><p>保険会社との確認、修理内容、代車、納車までの役割分担を整理しました。</p></article>
+        <article class="column-card"><p class="column-card__date">2026.06.08</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">中古車相談</span><span class="tag-pill tag-pill--subtle">条件相談</span></div><h3><a href="/column/used-car-order-budget/">予算内で中古車を探すなら掲載在庫だけで決めない方がいい？</a></h3><p>予算、用途、納期から中古車探しを相談するメリットを整理しました。</p></article>
       `;
     }
     const listLink = column.querySelector('.section-link a');
@@ -340,7 +340,10 @@ function enhanceArticleTags() {
   const articleTags = {
     '/column/insurance-repair-customer-flow/': ['保険修理', '事故修理'],
     '/column/bankin-direct-repair-shop/': ['板金塗装', 'キズ・へこみ'],
+    '/column/bumper-repair-or-replace/': ['板金塗装', '修理判断'],
+    '/column/insurance-repair-loaner-delivery/': ['保険修理', '代車'],
     '/column/used-car-order-consultation/': ['中古車相談', '注文販売'],
+    '/column/used-car-order-budget/': ['中古車相談', '条件相談'],
     '/column/shaken-fukuyama/': ['車検', '整備'],
     '/column/dealer-vs-local-repair/': ['車検', '修理相談'],
     '/column/used-car-repair-shop-merit/': ['中古車相談', '整備付き販売'],
@@ -355,6 +358,7 @@ function enhanceArticleTags() {
     '/column/accident-repair-first/': ['事故修理', '保険相談'],
     '/recruit-column/salary-vs-work-life/': ['働き方', '年収比較'],
     '/recruit-column/factory-tour-questions/': ['職場見学', '応募前確認'],
+    '/recruit-column/low-overtime-mechanic/': ['働き方', '残業少なめ'],
     '/recruit-column/inexperienced-mechanic/': ['未経験', '資格取得支援'],
     '/recruit-column/large-company-vs-local-shop/': ['職場選び', '働き方比較'],
     '/recruit-column/bankin-paint-inexperienced/': ['板金塗装求人', '未経験'],
