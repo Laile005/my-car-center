@@ -1,4 +1,4 @@
-﻿document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
   initCurrentYear();
   setupHamburgerMenu();
   startHeroSlideshow();
@@ -193,9 +193,12 @@ function addGlobalSalesStyles() {
     .guide-grid,.column-card-grid,.stock-grid{align-items:stretch}
     .section-faq{background:linear-gradient(180deg,rgba(96,165,250,.06),rgba(34,211,238,.05)),var(--wash);border-top:1px solid rgba(226,232,240,.7);border-bottom:1px solid rgba(226,232,240,.7)}
     .section-company.skin-white{background:var(--paper)}
-    .guide-card,.column-card{display:flex;flex-direction:column}
-    .guide-card p:has(.recruit-cta){text-align:center;margin-top:auto}
-    .guide-card .recruit-cta{align-self:center;justify-content:center}
+    .guide-card,.column-card{display:flex;flex-direction:column;gap:var(--flow-sm,.75rem)}
+    .guide-card p,.column-card p{margin:0;line-height:1.8}
+    .guide-card p:has(.recruit-cta){text-align:center;margin-top:auto;padding-top:var(--flow-lg,1.65rem)}
+    .guide-card .recruit-cta{align-self:center;justify-content:center;color:#0f3f73;background:#fff;border:1px solid rgba(96,165,250,.45);box-shadow:0 8px 20px rgba(15,23,42,.07)}
+    .guide-card .recruit-cta::after{color:#fff;background:linear-gradient(135deg,var(--sky),var(--mint));border-radius:999px;display:inline-grid;place-items:center;width:1.35rem;height:1.35rem;font-size:1.05rem}
+    .guide-card--accent{border-color:rgba(96,165,250,.48);background:linear-gradient(180deg,rgba(239,248,255,.92),rgba(255,255,255,1));box-shadow:0 14px 32px rgba(37,99,235,.09)}
     .stock-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;align-items:stretch}
     .stock-card{border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;height:100%}
     .stock-card>a{display:block}
@@ -281,11 +284,11 @@ function enhanceHomeSalesAndColumns() {
     section.innerHTML = `
       <div class="container">
         <h2 class="section-title" id="sales-title">車の購入相談</h2>
-        <p class="section-subtitle">スズキの看板が目印ですが、新車は国内全メーカー相談可能です。中古車はグーネット掲載在庫も確認できます。</p>
+        <p class="section-subtitle">掲載在庫だけでなく、条件から中古車を探す相談もできます。新車は国内全メーカー相談可能です。</p>
         <div class="guide-grid">
-          <article class="guide-card"><h3>新車相談</h3><p>軽自動車、コンパクト、ミニバン、商用車まで、用途・予算・納期に合わせて国内メーカーからご提案します。</p></article>
+          <article class="guide-card guide-card--accent"><h3>条件から中古車を探す</h3><p>業者専用オークション等も活用し、仕入れ後の点検・整備・板金塗装まで見てご提案できます。掲載在庫に希望の車がない時ほどご相談ください。</p></article>
           <article class="guide-card"><h3>中古車在庫</h3><p>掲載在庫はグーネットで更新しています。気になる車は、来店前に電話で在庫状況をご確認ください。</p></article>
-          <article class="guide-card"><h3>購入後も安心</h3><p>納車後の点検、車検、整備、板金塗装まで同じ窓口で相談できます。</p></article>
+          <article class="guide-card"><h3>新車相談</h3><p>軽自動車、コンパクト、ミニバン、商用車まで、用途・予算・納期に合わせて国内メーカーからご提案します。</p></article>
         </div>
         <div class="section-link"><a href="/used-cars/" class="link-with-arrow">在庫車・購入相談を見る <span class="arrow">›</span></a></div>
       </div>`;

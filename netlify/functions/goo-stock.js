@@ -2,7 +2,7 @@ const SHOP_URL = 'https://www.goo-net.com/usedcar_shop/1010169/stock.html';
 const MAX_VISIBLE_CARS = 3;
 const SHOP_FETCH_TIMEOUT_MS = 6000;
 const DETAIL_FETCH_TIMEOUT_MS = 4500;
-const MEMORY_CACHE_TTL_MS = 30 * 60 * 1000;
+const MEMORY_CACHE_TTL_MS = 60 * 60 * 1000;
 
 let memoryCache = null;
 
@@ -202,7 +202,7 @@ exports.handler = async () => {
   const headers = {
     'access-control-allow-origin': '*',
     'cache-control': 'public, max-age=0, must-revalidate',
-    'netlify-cdn-cache-control': 'public, durable, max-age=1800, stale-while-revalidate=86400',
+    'netlify-cdn-cache-control': 'public, durable, max-age=3600, stale-while-revalidate=86400',
     'content-type': 'application/json; charset=utf-8'
   };
 
