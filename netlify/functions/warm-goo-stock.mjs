@@ -40,5 +40,5 @@ export default async (_request, context) => {
 };
 
 export const config = {
-  schedule: '@hourly'
+  schedule: '@daily'
 };
