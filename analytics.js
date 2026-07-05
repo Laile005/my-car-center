@@ -80,7 +80,8 @@
     style.textContent = [
       '.link-with-arrow{display:inline-flex;align-items:center;gap:.55rem;padding:.85rem 1.15rem;border-radius:999px;background:linear-gradient(135deg,#4aa3ff,#22c6d8);color:#fff!important;font-weight:700;text-decoration:none;box-shadow:0 12px 28px rgba(34,120,210,.22);transition:transform .18s ease,box-shadow .18s ease}',
       '.link-with-arrow .arrow{display:inline-grid;place-items:center;width:1.35em;height:1.35em;border-radius:999px;background:rgba(255,255,255,.22);line-height:1;font-size:1.1em}',
-      '.link-with-arrow:hover{transform:translateY(-1px);box-shadow:0 16px 34px rgba(34,120,210,.28)}'
+      '.link-with-arrow:hover{transform:translateY(-1px);box-shadow:0 16px 34px rgba(34,120,210,.28)}',
+      '.section-title + .guide-grid{margin-top:1.35rem}'
     ].join('');
     document.head.appendChild(style);
   }
