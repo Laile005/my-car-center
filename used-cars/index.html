@@ -104,7 +104,7 @@
       <article class="guide-card">
         <h2>新車を相談する</h2>
         <p>スズキの看板を掲げていますが、国内全メーカーの新車をご相談いただけます。軽自動車、コンパクトカー、ミニバン、商用車まで使い方に合わせてご提案します。</p>
-        <p><a class="recruit-cta" href="tel:0849761000">電話で問い合わせる</a></p>
+        <p><a class="recruit-cta" href="tel:0849761000">電話で相談する</a></p>
       </article>
       <article class="guide-card">
         <h2>掲載外の車も探せます</h2>
@@ -201,7 +201,7 @@
             <h3>${escapeHtml(car.title)}</h3>
             <p class="stock-card__meta">${escapeHtml(formatMeta(car))}</p>
             ${car.price ? `<p class="stock-card__price">${escapeHtml(car.price)}</p>` : ''}
-            <a class="stock-card__link" href="${escapeHtml(car.url || gooStockUrl)}" ${String(car.url || '').startsWith('tel:') ? '' : 'target="_blank" rel="noopener"'}>${String(car.url || '').startsWith('tel:') ? '電話で問い合わせる' : '詳細をグーネットで見る'}</a>
+            <a class="stock-card__link" href="${escapeHtml(car.url || gooStockUrl)}" ${String(car.url || '').startsWith('tel:') ? '' : 'target="_blank" rel="noopener"'}>${String(car.url || '').startsWith('tel:') ? '電話で相談する' : '詳細をグーネットで見る'}</a>
           </div>
         </article>
       `).join('');
