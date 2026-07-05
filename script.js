@@ -193,9 +193,11 @@ function addGlobalSalesStyles() {
     .guide-grid,.column-card-grid,.stock-grid{align-items:stretch}
     .section-faq{background:linear-gradient(180deg,rgba(96,165,250,.06),rgba(34,211,238,.05)),var(--wash);border-top:1px solid rgba(226,232,240,.7);border-bottom:1px solid rgba(226,232,240,.7)}
     .section-company.skin-white{background:var(--paper)}
-    .guide-card,.column-card{display:flex;flex-direction:column}
-    .guide-card p:has(.recruit-cta){text-align:center;margin-top:auto}
-    .guide-card .recruit-cta{align-self:center;justify-content:center}
+    .guide-card,.column-card{display:flex;flex-direction:column;gap:var(--flow-sm,.75rem)}
+    .guide-card p,.column-card p{margin:0;line-height:1.8}
+    .guide-card p:has(.recruit-cta){text-align:center;margin-top:auto;padding-top:var(--flow-lg,1.65rem)}
+    .guide-card .recruit-cta{align-self:center;justify-content:center;color:#0f3f73;background:#fff;border:1px solid rgba(96,165,250,.45);box-shadow:0 8px 20px rgba(15,23,42,.07)}
+    .guide-card .recruit-cta::after{color:#fff;background:linear-gradient(135deg,var(--sky),var(--mint));border-radius:999px;display:inline-grid;place-items:center;width:1.35rem;height:1.35rem;font-size:1.05rem}
     .stock-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;align-items:stretch}
     .stock-card{border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;height:100%}
     .stock-card>a{display:block}
