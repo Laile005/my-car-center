@@ -106,8 +106,47 @@
     }
   }
 
+  function initHomeServiceLinks() {
+    if (!document.getElementById('hero')) return;
+    var serviceLinks = [
+      { label: '修理・塗装', href: '/bankin-toso/', text: '板金塗装を詳しく見る' },
+      { label: '車検・整備', href: '/shaken/', text: '車検・整備を詳しく見る' },
+      { label: '新車・中古車販売', href: '/used-cars/', text: '中古車・購入相談を見る' }
+    ];
+
+    serviceLinks.forEach(function (item) {
+      var row = Array.from(document.querySelectorAll('.svc-row')).find(function (candidate) {
+        var kicker = candidate.querySelector('.svc-kicker');
+        return kicker && kicker.textContent.trim() === item.label;
+      });
+      if (!row || row.querySelector('a[href="' + item.href + '"]')) return;
+      var body = row.querySelector('.svc-body');
+      if (!body) return;
+      var p = document.createElement('p');
+      p.innerHTML = '<a class="recruit-cta" href="' + item.href + '">' + item.text + '</a>';
+      body.appendChild(p);
+    });
+
+    var salesLinks = [
+      { title: '新車相談', href: '/new-cars/', text: '新車相談を見る' },
+      { title: '中古車在庫', href: '/used-cars/', text: '中古車相談を見る' },
+      { title: '購入後も安心', href: '/maintenance/', text: 'メンテナンスを見る' }
+    ];
+    salesLinks.forEach(function (item) {
+      var card = Array.from(document.querySelectorAll('#sales .guide-card')).find(function (candidate) {
+        var heading = candidate.querySelector('h3');
+        return heading && heading.textContent.trim() === item.title;
+      });
+      if (!card || card.querySelector('a[href="' + item.href + '"]')) return;
+      var p = document.createElement('p');
+      p.innerHTML = '<a class="recruit-cta" href="' + item.href + '">' + item.text + '</a>';
+      card.appendChild(p);
+    });
+  }
+
   initCtaLinkPresentation();
   initHomeColumnFocus();
+  initHomeServiceLinks();
 
   loadScriptOnce('/analytics-config.js', 'mcc-analytics-config')
     .catch(function () {})
