@@ -107,18 +107,44 @@
       <article class="guide-card">
         <h2>新車を相談する</h2>
         <p>スズキの看板を掲げていますが、国内全メーカーの新車をご相談いただけます。軽自動車、コンパクトカー、ミニバン、商用車まで使い方に合わせてご提案します。</p>
-        <p><a class="recruit-cta" href="tel:0849761000">電話で問い合わせる</a></p>
+        <p><a class="recruit-cta" href="tel:0849761000">電話で相談する</a></p>
       </article>
       <article class="guide-card">
         <h2>掲載外の車も探せます</h2>
         <p>業者専用オークション等も活用し、「予算内で探したい」「家族で使いやすい車がいい」「仕事用の車を探したい」など条件からご相談いただけます。</p>
+        <p><a class="recruit-cta" href="../column/used-car-order-consultation/">掲載外の中古車相談を詳しく見る</a></p>
       </article>
+    </div>
+  </section>
+
+  <section class="section skin-white">
+    <div class="container">
+      <h2 class="section-title">中古車購入のお役立ち情報</h2>
+      <p class="section-subtitle">在庫一覧だけで決める前に、購入後の整備や修理まで含めて考えると選びやすくなります。</p>
+      <div class="column-card-grid">
+        <article class="column-card">
+          <p class="column-card__date">2026.07.09</p>
+          <h3><a href="../column/used-car-order-consultation/">掲載在庫にない中古車も探せる？</a></h3>
+          <p>予算、用途、車種、納期から中古車探しを相談するメリットを整理しました。</p>
+        </article>
+        <article class="column-card">
+          <p class="column-card__date">2026.06.26</p>
+          <h3><a href="../column/used-car-repair-shop-merit/">中古車を買う時に地域密着の整備工場へ相談するメリット</a></h3>
+          <p>仕入れ、整備、板金塗装、購入後の車検まで同じ窓口で相談できる安心感をまとめました。</p>
+        </article>
+        <article class="column-card">
+          <p class="column-card__date">2026.06.28</p>
+          <h3><a href="../column/used-car-checkpoints/">中古車を選ぶ前に確認したいこと</a></h3>
+          <p>価格だけでなく、整備履歴・保証・購入後のメンテナンスを確認しましょう。</p>
+        </article>
+      </div>
     </div>
   </section>
 
   <section class="section skin-paper">
     <div class="container">
       <h2 class="section-title">来店前に確認するとスムーズです</h2>
+      <p class="section-subtitle">用途・予算・納車後の使い方を先に整理しておくと、在庫車だけでなく条件に合う車探しまで相談しやすくなります。</p>
       <div class="guide-grid">
         <article class="guide-card">
           <h3>用途</h3>
@@ -145,7 +171,7 @@
       <p><a href="tel:0849761000">084-976-1000</a></p>
     </div>
     <div class="footer-col">
-      <h4><a href="../">企業トップ</a></h4>
+      <h4><a href="../">TOP</a></h4>
       <ul>
         <li><a href="../#service">- サービス</a></li>
         <li><a href="./">- 車を買う</a></li>
@@ -222,7 +248,7 @@
             <h3>${escapeHtml(car.title)}</h3>
             <p class="stock-card__meta">${escapeHtml(formatMeta(car))}</p>
             ${car.price ? `<p class="stock-card__price">${escapeHtml(car.price)}</p>` : ''}
-            <a class="stock-card__link" href="${escapeHtml(car.url || gooStockUrl)}" ${String(car.url || '').startsWith('tel:') ? '' : 'target="_blank" rel="noopener"'}>${String(car.url || '').startsWith('tel:') ? '電話で問い合わせる' : '詳細をグーネットで見る'}</a>
+            <a class="stock-card__link" href="${escapeHtml(car.url || gooStockUrl)}" ${String(car.url || '').startsWith('tel:') ? '' : 'target="_blank" rel="noopener"'}>${String(car.url || '').startsWith('tel:') ? '電話で相談する' : '詳細をグーネットで見る'}</a>
           </div>
         </article>
       `).join('');

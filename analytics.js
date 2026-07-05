@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   function loadScriptOnce(src, id) {
     if (id && document.getElementById(id)) return Promise.resolve();
     return new Promise(function (resolve, reject) {
@@ -95,13 +95,13 @@
 
     if (title) title.textContent = '板金塗装・修理のお役立ち情報';
     if (subtitle) {
-      subtitle.textContent = 'キズ・へこみ修理、保険修理、車検、購入後の相談を、町の修理工場目線でわかりやすく発信します。';
+      subtitle.textContent = 'キズ・へこみ修理、保険修理、車検、購入後の相談を、地域密着の整備工場目線でわかりやすく発信します。';
     }
     if (grid) {
       grid.innerHTML = [
-        '<article class="column-card"><p class="column-card__date">2026.07.05</p><h3><a href="/column/bankin-direct-repair-shop/">車のキズ・へこみ修理はどこに頼む？</a></h3><p>町の板金塗装工場に直接相談するメリットと、見積りで確認したいポイントを解説します。</p></article>',
-        '<article class="column-card"><p class="column-card__date">2026.07.01</p><h3><a href="/column/dealer-vs-local-repair/">ディーラー車検・修理と町の整備工場の使い分け</a></h3><p>ディーラーの良さを活かしつつ、日常整備や板金修理を町の工場へ相談する考え方です。</p></article>',
-        '<article class="column-card"><p class="column-card__date">2026.06.26</p><h3><a href="/column/used-car-repair-shop-merit/">中古車を買う時に町の修理工場へ相談するメリット</a></h3><p>仕入れ、整備、板金塗装、購入後の車検まで同じ窓口で相談できる安心感を整理しました。</p></article>'
+        '<article class="column-card"><p class="column-card__date">2026.07.07</p><h3><a href="/column/insurance-repair-customer-flow/">保険修理でお客様がやること・工場が手伝えること</a></h3><p>保険会社との確認、見積り、代車、納車までの役割分担を整理しました。</p></article>',
+        '<article class="column-card"><p class="column-card__date">2026.07.05</p><h3><a href="/column/bankin-direct-repair-shop/">車のキズ・へこみ修理はどこに頼む？</a></h3><p>地域密着の板金塗装工場に直接相談するメリットと、見積りで確認したいポイントを解説します。</p></article>',
+        '<article class="column-card"><p class="column-card__date">2026.06.30</p><h3><a href="/column/repair-loaner-car/">車の修理中に代車は借りられる？</a></h3><p>代車の空き状況、借りられる期間、確認しておきたいことをまとめました。</p></article>'
       ].join('');
     }
   }
@@ -155,8 +155,10 @@
     if (!grid) return;
     grid.innerHTML = [
       '<article class="rg-card"><p class="column-card__date">2026.07.05</p><h4 class="rg-card__title"><a href="/recruit-column/salary-vs-work-life/">整備士求人は年収だけで選んでいい？</a></h4><p class="rg-card__text">給与だけでは見えにくい、残業・休日・有給・働き方の見方を整理します。</p></article>',
+      '<article class="rg-card"><p class="column-card__date">2026.07.03</p><h4 class="rg-card__title"><a href="/recruit-column/factory-tour-questions/">整備士求人の職場見学で聞いておきたいこと</a></h4><p class="rg-card__text">応募前に残業、休日、仕事内容、資格取得支援を確認する観点です。</p></article>',
       '<article class="rg-card"><p class="column-card__date">2026.06.29</p><h4 class="rg-card__title"><a href="/recruit-column/inexperienced-mechanic/">未経験から自動車整備士を目指せる？</a></h4><p class="rg-card__text">最初の仕事、資格取得支援、職場選びで確認したいポイントを紹介します。</p></article>',
-      '<article class="rg-card"><p class="column-card__date">2026.06.22</p><h4 class="rg-card__title"><a href="/recruit-column/large-company-vs-local-shop/">大手整備工場と町の整備工場、働き方の違い</a></h4><p class="rg-card__text">年収、残業、休日、裁量、身につく技術の違いを整理します。</p></article>',
+      '<article class="rg-card"><p class="column-card__date">2026.06.22</p><h4 class="rg-card__title"><a href="/recruit-column/large-company-vs-local-shop/">大手整備工場と地域密着の整備工場、働き方の違い</a></h4><p class="rg-card__text">年収、残業、休日、裁量、身につく技術の違いを整理します。</p></article>',
+      '<article class="rg-card"><p class="column-card__date">2026.06.17</p><h4 class="rg-card__title"><a href="/recruit-column/bankin-paint-inexperienced/">板金塗装の仕事は未経験から目指せる？</a></h4><p class="rg-card__text">最初に覚えること、向いている人、職場選びの見方を紹介します。</p></article>',
       '<article class="rg-card"><p class="column-card__date">2026.06.12</p><h4 class="rg-card__title"><a href="/recruit-column/work-life/">整備士として無理なく働く職場選び</a></h4><p class="rg-card__text">休日・残業・資格取得支援など、長く働ける職場を見極める観点です。</p></article>'
     ].join('');
   }

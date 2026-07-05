@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+﻿document.addEventListener('DOMContentLoaded', () => {
   initCurrentYear();
   setupHamburgerMenu();
   startHeroSlideshow();
@@ -205,6 +205,10 @@ function addGlobalSalesStyles() {
     .stock-card__meta{color:#64748b;font-size:.9rem;margin:0 0 .75rem}
     .stock-card__price{color:var(--sky);font-weight:800;margin:0 0 .7rem}
     .stock-card__link{display:inline-flex;color:#2563eb;font-weight:700;font-size:.9rem;margin-top:auto;align-self:center;text-align:center;justify-content:center}
+    .stock-card--fallback .stock-card__body{min-height:0;gap:.85rem}
+    .stock-card--fallback .stock-card__body h3{min-height:0;margin:0}
+    .stock-card--fallback .stock-card__meta{margin:0}
+    .stock-card--fallback .stock-card__link{margin-top:.25rem;padding-top:0}
     @media (max-width:900px){.stock-grid{grid-template-columns:1fr}}
   `;
   document.head.appendChild(style);
@@ -297,9 +301,9 @@ function enhanceHomeSalesAndColumns() {
     if (subtitle) subtitle.textContent = '車検・修理・保険・購入相談のことを、地域のお客様に向けてわかりやすく発信します。';
     if (grid) {
       grid.innerHTML = `
-        <article class="column-card"><p class="column-card__date">2026.07.02</p><h3><a href="/column/shaken-fukuyama/">車検を受ける前に確認したいこと</a></h3><p>費用・日数・必要書類・整備内容を、予約前に見ておきたいポイントに絞って整理しました。</p></article>
-        <article class="column-card"><p class="column-card__date">2026.06.28</p><h3><a href="/column/used-car-checkpoints/">中古車を選ぶ前に確認したいこと</a></h3><p>価格だけで決める前に、整備履歴・保証・購入後のメンテナンスを確認しましょう。</p></article>
-        <article class="column-card"><p class="column-card__date">2026.06.24</p><h3><a href="/column/bankin-paint-insurance/">板金塗装と保険修理の流れ</a></h3><p>キズ・へこみ・事故修理で迷いやすい、見積りから納車までの流れをまとめています。</p></article>
+        <article class="column-card"><p class="column-card__date">2026.07.05</p><h3><a href="/column/bankin-direct-repair-shop/">車のキズ・へこみ修理はどこに頼む？</a></h3><p>地域密着の板金塗装工場に直接相談するメリットと、見積りで確認したいポイントを解説します。</p></article>
+        <article class="column-card"><p class="column-card__date">2026.07.01</p><h3><a href="/column/dealer-vs-local-repair/">ディーラー車検・修理と地域密着の整備工場の使い分け</a></h3><p>ディーラーの良さを活かしつつ、日常整備や板金修理を地域の整備工場へ相談する考え方です。</p></article>
+        <article class="column-card"><p class="column-card__date">2026.06.26</p><h3><a href="/column/used-car-repair-shop-merit/">中古車を買う時に地域密着の整備工場へ相談するメリット</a></h3><p>仕入れ、整備、板金塗装、購入後の車検まで同じ窓口で相談できる安心感を整理しました。</p></article>
       `;
     }
     const listLink = column.querySelector('.section-link a');
