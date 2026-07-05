@@ -174,11 +174,26 @@
     const status = document.getElementById('stock-status');
     if (!grid || !status) return;
 
+    const injectFallbackStockStyles = () => {
+      if (document.getElementById('fallback-stock-styles')) return;
+      const style = document.createElement('style');
+      style.id = 'fallback-stock-styles';
+      style.textContent = `
+        .stock-card--fallback .stock-card__body{min-height:0;gap:.85rem}
+        .stock-card--fallback .stock-card__body h3{min-height:0;margin:0}
+        .stock-card--fallback .stock-card__meta{margin:0}
+        .stock-card--fallback .stock-card__link{margin-top:.25rem;padding-top:0}
+      `;
+      document.head.appendChild(style);
+    };
+
     const escapeHtml = (value) => String(value || '').replace(/[&<>"']/g, (char) => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     }[char]));
 
     const gooStockUrl = 'https://www.goo-net.com/usedcar_shop/1010169/stock.html#tab_detail';
+    const stockCacheKey = 'mcc-goo-stock-cache-v1';
+    const stockCacheTtl = 30 * 60 * 1000;
     const fallbackItems = [
       { title: '掲載在庫は随時変動します', url: gooStockUrl, note: '最新の掲載状況はグーネットでご確認ください。' },
       { title: '条件に合う中古車を探せます', url: 'tel:0849761000', note: '予算、用途、車種、納期などからご相談いただけます。' },
@@ -195,11 +210,13 @@
     };
 
     const renderCars = (cars, isFallback = false) => {
+      if (isFallback) injectFallbackStockStyles();
+      grid.classList.toggle('stock-grid--fallback', isFallback);
       status.textContent = isFallback
         ? '在庫情報の自動取得に時間がかかっています。掲載在庫の確認や条件に合う車探しはお電話でご相談ください。'
         : `グーネット掲載在庫から${cars.length}台を表示しています。`;
       grid.innerHTML = cars.map((car) => `
-        <article class="stock-card">
+        <article class="stock-card${isFallback ? ' stock-card--fallback' : ''}">
           ${car.image ? `<a href="${escapeHtml(car.url)}" target="_blank" rel="noopener"><img src="${escapeHtml(car.image)}" alt="${escapeHtml(car.title)}"></a>` : ''}
           <div class="stock-card__body">
             <h3>${escapeHtml(car.title)}</h3>
@@ -211,22 +228,51 @@
       `).join('');
     };
 
-    const timeoutId = setTimeout(() => renderCars(fallbackItems, true), 8000);
+    const readCachedCars = () => {
+      try {
+        const cached = JSON.parse(localStorage.getItem(stockCacheKey) || 'null');
+        if (!cached || Date.now() - cached.savedAt > stockCacheTtl) return null;
+        if (!Array.isArray(cached.cars) || cached.cars.length === 0) return null;
+        return cached.cars;
+      } catch (_) {
+        return null;
+      }
+    };
+
+    const saveCachedCars = (cars) => {
+      try {
+        localStorage.setItem(stockCacheKey, JSON.stringify({ savedAt: Date.now(), cars }));
+      } catch (_) {}
+    };
+
+    let hasRenderedStock = false;
+    const cachedCars = readCachedCars();
+    if (cachedCars) {
+      hasRenderedStock = true;
+      renderCars(cachedCars);
+      status.textContent = `直近のグーネット掲載在庫から${cachedCars.length}台を表示しています。最新情報を確認中です。`;
+    }
+
+    const timeoutId = setTimeout(() => {
+      if (!hasRenderedStock) renderCars(fallbackItems, true);
+    }, 8000);
 
     fetch('/.netlify/functions/inventory-feed')
       .then((res) => res.json())
       .then((data) => {
         clearTimeout(timeoutId);
         if (!data.ok || !Array.isArray(data.cars) || data.cars.length === 0) {
-          renderCars(fallbackItems, true);
+          if (!hasRenderedStock) renderCars(fallbackItems, true);
           return;
         }
 
+        hasRenderedStock = true;
+        saveCachedCars(data.cars);
         renderCars(data.cars);
       })
       .catch(() => {
         clearTimeout(timeoutId);
-        renderCars(fallbackItems, true);
+        if (!hasRenderedStock) renderCars(fallbackItems, true);
       });
   })();
 </script>
