@@ -838,6 +838,7 @@ img {
   flex-direction: column;
 }
 
+.guide-card h2,
 .guide-card h3,
 .column-card h3,
 .column-card h2{
@@ -850,9 +851,14 @@ img {
   color: #475569;
 }
 
+.guide-card p + p{
+  margin-top: .9rem;
+}
+
 .guide-card p:has(.recruit-cta){
   text-align: center;
   margin-top: auto;
+  padding-top: 1rem;
 }
 
 .guide-card .recruit-cta{
@@ -919,13 +925,15 @@ img {
 
 .stock-card__body h3{
   font-size: 1rem;
-  margin: 0 0 .4rem;
+  line-height: 1.65;
+  margin: 0 0 .75rem;
 }
 
 .stock-card__meta{
   color: #64748b;
   font-size: .9rem;
-  margin: 0 0 .75rem;
+  line-height: 1.6;
+  margin: 0 0 .9rem;
 }
 
 .stock-card__price{
@@ -940,9 +948,16 @@ img {
   font-weight: 700;
   font-size: .9rem;
   margin-top: auto;
+  padding-top: 1rem;
   align-self: center;
   justify-content: center;
   text-align: center;
+}
+
+@media (min-width: 901px){
+  .stock-card__body h3{
+    min-height: calc(1.65em * 4);
+  }
 }
 
 .faq-list{
