@@ -1,4 +1,20 @@
 const SHOP_URL = 'https://www.goo-net.com/usedcar_shop/1010169/stock.html';
+const MAX_VISIBLE_CARS = 3;
+const SHOP_FETCH_TIMEOUT_MS = 6000;
+const DETAIL_FETCH_TIMEOUT_MS = 4500;
+const MEMORY_CACHE_TTL_MS = 30 * 60 * 1000;
+
+let memoryCache = null;
+
+async function fetchWithTimeout(url, options = {}, timeoutMs = 6000) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
 
 function decodeHtml(buffer, contentType = '') {
   const charset = /charset=([^;]+)/i.exec(contentType)?.[1]?.trim();
@@ -114,12 +130,12 @@ function pickDetailYear(html) {
 
 async function fetchDetailData(url) {
   try {
-    const response = await fetch(url, {
+    const response = await fetchWithTimeout(url, {
       headers: {
         'user-agent': 'Mozilla/5.0 (compatible; MyCarCenterSite/1.0; +https://mycarcenter.netlify.app/)',
         'accept-language': 'ja,en;q=0.8'
       }
-    });
+    }, DETAIL_FETCH_TIMEOUT_MS);
     if (!response.ok) return {};
 
     const buffer = await response.arrayBuffer();
@@ -152,7 +168,7 @@ async function enrichCars(cars) {
   }));
 }
 
-function parseStock(html) {
+function parseStock(html, limit = MAX_VISIBLE_CARS) {
   const normalized = html.replace(/\r?\n/g, ' ');
   const linkMatches = [...normalized.matchAll(/<a[^>]+href=["']([^"']*\/usedcar\/spread\/[^"']*\.html[^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi)];
   const seen = new Set();
@@ -176,7 +192,7 @@ function parseStock(html) {
 
     if (!title || title.length > 160) continue;
     cars.push({ title, price, year, mileage, image, url: href });
-    if (cars.length >= 30) break;
+    if (cars.length >= limit) break;
   }
 
   return cars;
@@ -185,34 +201,55 @@ function parseStock(html) {
 exports.handler = async () => {
   const headers = {
     'access-control-allow-origin': '*',
-    'cache-control': 'no-store',
+    'cache-control': 'public, max-age=0, must-revalidate',
+    'netlify-cdn-cache-control': 'public, durable, max-age=1800, stale-while-revalidate=86400',
     'content-type': 'application/json; charset=utf-8'
   };
 
+  if (memoryCache && memoryCache.expiresAt > Date.now()) {
+    return {
+      statusCode: 200,
+      headers: { ...headers, 'x-mcc-cache': 'memory' },
+      body: memoryCache.body
+    };
+  }
+
   try {
-    const response = await fetch(SHOP_URL, {
+    const response = await fetchWithTimeout(SHOP_URL, {
       headers: {
         'user-agent': 'Mozilla/5.0 (compatible; MyCarCenterSite/1.0; +https://mycarcenter.netlify.app/)',
         'accept-language': 'ja,en;q=0.8'
       }
-    });
+    }, SHOP_FETCH_TIMEOUT_MS);
     if (!response.ok) throw new Error(`goo-net responded ${response.status}`);
 
     const buffer = await response.arrayBuffer();
     const html = decodeHtml(buffer, response.headers.get('content-type') || '');
-    const cars = await enrichCars(parseStock(html));
+    const cars = await enrichCars(parseStock(html, MAX_VISIBLE_CARS));
+    const body = JSON.stringify({
+      ok: cars.length > 0,
+      source: SHOP_URL,
+      updatedAt: new Date().toISOString(),
+      cars
+    });
+    memoryCache = {
+      body,
+      expiresAt: Date.now() + MEMORY_CACHE_TTL_MS
+    };
 
     return {
       statusCode: 200,
-      headers,
-      body: JSON.stringify({
-        ok: cars.length > 0,
-        source: SHOP_URL,
-        updatedAt: new Date().toISOString(),
-        cars
-      })
+      headers: { ...headers, 'x-mcc-cache': 'fresh' },
+      body
     };
   } catch (error) {
+    if (memoryCache) {
+      return {
+        statusCode: 200,
+        headers: { ...headers, 'x-mcc-cache': 'stale' },
+        body: memoryCache.body
+      };
+    }
     return {
       statusCode: 200,
       headers,

@@ -49,9 +49,10 @@
         <li><a href="../">TOP</a></li>
         <li><a href="../#service">サービス</a></li>
         <li><a href="./" aria-current="page">車を買う</a></li>
+        <li><a href="../column/">お役立ち情報</a></li>
+        <li><a href="../#faq">よくある質問</a></li>
         <li><a href="../#flow">作業の流れ</a></li>
         <li><a href="../#works">施工事例</a></li>
-        <li><a href="../column/">お役立ち情報</a></li>
         <li><a href="../recruit">採用情報</a></li>
         <li><a href="../#company">会社案内</a></li>
       </ul>
@@ -64,10 +65,12 @@
       <li><a href="../">TOP</a></li>
       <li><a href="../#service">サービス</a></li>
       <li><a href="./" aria-current="page">車を買う</a></li>
+      <li><a href="../column/">お役立ち情報</a></li>
+      <li><a href="../#faq">よくある質問</a></li>
       <li><a href="../#flow">作業の流れ</a></li>
       <li><a href="../#works">施工事例</a></li>
-      <li><a href="../column/">お役立ち情報</a></li>
       <li><a href="../recruit">採用情報</a></li>
+      <li><a href="../#company">会社案内</a></li>
       <li><a href="tel:0849761000">お問い合わせ</a></li>
     </ul>
   </nav>
@@ -146,9 +149,10 @@
       <ul>
         <li><a href="../#service">- サービス</a></li>
         <li><a href="./">- 車を買う</a></li>
+        <li><a href="../column/">- お役立ち情報</a></li>
+        <li><a href="../#faq">- よくある質問</a></li>
         <li><a href="../#flow">- 作業の流れ</a></li>
         <li><a href="../#works">- 施工事例</a></li>
-        <li><a href="../column/">- お役立ち情報</a></li>
         <li><a href="../recruit">- 採用情報</a></li>
         <li><a href="../#company">- 会社案内</a></li>
       </ul>
@@ -209,7 +213,7 @@
 
     const timeoutId = setTimeout(() => renderCars(fallbackItems, true), 8000);
 
-    fetch(`/.netlify/functions/inventory-feed?ts=${Date.now()}`, { cache: 'no-store' })
+    fetch('/.netlify/functions/inventory-feed')
       .then((res) => res.json())
       .then((data) => {
         clearTimeout(timeoutId);
