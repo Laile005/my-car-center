@@ -254,17 +254,38 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: .5rem;
   font-weight: 600;
   font-size: 1rem;
+  color: #0f3f73;
+  background: rgba(255,255,255,.82);
+  border: 1px solid rgba(96,165,250,.32);
+  border-radius: 999px;
+  padding: .72rem 1.18rem;
   text-decoration: none;
-  transition: color 0.3s;
+  box-shadow: 0 10px 24px rgba(15,23,42,.08);
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, color .18s ease;
 }
 .link-with-arrow .arrow {
-  margin-left: 0.5rem;
+  display: inline-grid;
+  place-items: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(96,165,250,.95), rgba(34,211,238,.95));
+  color: #fff;
+  font-size: 1.05rem;
+  line-height: 1;
   transition: transform 0.3s ease, color 0.3s;
 }
+.link-with-arrow:hover {
+  color: #0b2f55;
+  border-color: rgba(96,165,250,.58);
+  box-shadow: 0 14px 30px rgba(15,23,42,.12);
+  transform: translateY(-1px);
+}
 .link-with-arrow:hover .arrow {
-  transform: translateX(4px);
+  transform: translateX(3px);
 }
 
 /* どの画面でも：<wbr>を優先し、オーバーフローしそうな時だけ追加の改行を許可 */
