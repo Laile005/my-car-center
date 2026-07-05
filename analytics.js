@@ -119,7 +119,9 @@
         var kicker = candidate.querySelector('.svc-kicker');
         return kicker && kicker.textContent.trim() === item.label;
       });
-      if (!row || row.querySelector('a[href="' + item.href + '"]')) return;
+      if (!row || Array.from(row.querySelectorAll('a[href]')).some(function (link) {
+        return new URL(link.getAttribute('href'), location.origin).pathname === item.href;
+      })) return;
       var body = row.querySelector('.svc-body');
       if (!body) return;
       var p = document.createElement('p');
@@ -137,7 +139,9 @@
         var heading = candidate.querySelector('h3');
         return heading && heading.textContent.trim() === item.title;
       });
-      if (!card || card.querySelector('a[href="' + item.href + '"]')) return;
+      if (!card || Array.from(card.querySelectorAll('a[href]')).some(function (link) {
+        return new URL(link.getAttribute('href'), location.origin).pathname === item.href;
+      })) return;
       var p = document.createElement('p');
       p.innerHTML = '<a class="recruit-cta" href="' + item.href + '">' + item.text + '</a>';
       card.appendChild(p);
