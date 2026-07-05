@@ -1074,24 +1074,39 @@ img {
 
 .article__body h2{
   font-size: clamp(1.3rem, 2.4vw, 1.75rem);
-  margin: 2rem 0 .8rem;
+  margin: 2.8rem 0 1rem;
+}
+
+.article__body h2:first-child{
+  margin-top: 0;
 }
 
 .article__body p,
 .article__body li{
   color: #334155;
+  line-height: 1.9;
 }
 
 .article__body ul,
 .article__body ol{
   padding-left: 1.3rem;
+  margin: .7rem 0 1.4rem;
+}
+
+.article__body p:has(.recruit-cta){
+  margin-top: 1.45rem;
+}
+
+.article__body ul + p:has(.recruit-cta),
+.article__body ol + p:has(.recruit-cta){
+  margin-top: 1.6rem;
 }
 
 .article__note{
   border-left: 4px solid var(--sky);
   background: var(--wash);
   padding: 1rem;
-  margin: 1.5rem 0;
+  margin: 2rem 0;
 }
 
 .breadcrumb{
@@ -1197,6 +1212,7 @@ img {
 .recruit-cta{
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: .45rem;
   padding: .65rem 1.15rem;
   border-radius: 999px;
