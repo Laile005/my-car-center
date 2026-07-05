@@ -975,8 +975,27 @@ img {
   text-align: center;
 }
 
+.stock-card--fallback .stock-card__body{
+  min-height: 0;
+  gap: .85rem;
+}
+
+.stock-card--fallback .stock-card__body h3{
+  min-height: 0;
+  margin: 0;
+}
+
+.stock-card--fallback .stock-card__meta{
+  margin: 0;
+}
+
+.stock-card--fallback .stock-card__link{
+  margin-top: .25rem;
+  padding-top: 0;
+}
+
 @media (min-width: 901px){
-  .stock-card__body h3{
+  .stock-card:not(.stock-card--fallback) .stock-card__body h3{
     min-height: calc(1.65em * 4);
   }
 }
