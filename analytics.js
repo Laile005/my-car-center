@@ -148,9 +148,23 @@
     });
   }
 
+  function initRecruitColumnCards() {
+    var section = document.getElementById('recruit-column');
+    if (!section) return;
+    var grid = section.querySelector('.rg-cards');
+    if (!grid) return;
+    grid.innerHTML = [
+      '<article class="rg-card"><p class="column-card__date">2026.07.05</p><h4 class="rg-card__title"><a href="/recruit-column/salary-vs-work-life/">整備士求人は年収だけで選んでいい？</a></h4><p class="rg-card__text">給与だけでは見えにくい、残業・休日・有給・働き方の見方を整理します。</p></article>',
+      '<article class="rg-card"><p class="column-card__date">2026.06.29</p><h4 class="rg-card__title"><a href="/recruit-column/inexperienced-mechanic/">未経験から自動車整備士を目指せる？</a></h4><p class="rg-card__text">最初の仕事、資格取得支援、職場選びで確認したいポイントを紹介します。</p></article>',
+      '<article class="rg-card"><p class="column-card__date">2026.06.22</p><h4 class="rg-card__title"><a href="/recruit-column/large-company-vs-local-shop/">大手整備工場と町の整備工場、働き方の違い</a></h4><p class="rg-card__text">年収、残業、休日、裁量、身につく技術の違いを整理します。</p></article>',
+      '<article class="rg-card"><p class="column-card__date">2026.06.12</p><h4 class="rg-card__title"><a href="/recruit-column/work-life/">整備士として無理なく働く職場選び</a></h4><p class="rg-card__text">休日・残業・資格取得支援など、長く働ける職場を見極める観点です。</p></article>'
+    ].join('');
+  }
+
   initCtaLinkPresentation();
   initHomeColumnFocus();
   initHomeServiceLinks();
+  initRecruitColumnCards();
 
   loadScriptOnce('/analytics-config.js', 'mcc-analytics-config')
     .catch(function () {})
