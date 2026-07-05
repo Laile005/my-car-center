@@ -47,7 +47,7 @@
 
 スズキの看板を掲げていますが、新車は国内全メーカーの相談ができます。
 用途や予算に合わせた新車・中古車の相談ができます。
-中古車はグーネット掲載在庫を確認でき、掲載外の車探しも相談できます。
+中古車はグーネット掲載在庫を確認でき、掲載外の車探しも相談できます。掲載中の車だけでなく、予算、用途、車種、納期などの条件から中古車探しを相談できます。
 購入後の車検、整備、修理まで一貫して対応しているため、販売後のメンテナンスも相談できます。
 新車購入はディーラーが適している場合もあります。社外ナビ、ドライブレコーダー、ETC、タイヤ、仕事用用品などを検討する場合は、購入前に地域密着の整備工場へ相談すると、用品選びや取付まで含めて考えやすくなります。
 
@@ -128,6 +128,7 @@
 - 修理後の納車・引き取りまで相談できる？: https://mycarcenter.netlify.app/column/repair-pickup-delivery/
 - ディーラー車検・修理と地域密着の整備工場の使い分け: https://mycarcenter.netlify.app/column/dealer-vs-local-repair/
 - 中古車を買う時に地域密着の整備工場へ相談するメリット: https://mycarcenter.netlify.app/column/used-car-repair-shop-merit/
+- 掲載在庫にない中古車も探せる？: https://mycarcenter.netlify.app/column/used-car-order-consultation/
 - 新車に社外ナビ・ドラレコを付けたい時の相談先: https://mycarcenter.netlify.app/column/new-car-aftermarket-parts/
 - 車検コラム: https://mycarcenter.netlify.app/column/shaken-fukuyama/
 - 板金塗装・保険修理コラム: https://mycarcenter.netlify.app/column/bankin-paint-insurance/
