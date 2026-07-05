@@ -342,6 +342,8 @@ function enhanceArticleTags() {
     '/column/bankin-direct-repair-shop/': ['板金塗装', 'キズ・へこみ'],
     '/column/bumper-repair-or-replace/': ['板金塗装', '修理判断'],
     '/column/insurance-repair-loaner-delivery/': ['保険修理', '代車'],
+    '/column/insurance-repair-ja-kyosai/': ['保険相談', 'JA共済'],
+    '/column/repair-pickup-loaner-support/': ['修理相談', '代車'],
     '/column/used-car-order-consultation/': ['中古車相談', '注文販売'],
     '/column/used-car-order-budget/': ['中古車相談', '条件相談'],
     '/column/shaken-fukuyama/': ['車検', '整備'],
@@ -362,6 +364,7 @@ function enhanceArticleTags() {
     '/recruit-column/inexperienced-mechanic/': ['未経験', '資格取得支援'],
     '/recruit-column/large-company-vs-local-shop/': ['職場選び', '働き方比較'],
     '/recruit-column/bankin-paint-inexperienced/': ['板金塗装求人', '未経験'],
+    '/recruit-column/bankin-paint-workplace-equipment/': ['板金塗装求人', '設備'],
     '/recruit-column/work-life/': ['働き方', '整備士求人']
   };
 
