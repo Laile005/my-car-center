@@ -327,7 +327,7 @@ function enhanceRecruitColumns() {
       <h3 class="rg-sec__title">求職者向け情報</h3>
       <div class="rg-cards rg-cards--2">
         <article class="rg-card"><p class="column-card__date">2026.06.12</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">働き方</span><span class="tag-pill tag-pill--subtle">整備士求人</span></div><h4 class="rg-card__title"><a href="/recruit-column/work-life/">整備士として無理なく働く職場選び</a></h4><p class="rg-card__text">休日・残業・資格取得支援など、長く働ける職場を見極める観点を紹介します。</p></article>
-        <article class="rg-card"><p class="column-card__date">見学歓迎</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">応募前相談</span><span class="tag-pill tag-pill--subtle">職場見学</span></div><h4 class="rg-card__title"><a href="#entry">まずは話を聞くだけでもOK</a></h4><p class="rg-card__text">応募前の見学や仕事内容の確認も歓迎しています。フォームまたはお電話でご相談ください。</p></article>
+        <article class="rg-card"><p class="column-card__date">見学歓迎</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">応募前相談</span><span class="tag-pill tag-pill--subtle">職場見学</span></div><h4 class="rg-card__title"><a href="tel:0849761000">まずは電話で問い合わせる</a></h4><p class="rg-card__text">応募前の見学や仕事内容の確認も歓迎しています。まずはお電話でご相談ください。</p></article>
       </div>
     </div>`;
   requirements.before(section);

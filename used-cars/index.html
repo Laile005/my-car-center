@@ -82,7 +82,7 @@
       <p class="breadcrumb"><a href="../">ホーム</a> / 中古車探し・新車購入相談</p>
       <h1 class="column-hero__title">条件に合う中古車探しも相談できます</h1>
       <p class="column-hero__lead">グーネット掲載在庫だけでなく、業者専用オークション等も活用し、予算・用途・納期に合う車を一緒に探します。仕入れ後の点検・整備・板金塗装まで同じ窓口で相談できます。</p>
-      <p><a class="recruit-cta" href="tel:0849761000">中古車探しを電話で相談する</a></p>
+      <p><a class="recruit-cta" href="tel:0849761000">電話で問い合わせる</a></p>
     </div>
   </section>
 
@@ -95,7 +95,7 @@
           <p>「この車種が欲しい」「予算内で探したい」「家族で使いやすい車がいい」など、掲載中の在庫に限らずご相談ください。業者専用オークション等から仕入れ、状態を確認し、必要に応じて整備や板金塗装まで見てからご提案できます。</p>
           <p>仕入れ・整備・修理・販売を同じ窓口で見られるため、購入前の不安や購入後のメンテナンスまでまとめて相談しやすいのが特徴です。</p>
         </div>
-        <p><a class="recruit-cta" href="tel:0849761000">条件から中古車を相談する</a></p>
+        <p><a class="recruit-cta" href="tel:0849761000">電話で問い合わせる</a></p>
       </article>
     </div>
   </section>
@@ -139,7 +139,7 @@
       <article class="guide-card">
         <h2>新車を相談する</h2>
         <p>スズキの看板を掲げていますが、国内全メーカーの新車をご相談いただけます。軽自動車、コンパクトカー、ミニバン、商用車まで使い方に合わせてご提案します。</p>
-        <p><a class="recruit-cta" href="tel:0849761000">電話で相談する</a></p>
+        <p><a class="recruit-cta" href="tel:0849761000">電話で問い合わせる</a></p>
       </article>
     </div>
   </section>
@@ -275,7 +275,7 @@
             <h3>${escapeHtml(car.title)}</h3>
             <p class="stock-card__meta">${escapeHtml(formatMeta(car))}</p>
             ${car.price ? `<p class="stock-card__price">${escapeHtml(car.price)}</p>` : ''}
-            <a class="stock-card__link" href="${escapeHtml(car.url || gooStockUrl)}" ${String(car.url || '').startsWith('tel:') ? '' : 'target="_blank" rel="noopener"'}>${String(car.url || '').startsWith('tel:') ? '電話で相談する' : '詳細をグーネットで見る'}</a>
+            <a class="stock-card__link" href="${escapeHtml(car.url || gooStockUrl)}" ${String(car.url || '').startsWith('tel:') ? '' : 'target="_blank" rel="noopener"'}>${String(car.url || '').startsWith('tel:') ? '電話で問い合わせる' : '詳細をグーネットで見る'}</a>
           </div>
         </article>
       `).join('');

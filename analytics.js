@@ -147,7 +147,7 @@
 
     var salesLinks = [
       { title: '新車相談', href: '/new-cars/', text: '新車相談を見る' },
-      { title: '中古車在庫', href: '/used-cars/', text: '中古車相談を見る' },
+      { title: '中古車在庫', href: '/used-cars/', text: '中古車情報を見る' },
       { title: '購入後も安心', href: '/maintenance/', text: 'メンテナンスを見る' }
     ];
     salesLinks.forEach(function (item) {
