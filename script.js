@@ -305,9 +305,9 @@ function enhanceHomeSalesAndColumns() {
     if (subtitle) subtitle.textContent = '車検・修理・保険・購入相談のことを、地域のお客様に向けてわかりやすく発信します。';
     if (grid) {
       grid.innerHTML = `
-        <article class="column-card"><p class="column-card__date">2026.07.04</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">板金塗装</span><span class="tag-pill tag-pill--subtle">修理判断</span></div><h3><a href="/column/bumper-repair-or-replace/">バンパーの擦りキズは修理と交換どちらがいい？</a></h3><p>キズの深さ、へこみ、割れ、取付部分の状態から、修理か交換かを判断するポイントを解説します。</p></article>
-        <article class="column-card"><p class="column-card__date">2026.06.23</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">保険修理</span><span class="tag-pill tag-pill--subtle">事故修理</span></div><h3><a href="/column/insurance-repair-customer-flow/">保険修理でお客様がやること・工場が手伝えること</a></h3><p>保険会社との確認、修理内容、代車、納車までの役割分担を整理しました。</p></article>
-        <article class="column-card"><p class="column-card__date">2026.06.08</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">中古車相談</span><span class="tag-pill tag-pill--subtle">条件相談</span></div><h3><a href="/column/used-car-order-budget/">予算内で中古車を探すなら掲載在庫だけで決めない方がいい？</a></h3><p>予算、用途、納期から中古車探しを相談するメリットを整理しました。</p></article>
+        <article class="column-card"><p class="column-card__date">最終更新 2026.07.04</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">板金塗装</span><span class="tag-pill tag-pill--subtle">修理判断</span></div><h3><a href="/column/bumper-repair-or-replace/">バンパーの擦りキズは修理と交換どちらがいい？</a></h3><p>キズの深さ、へこみ、割れ、取付部分の状態から、修理か交換かを判断するポイントを解説します。</p></article>
+        <article class="column-card"><p class="column-card__date">最終更新 2026.06.23</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">保険修理</span><span class="tag-pill tag-pill--subtle">事故修理</span></div><h3><a href="/column/insurance-repair-customer-flow/">保険修理でお客様がやること・工場が手伝えること</a></h3><p>保険会社との確認、修理内容、代車、納車までの役割分担を整理しました。</p></article>
+        <article class="column-card"><p class="column-card__date">最終更新 2026.06.08</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">中古車相談</span><span class="tag-pill tag-pill--subtle">条件相談</span></div><h3><a href="/column/used-car-order-budget/">予算内で中古車を探すなら掲載在庫だけで決めない方がいい？</a></h3><p>予算、用途、納期から中古車探しを相談するメリットを整理しました。</p></article>
       `;
     }
     const listLink = column.querySelector('.section-link a');
@@ -326,7 +326,7 @@ function enhanceRecruitColumns() {
       <h2 class="rg-sec__eyebrow">CAREER GUIDE</h2>
       <h3 class="rg-sec__title">求職者向け情報</h3>
       <div class="rg-cards rg-cards--2">
-        <article class="rg-card"><p class="column-card__date">2026.06.12</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">働き方</span><span class="tag-pill tag-pill--subtle">整備士求人</span></div><h4 class="rg-card__title"><a href="/recruit-column/work-life/">整備士として無理なく働く職場選び</a></h4><p class="rg-card__text">休日・残業・資格取得支援など、長く働ける職場を見極める観点を紹介します。</p></article>
+        <article class="rg-card"><p class="column-card__date">最終更新 2026.06.12</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">働き方</span><span class="tag-pill tag-pill--subtle">整備士求人</span></div><h4 class="rg-card__title"><a href="/recruit-column/work-life/">整備士として無理なく働く職場選び</a></h4><p class="rg-card__text">休日・残業・資格取得支援など、長く働ける職場を見極める観点を紹介します。</p></article>
         <article class="rg-card"><p class="column-card__date">見学歓迎</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">応募前相談</span><span class="tag-pill tag-pill--subtle">職場見学</span></div><h4 class="rg-card__title"><a href="tel:0849761000">まずは電話で問い合わせる</a></h4><p class="rg-card__text">応募前の見学や仕事内容の確認も歓迎しています。まずはお電話でご相談ください。</p></article>
       </div>
     </div>`;
