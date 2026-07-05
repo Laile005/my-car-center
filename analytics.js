@@ -12,19 +12,6 @@
     });
   }
 
-  function initCtaLinkPresentation() {
-    if (document.getElementById('mcc-cta-link-styles')) return;
-    var style = document.createElement('style');
-    style.id = 'mcc-cta-link-styles';
-    style.textContent = [
-      '.link-with-arrow{gap:.5rem;color:#0f3f73;background:rgba(255,255,255,.86);border:1px solid rgba(96,165,250,.34);border-radius:999px;padding:.72rem 1.18rem;box-shadow:0 10px 24px rgba(15,23,42,.08);transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,color .18s ease}',
-      '.link-with-arrow .arrow{display:inline-grid;place-items:center;width:1.35rem;height:1.35rem;margin-left:0;border-radius:999px;background:linear-gradient(135deg,rgba(96,165,250,.95),rgba(34,211,238,.95));color:#fff;font-size:1.05rem;line-height:1;transition:transform .3s ease,color .3s}',
-      '.link-with-arrow:hover{color:#0b2f55;border-color:rgba(96,165,250,.58);box-shadow:0 14px 30px rgba(15,23,42,.12);transform:translateY(-1px)}',
-      '.link-with-arrow:hover .arrow{transform:translateX(3px)}'
-    ].join('\n');
-    document.head.appendChild(style);
-  }
-
   function sendEvent(name, params) {
     var payload = Object.assign({
       page_path: location.pathname,
@@ -88,7 +75,38 @@
     onScroll();
   }
 
+  function initCtaLinkPresentation() {
+    var style = document.createElement('style');
+    style.textContent = [
+      '.link-with-arrow{display:inline-flex;align-items:center;gap:.55rem;padding:.85rem 1.15rem;border-radius:999px;background:linear-gradient(135deg,#4aa3ff,#22c6d8);color:#fff!important;font-weight:700;text-decoration:none;box-shadow:0 12px 28px rgba(34,120,210,.22);transition:transform .18s ease,box-shadow .18s ease}',
+      '.link-with-arrow .arrow{display:inline-grid;place-items:center;width:1.35em;height:1.35em;border-radius:999px;background:rgba(255,255,255,.22);line-height:1;font-size:1.1em}',
+      '.link-with-arrow:hover{transform:translateY(-1px);box-shadow:0 16px 34px rgba(34,120,210,.28)}'
+    ].join('');
+    document.head.appendChild(style);
+  }
+
+  function initHomeColumnFocus() {
+    var column = document.getElementById('column');
+    if (!column || !document.getElementById('hero')) return;
+    var title = column.querySelector('.section-title');
+    var subtitle = column.querySelector('.section-subtitle');
+    var grid = column.querySelector('.column-card-grid');
+
+    if (title) title.textContent = '板金塗装・修理のお役立ち情報';
+    if (subtitle) {
+      subtitle.textContent = 'キズ・へこみ修理、保険修理、車検、購入後の相談を、町の修理工場目線でわかりやすく発信します。';
+    }
+    if (grid) {
+      grid.innerHTML = [
+        '<article class="column-card"><p class="column-card__date">2026.07.05</p><h3><a href="/column/bankin-direct-repair-shop/">車のキズ・へこみ修理はどこに頼む？</a></h3><p>町の板金塗装工場に直接相談するメリットと、見積りで確認したいポイントを解説します。</p></article>',
+        '<article class="column-card"><p class="column-card__date">2026.07.01</p><h3><a href="/column/dealer-vs-local-repair/">ディーラー車検・修理と町の整備工場の使い分け</a></h3><p>ディーラーの良さを活かしつつ、日常整備や板金修理を町の工場へ相談する考え方です。</p></article>',
+        '<article class="column-card"><p class="column-card__date">2026.06.26</p><h3><a href="/column/used-car-repair-shop-merit/">中古車を買う時に町の修理工場へ相談するメリット</a></h3><p>仕入れ、整備、板金塗装、購入後の車検まで同じ窓口で相談できる安心感を整理しました。</p></article>'
+      ].join('');
+    }
+  }
+
   initCtaLinkPresentation();
+  initHomeColumnFocus();
 
   loadScriptOnce('/analytics-config.js', 'mcc-analytics-config')
     .catch(function () {})
