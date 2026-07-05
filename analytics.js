@@ -12,6 +12,19 @@
     });
   }
 
+  function initCtaLinkPresentation() {
+    if (document.getElementById('mcc-cta-link-styles')) return;
+    var style = document.createElement('style');
+    style.id = 'mcc-cta-link-styles';
+    style.textContent = [
+      '.link-with-arrow{gap:.5rem;color:#0f3f73;background:rgba(255,255,255,.86);border:1px solid rgba(96,165,250,.34);border-radius:999px;padding:.72rem 1.18rem;box-shadow:0 10px 24px rgba(15,23,42,.08);transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,color .18s ease}',
+      '.link-with-arrow .arrow{display:inline-grid;place-items:center;width:1.35rem;height:1.35rem;margin-left:0;border-radius:999px;background:linear-gradient(135deg,rgba(96,165,250,.95),rgba(34,211,238,.95));color:#fff;font-size:1.05rem;line-height:1;transition:transform .3s ease,color .3s}',
+      '.link-with-arrow:hover{color:#0b2f55;border-color:rgba(96,165,250,.58);box-shadow:0 14px 30px rgba(15,23,42,.12);transform:translateY(-1px)}',
+      '.link-with-arrow:hover .arrow{transform:translateX(3px)}'
+    ].join('\n');
+    document.head.appendChild(style);
+  }
+
   function sendEvent(name, params) {
     var payload = Object.assign({
       page_path: location.pathname,
@@ -74,6 +87,8 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
   }
+
+  initCtaLinkPresentation();
 
   loadScriptOnce('/analytics-config.js', 'mcc-analytics-config')
     .catch(function () {})
