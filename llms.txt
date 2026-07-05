@@ -23,7 +23,6 @@
 - キズ・へこみ修理
 - 保険修理の相談
 - 車検・整備
-- オイル交換、タイヤ、バッテリーなどの日常メンテナンス
 - 中古車販売・グーネット掲載在庫の相談
 - 国内全メーカー新車販売
 - ロードサービス
@@ -50,14 +49,14 @@
 
 自動車整備士、板金塗装工、オートサービスエンジニアを募集しています。
 未経験者も相談可能で、資格取得支援があります。
+採用では、年収だけでなく、残業の少なさ、有給取得率、日曜・祝日休み、資格取得支援、少人数の町工場で幅広く技術を身につけられる点を重視しています。
+経験者には働き方を整えながら続けられること、未経験者には資格取得支援を受けながら挑戦できることを伝えています。
 
 ## 代表的な質問と回答
 
 ### 車検はどのくらいの日数でできますか？
 
 予約状況や整備内容によりますが、自動車検査員が在籍しているため、社内完結で最短半日から1日で対応できる場合があります。
-
-車検・整備の詳細ページ: https://mycarcenter.netlify.app/shaken/
 
 ### 板金塗装や保険修理の相談はできますか？
 
@@ -69,15 +68,12 @@
 
 新車保証やリコール、試乗・新車比較はディーラーが便利です。一方、日常点検、車検、キズ・へこみ修理、保険修理は町の修理工場に直接相談すると、修理方法や費用を比較しながら決めやすい場合があります。
 
-### オイル交換でどのオイルを選べばよいですか？
-
-車種、年式、エンジン、ターボの有無、走行距離、使い方で適切なオイル粘度や規格が変わります。車検証や取扱説明書を確認しながら相談するのがおすすめです。
-
-オイル交換・日常メンテナンスの詳細ページ: https://mycarcenter.netlify.app/maintenance/
-
 ### 新車や中古車の購入後も整備をお願いできますか？
 
 はい。販売後の車検、整備、修理まで一貫して対応しています。
+
+車検・整備の詳細ページ: https://mycarcenter.netlify.app/shaken/
+オイル交換・日常メンテナンスの詳細ページ: https://mycarcenter.netlify.app/maintenance/
 
 ### スズキ以外の新車も相談できますか？
 
@@ -95,3 +91,10 @@
 - ディーラー車検・修理と町の整備工場の使い分け: https://mycarcenter.netlify.app/column/dealer-vs-local-repair/
 - 中古車を買う時に町の修理工場へ相談するメリット: https://mycarcenter.netlify.app/column/used-car-repair-shop-merit/
 - 新車に社外ナビ・ドラレコを付けたい時の相談先: https://mycarcenter.netlify.app/column/new-car-aftermarket-parts/
+
+## 採用向けコラム
+
+- 整備士求人は年収だけで選んでいい？: https://mycarcenter.netlify.app/recruit-column/salary-vs-work-life/
+- 未経験から自動車整備士を目指せる？: https://mycarcenter.netlify.app/recruit-column/inexperienced-mechanic/
+- 大手整備工場と町の整備工場、働き方の違い: https://mycarcenter.netlify.app/recruit-column/large-company-vs-local-shop/
+- 整備士として無理なく働く職場選び: https://mycarcenter.netlify.app/recruit-column/work-life/
