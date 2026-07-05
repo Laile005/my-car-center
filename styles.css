@@ -1188,6 +1188,13 @@ img {
   margin-top: 0;
 }
 
+.article__body h3{
+  font-size: 1.08rem;
+  margin: 1.35rem 0 .45rem;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
 .article__body p,
 .article__body li{
   color: #334155;
