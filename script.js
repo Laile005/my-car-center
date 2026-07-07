@@ -210,16 +210,16 @@ function initDesktopPhonePrompt() {
       <p class="phone-modal__eyebrow">お電話でご相談ください</p>
       <h2 id="phone-modal-title">山本マイカーセンター株式会社</h2>
       <p class="phone-modal__number"><a href="tel:${plainNumber}">${number}</a></p>
-      <p class="phone-modal__note">PCからご覧の場合は、上の番号をお手元の電話でおかけください。中古車探し、板金塗装、車検・整備の相談を承ります。</p>
+      <p class="phone-modal__hours">営業時間 8:30-17:30 / 日曜・祝日定休</p>
+      <p class="phone-modal__note">中古車探し、板金塗装、車検・整備の相談を承ります。PCからご覧の場合は、お手元の電話で上の番号へおかけください。</p>
       <div class="phone-modal__actions">
-        <button class="phone-modal__copy" type="button">番号をコピー</button>
-        <a class="phone-modal__tel" href="tel:${plainNumber}">電話アプリで開く</a>
+        <button class="phone-modal__dismiss" type="button">閉じる</button>
       </div>
     </div>`;
   document.body.appendChild(modal);
 
   const closeBtn = modal.querySelector('.phone-modal__close');
-  const copyBtn = modal.querySelector('.phone-modal__copy');
+  const dismissBtn = modal.querySelector('.phone-modal__dismiss');
   const show = () => {
     modal.classList.add('show');
     document.body.classList.add('no-scroll');
@@ -246,16 +246,7 @@ function initDesktopPhonePrompt() {
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && modal.classList.contains('show')) hide();
   });
-  copyBtn?.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(number);
-      copyBtn.textContent = 'コピーしました';
-      trackMarketingEvent('phone_number_copy');
-      setTimeout(() => { copyBtn.textContent = '番号をコピー'; }, 1800);
-    } catch (_) {
-      copyBtn.textContent = number;
-    }
-  });
+  dismissBtn?.addEventListener('click', hide);
 }
 
 function initClickableCards() {
