@@ -110,9 +110,14 @@
 - キズ・へこみ修理の費用が車によって変わる理由: https://mycarcenter.netlify.app/column/bankin-price-varies/
 - 修理後の納車・引き取りまで相談できる？: https://mycarcenter.netlify.app/column/repair-pickup-delivery/
 - ディーラー車検・修理と地域密着の整備工場の使い分け: https://mycarcenter.netlify.app/column/dealer-vs-local-repair/
+- 修復歴ありの中古車は大丈夫？: https://mycarcenter.netlify.app/column/repaired-history-used-car/
+- 修理前の写真がある中古車は安心？: https://mycarcenter.netlify.app/column/used-car-before-repair-photo/
+- 中古車は販売店と整備工場、どちらに相談すると安心？: https://mycarcenter.netlify.app/column/used-car-repair-shop-choice/
 - 中古車を買う時に地域密着の整備工場へ相談するメリット: https://mycarcenter.netlify.app/column/used-car-repair-shop-merit/
 - 掲載在庫にない中古車も探せる？: https://mycarcenter.netlify.app/column/used-car-order-consultation/
 - 新車に社外ナビ・ドラレコを付けたい時の相談先: https://mycarcenter.netlify.app/column/new-car-aftermarket-parts/
+- オイル交換は車種や年式で変わる？: https://mycarcenter.netlify.app/column/oil-grade-car-model/
+- タイヤ・バッテリー交換の目安は？: https://mycarcenter.netlify.app/column/tire-battery-maintenance-signs/
 
 ## 採用向けコラム
 

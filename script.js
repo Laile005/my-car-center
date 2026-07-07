@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCompanyYears();
   initAgeSelect();
   initSiteEnhancements();
+  initDesktopPhonePrompt();
   initMarketingAnalytics();
   initEntryFormFeedback();
   setupConsentGate();
@@ -185,6 +186,77 @@ function trackMarketingEvent(name, params = {}) {
   }
 }
 
+function initDesktopPhonePrompt() {
+  const phoneLinks = Array.from(document.querySelectorAll('a[href^="tel:"]'));
+  if (!phoneLinks.length) return;
+
+  const canCallDirectly = () => {
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    const narrowScreen = window.matchMedia('(max-width: 760px)').matches;
+    return coarsePointer || narrowScreen;
+  };
+
+  const number = '084-976-1000';
+  const plainNumber = '0849761000';
+  const modal = document.createElement('div');
+  modal.className = 'phone-modal';
+  modal.setAttribute('role', 'dialog');
+  modal.setAttribute('aria-modal', 'true');
+  modal.setAttribute('aria-labelledby', 'phone-modal-title');
+  modal.innerHTML = `
+    <div class="phone-modal__panel">
+      <button class="phone-modal__close" type="button" aria-label="閉じる">&times;</button>
+      <p class="phone-modal__eyebrow">お電話でご相談ください</p>
+      <h2 id="phone-modal-title">山本マイカーセンター株式会社</h2>
+      <p class="phone-modal__number"><a href="tel:${plainNumber}">${number}</a></p>
+      <p class="phone-modal__note">PCからご覧の場合は、上の番号をお手元の電話でおかけください。中古車探し、板金塗装、車検・整備の相談を承ります。</p>
+      <div class="phone-modal__actions">
+        <button class="phone-modal__copy" type="button">番号をコピー</button>
+        <a class="phone-modal__tel" href="tel:${plainNumber}">電話アプリで開く</a>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+
+  const closeBtn = modal.querySelector('.phone-modal__close');
+  const copyBtn = modal.querySelector('.phone-modal__copy');
+  const show = () => {
+    modal.classList.add('show');
+    document.body.classList.add('no-scroll');
+    closeBtn?.focus();
+  };
+  const hide = () => {
+    modal.classList.remove('show');
+    document.body.classList.remove('no-scroll');
+  };
+
+  phoneLinks.forEach((link) => {
+    link.addEventListener('click', (event) => {
+      if (canCallDirectly()) return;
+      event.preventDefault();
+      trackMarketingEvent('phone_prompt_open', { link_text: link.textContent.trim() });
+      show();
+    });
+  });
+
+  closeBtn?.addEventListener('click', hide);
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) hide();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && modal.classList.contains('show')) hide();
+  });
+  copyBtn?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(number);
+      copyBtn.textContent = 'コピーしました';
+      trackMarketingEvent('phone_number_copy');
+      setTimeout(() => { copyBtn.textContent = '番号をコピー'; }, 1800);
+    } catch (_) {
+      copyBtn.textContent = number;
+    }
+  });
+}
+
 function addGlobalSalesStyles() {
   if (document.getElementById('codex-sales-styles')) return;
   const style = document.createElement('style');
@@ -199,6 +271,11 @@ function addGlobalSalesStyles() {
     .guide-card p:has(.recruit-cta){text-align:center;margin-top:auto;padding-top:var(--flow-lg,1.65rem)}
     .guide-card .recruit-cta{align-self:center;justify-content:center;color:#0f3f73;background:#fff;border:1px solid rgba(96,165,250,.45);box-shadow:0 8px 20px rgba(15,23,42,.07)}
     .guide-card .recruit-cta::after{color:#fff;background:linear-gradient(135deg,var(--sky),var(--mint));border-radius:999px;display:inline-grid;place-items:center;width:1.35rem;height:1.35rem;font-size:1.05rem}
+    .column-card-grid--editorial .column-card:first-child{grid-column:span 2;background:linear-gradient(135deg,rgba(239,248,255,.98),rgba(255,255,255,1));border-color:rgba(96,165,250,.5)}
+    .column-card-grid--editorial .column-card:first-child h2{font-size:clamp(1.35rem,2.4vw,1.75rem)}
+    .column-card{position:relative;overflow:hidden}
+    .column-card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--sky),var(--mint));opacity:.78}
+    @media (max-width:900px){.column-card-grid--editorial .column-card:first-child{grid-column:auto}}
     .guide-card--accent{border-color:rgba(96,165,250,.48);background:linear-gradient(180deg,rgba(239,248,255,.92),rgba(255,255,255,1));box-shadow:0 14px 32px rgba(37,99,235,.09)}
     .stock-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;align-items:stretch}
     .stock-card{border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;height:100%}
@@ -310,9 +387,9 @@ function enhanceHomeSalesAndColumns() {
     if (subtitle) subtitle.textContent = '車検・修理・保険・購入相談のことを、地域のお客様に向けてわかりやすく発信します。';
     if (grid) {
       grid.innerHTML = `
-        <article class="column-card"><p class="column-card__date">最終更新 2026.07.04</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">板金塗装</span><span class="tag-pill tag-pill--subtle">修理判断</span></div><h3><a href="/column/bumper-repair-or-replace/">バンパーの擦りキズは修理と交換どちらがいい？</a></h3><p>キズの深さ、へこみ、割れ、取付部分の状態から、修理か交換かを判断するポイントを解説します。</p></article>
+        <article class="column-card"><p class="column-card__date">最終更新 2026.07.07</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">中古車相談</span><span class="tag-pill tag-pill--subtle">修復歴</span></div><h3><a href="/column/repaired-history-used-car/">修復歴ありの中古車は大丈夫？</a></h3><p>安さだけで選ばず、骨格部位・修理内容・販売後の整備まで確認する考え方を整理しました。</p></article>
         <article class="column-card"><p class="column-card__date">最終更新 2026.06.23</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">保険修理</span><span class="tag-pill tag-pill--subtle">事故修理</span></div><h3><a href="/column/insurance-repair-customer-flow/">保険修理でお客様がやること・工場が手伝えること</a></h3><p>保険会社との確認、修理内容、代車、納車までの役割分担を整理しました。</p></article>
-        <article class="column-card"><p class="column-card__date">最終更新 2026.06.08</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">中古車相談</span><span class="tag-pill tag-pill--subtle">条件相談</span></div><h3><a href="/column/used-car-order-budget/">予算内で中古車を探すなら掲載在庫だけで決めない方がいい？</a></h3><p>予算、用途、納期から中古車探しを相談するメリットを整理しました。</p></article>
+        <article class="column-card"><p class="column-card__date">最終更新 2026.07.06</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">中古車相談</span><span class="tag-pill tag-pill--subtle">整備付き販売</span></div><h3><a href="/column/used-car-before-repair-photo/">修理前の写真がある中古車は安心？</a></h3><p>仕入れ時の状態、修理内容、納車前整備まで説明できる販売店に相談するメリットを整理しました。</p></article>
       `;
     }
     const listLink = column.querySelector('.section-link a');
@@ -351,6 +428,11 @@ function enhanceArticleTags() {
     '/column/repair-pickup-loaner-support/': ['修理相談', '代車'],
     '/column/used-car-order-consultation/': ['中古車相談', '注文販売'],
     '/column/used-car-order-budget/': ['中古車相談', '条件相談'],
+    '/column/repaired-history-used-car/': ['中古車相談', '修復歴'],
+    '/column/used-car-before-repair-photo/': ['中古車相談', '修理前写真'],
+    '/column/used-car-repair-shop-choice/': ['中古車相談', '整備付き販売'],
+    '/column/oil-grade-car-model/': ['メンテナンス', 'オイル選び'],
+    '/column/tire-battery-maintenance-signs/': ['メンテナンス', '消耗品'],
     '/column/shaken-fukuyama/': ['車検', '整備'],
     '/column/dealer-vs-local-repair/': ['車検', '修理相談'],
     '/column/used-car-repair-shop-merit/': ['中古車相談', '整備付き販売'],

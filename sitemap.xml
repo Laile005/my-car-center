@@ -10,11 +10,11 @@
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/used-cars/</loc>
-    <lastmod>2026-07-04</lastmod>
+    <lastmod>2026-07-07</lastmod>
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/column/</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-07</lastmod>
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/company-guide/</loc>
@@ -89,6 +89,18 @@
     <lastmod>2026-06-26</lastmod>
   </url>
   <url>
+    <loc>https://mycarcenter.netlify.app/column/repaired-history-used-car/</loc>
+    <lastmod>2026-07-07</lastmod>
+  </url>
+  <url>
+    <loc>https://mycarcenter.netlify.app/column/used-car-before-repair-photo/</loc>
+    <lastmod>2026-07-06</lastmod>
+  </url>
+  <url>
+    <loc>https://mycarcenter.netlify.app/column/used-car-repair-shop-choice/</loc>
+    <lastmod>2026-07-03</lastmod>
+  </url>
+  <url>
     <loc>https://mycarcenter.netlify.app/column/used-car-order-consultation/</loc>
     <lastmod>2026-06-19</lastmod>
   </url>
@@ -111,6 +123,14 @@
   <url>
     <loc>https://mycarcenter.netlify.app/column/maintenance-oil-tire/</loc>
     <lastmod>2026-05-30</lastmod>
+  </url>
+  <url>
+    <loc>https://mycarcenter.netlify.app/column/oil-grade-car-model/</loc>
+    <lastmod>2026-06-27</lastmod>
+  </url>
+  <url>
+    <loc>https://mycarcenter.netlify.app/column/tire-battery-maintenance-signs/</loc>
+    <lastmod>2026-06-16</lastmod>
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/column/accident-repair-first/</loc>
