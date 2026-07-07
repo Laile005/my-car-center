@@ -93,6 +93,7 @@
           <p class="guide-card__eyebrow">掲載在庫にない車こそ、まず相談してください</p>
           <h2>条件から仕入れて、必要な整備まで見て販売できます</h2>
           <p>「この車種が欲しい」「予算内で探したい」「家族で使いやすい車がいい」など、掲載中の在庫に限らずご相談ください。業者専用オークション等から仕入れ、状態を確認し、必要に応じて整備や板金塗装まで見てからご提案できます。</p>
+          <p>骨格に問題がない車を見極め、仕入れ時の状態や修理前の写真も確認しながら、自社で整備・板金塗装まで見て販売できるのが強みです。価格だけで不安にさせず、状態を説明しながら選べるようにします。</p>
           <p>仕入れ・整備・修理・販売を同じ窓口で見られるため、購入前の不安や購入後のメンテナンスまでまとめて相談しやすいのが特徴です。</p>
         </div>
         <p><a class="recruit-cta" href="tel:0849761000">電話で問い合わせる</a></p>
@@ -105,7 +106,7 @@
       <h2 class="section-title">中古車は、買った後まで見られる窓口が安心です</h2>
       <p class="section-subtitle">車両価格だけでなく、納車前の点検、キズ修理、購入後の車検まで考えると選びやすくなります。</p>
       <div class="guide-grid">
-        <article class="guide-card guide-card--accent"><h3>仕入れ後に状態を確認</h3><p>外装、走行距離、使い方、納車後に必要になりそうな整備まで確認し、予算内で無理のない車探しをサポートします。</p></article>
+        <article class="guide-card guide-card--accent"><h3>仕入れ後に状態を確認</h3><p>外装、走行距離、修理歴、納車後に必要になりそうな整備まで確認し、予算内で無理のない車探しをサポートします。</p></article>
         <article class="guide-card"><h3>キズやへこみも相談可</h3><p>板金塗装まで同じ窓口で相談できるため、中古車の小キズやへこみも購入前に確認しやすくなります。</p></article>
         <article class="guide-card"><h3>購入後の動きも相談しやすい</h3><p>納車後の整備、キズ修理、代車の相談まで同じ窓口で対応できます。車を買った後も頼りやすい体制です。</p></article>
       </div>
@@ -245,7 +246,7 @@
     }[char]));
 
     const gooStockUrl = 'https://www.goo-net.com/usedcar_shop/1010169/stock.html#tab_detail';
-    const stockCacheKey = 'mcc-goo-stock-cache-v1';
+    const stockCacheKey = 'mcc-goo-stock-cache-v2';
     const stockCacheTtl = 30 * 60 * 1000;
     const fallbackItems = [
       { title: '掲載在庫は随時変動します', url: gooStockUrl, note: '最新の掲載状況はグーネットでご確認ください。' },
@@ -262,6 +263,21 @@
       return values.join(' / ') || '詳細はグーネットでご確認ください';
     };
 
+    const formatPriceLabel = (label, value) => value
+      ? `<span><b>${label}</b><strong>${escapeHtml(value)}</strong></span>`
+      : '';
+
+    const formatPrices = (car) => {
+      const details = car.priceDetails || {};
+      const rows = [
+        formatPriceLabel('支払総額', details.total || car.price || ''),
+        formatPriceLabel('車両本体価格', details.vehicle || ''),
+        formatPriceLabel('諸費用', details.fees || '')
+      ].filter(Boolean);
+      if (!rows.length) return '';
+      return `<div class="stock-card__prices" aria-label="価格情報">${rows.join('')}</div>`;
+    };
+
     const renderCars = (cars, isFallback = false) => {
       if (isFallback) injectFallbackStockStyles();
       grid.classList.toggle('stock-grid--fallback', isFallback);
@@ -274,7 +290,7 @@
           <div class="stock-card__body">
             <h3>${escapeHtml(car.title)}</h3>
             <p class="stock-card__meta">${escapeHtml(formatMeta(car))}</p>
-            ${car.price ? `<p class="stock-card__price">${escapeHtml(car.price)}</p>` : ''}
+            ${formatPrices(car)}
             <a class="stock-card__link" href="${escapeHtml(car.url || gooStockUrl)}" ${String(car.url || '').startsWith('tel:') ? '' : 'target="_blank" rel="noopener"'}>${String(car.url || '').startsWith('tel:') ? '電話で問い合わせる' : '詳細をグーネットで見る'}</a>
           </div>
         </article>

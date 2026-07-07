@@ -102,6 +102,21 @@ function pickPrice(block) {
   return price ? price[1] : '';
 }
 
+function pickLabeledPrice(text, labels) {
+  const labelPattern = labels.join('|');
+  const pattern = new RegExp(`(?:${labelPattern})\\s*(?:[（(]\\s*税込\\s*[）)])?\\s*([0-9]+(?:\\.[0-9]+)?\\s*万円|ASK|応談)`, 'i');
+  const match = pattern.exec(text);
+  return match ? match[1].replace(/\s+/g, '') : '';
+}
+
+function pickPriceDetails(block) {
+  const text = stripTags(block);
+  const total = pickLabeledPrice(text, ['支払総額', '総額']);
+  const vehicle = pickLabeledPrice(text, ['車両本体価格', '本体価格']);
+  const fees = pickLabeledPrice(text, ['諸費用']);
+  return { total, vehicle, fees };
+}
+
 function pickTitle(block) {
   const headings = [
     /<h[1-4][^>]*>([\s\S]*?)<\/h[1-4]>/i,
@@ -149,7 +164,8 @@ async function fetchDetailData(url) {
     return {
       image: allImages.find((src) => vehicleId && src.includes(vehicleId)) || allImages[0] || '',
       mileage: pickDetailMileage(html),
-      year: pickDetailYear(html)
+      year: pickDetailYear(html),
+      priceDetails: pickPriceDetails(html)
     };
   } catch (_) {
     return {};
@@ -163,7 +179,12 @@ async function enrichCars(cars) {
       ...car,
       image: detail.image || (car.image && !isPlaceholderImage(car.image) ? car.image : ''),
       mileage: detail.mileage || car.mileage || '',
-      year: detail.year || car.year || ''
+      year: detail.year || car.year || '',
+      priceDetails: {
+        total: detail.priceDetails?.total || car.priceDetails?.total || '',
+        vehicle: detail.priceDetails?.vehicle || car.priceDetails?.vehicle || '',
+        fees: detail.priceDetails?.fees || car.priceDetails?.fees || ''
+      }
     };
   }));
 }
@@ -185,13 +206,14 @@ function parseStock(html, limit = MAX_VISIBLE_CARS) {
     const anchorTitle = stripTags(match[2]);
     const title = anchorTitle && !/詳細|在庫|一覧|グーネット|画像/.test(anchorTitle) ? anchorTitle : pickTitle(block);
     const image = pickImage(block, href);
-    const price = pickPrice(block);
+    const priceDetails = pickPriceDetails(block);
+    const price = priceDetails.total || priceDetails.vehicle || pickPrice(block);
     const text = stripTags(block);
     const year = /(20\d{2}|令和\d+|平成\d+)年/.exec(text)?.[0] || '';
     const mileage = /走行距離\s*([0-9.,]+(?:万)?km)/i.exec(text)?.[1] || '';
 
     if (!title || title.length > 160) continue;
-    cars.push({ title, price, year, mileage, image, url: href });
+    cars.push({ title, price, priceDetails, year, mileage, image, url: href });
     if (cars.length >= limit) break;
   }
 
