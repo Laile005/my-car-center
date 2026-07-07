@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initDesktopPhonePrompt();
   initClickableCards();
   initMarketingAnalytics();
+  initArticlePagination();
   initEntryFormFeedback();
   setupConsentGate();
   setupPrivacyModal();
@@ -23,32 +24,46 @@ function initSharedHeader() {
   const isRecruit = location.pathname === '/recruit' || location.pathname === '/recruit.html' || location.pathname.startsWith('/recruit-column/');
 
   const mainItems = [
-    ['TOP', prefix || './'],
-    ['サービス', `${prefix}repair-maintenance/`],
-    ['車を買う', `${prefix}used-cars/`],
-    ['お役立ち情報', `${prefix}column/`],
-    ['よくある質問', `${prefix}#faq`],
-    ['作業の流れ', `${prefix}#flow`],
-    ['施工事例', `${prefix}#works`],
-    ['採用情報', `${prefix}recruit`],
-    ['会社案内', `${prefix}#company`]
+    { label: 'TOP', href: prefix || './' },
+    { label: '整備・修理', href: `${prefix}repair-maintenance/` },
+    { label: '車を買う', href: `${prefix}used-cars/` },
+    { label: '保険相談', href: `${prefix}repair-maintenance/#insurance-repair` },
+    { label: 'お役立ち情報', href: `${prefix}column/` },
+    { label: '採用情報', href: `${prefix}recruit` },
+    {
+      label: '会社情報',
+      href: `${prefix}#company`,
+      children: [
+        { label: 'よくある質問', href: `${prefix}#faq` },
+        { label: '作業の流れ', href: `${prefix}#flow` },
+        { label: '施工事例', href: `${prefix}#works` },
+        { label: '会社案内', href: `${prefix}#company` }
+      ]
+    }
   ];
 
   const recruitItems = [
-    ['採用TOP', `${prefix}recruit`],
-    ['仕事内容', `${prefix}recruit#job`],
-    ['働き方', `${prefix}recruit#daily`],
-    ['募集要項', `${prefix}recruit#requirements`],
-    ['採用コラム', `${prefix}recruit#recruit-column`],
-    ['カジュアル面談', `${prefix}recruit#entry`],
-    ['企業TOP', prefix || './']
+    { label: '採用TOP', href: `${prefix}recruit` },
+    { label: '仕事内容', href: `${prefix}recruit#job` },
+    { label: '働き方', href: `${prefix}recruit#daily` },
+    { label: '募集要項', href: `${prefix}recruit#requirements` },
+    { label: '採用コラム', href: `${prefix}recruit#recruit-column` },
+    { label: 'カジュアル面談', href: `${prefix}recruit#entry` },
+    { label: '企業TOP', href: prefix || './' }
   ];
 
   const items = isRecruit ? recruitItems : mainItems;
   const logoHref = isRecruit ? `${prefix}recruit` : (prefix || './');
   const logoSrc = `${prefix}image/Logo.webp`;
-  const desktopLinks = items.map(([label, href]) => `<li><a href="${href}">${label}</a></li>`).join('');
-  const mobileLinks = `${desktopLinks}<li><a href="tel:0849761000">お問い合わせ</a></li>`;
+  const desktopLinks = items.map((item) => {
+    const children = item.children || [];
+    if (!children.length) return `<li><a href="${item.href}">${item.label}</a></li>`;
+    return `<li class="nav-item--has-menu"><a href="${item.href}">${item.label}</a><ul class="nav-submenu">${children.map((child) => `<li><a href="${child.href}">${child.label}</a></li>`).join('')}</ul></li>`;
+  }).join('');
+  const mobileLinks = `${items.map((item) => {
+    const children = item.children || [];
+    return `<li><a href="${item.href}">${item.label}</a>${children.length ? `<ul class="nav-mobile-submenu">${children.map((child) => `<li><a href="${child.href}">${child.label}</a></li>`).join('')}</ul>` : ''}</li>`;
+  }).join('')}<li><a href="tel:0849761000">お問い合わせ</a></li>`;
 
   header.innerHTML = `
     <div class="header-inner">
@@ -230,6 +245,49 @@ function initMarketingAnalytics() {
   document.head.appendChild(script);
 }
 
+function initArticlePagination() {
+  const section = document.getElementById('all-articles');
+  if (!section) return;
+
+  const grid = section.querySelector('.column-card-grid');
+  if (!grid) return;
+
+  const cards = Array.from(grid.querySelectorAll('.column-card'));
+  const pageSize = 12;
+  if (cards.length <= pageSize) return;
+
+  const pager = document.createElement('nav');
+  pager.className = 'article-pagination';
+  pager.setAttribute('aria-label', '記事一覧のページ切り替え');
+
+  const pageCount = Math.ceil(cards.length / pageSize);
+  let currentPage = 1;
+
+  function render() {
+    cards.forEach((card, index) => {
+      const page = Math.floor(index / pageSize) + 1;
+      card.hidden = page !== currentPage;
+    });
+
+    pager.innerHTML = Array.from({ length: pageCount }, (_, index) => {
+      const page = index + 1;
+      const current = page === currentPage ? ' aria-current="page"' : '';
+      return `<button type="button" class="article-pagination__button"${current} data-page="${page}">${page}</button>`;
+    }).join('');
+  }
+
+  pager.addEventListener('click', (event) => {
+    const button = event.target.closest('button[data-page]');
+    if (!button) return;
+    currentPage = Number(button.dataset.page);
+    render();
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  grid.after(pager);
+  render();
+}
+
 function trackMarketingEvent(name, params = {}) {
   window.MCC_EVENT_QUEUE = window.MCC_EVENT_QUEUE || [];
   if (typeof window.MCCTrackEvent === 'function') {
@@ -368,58 +426,8 @@ function addGlobalSalesStyles() {
 }
 
 function enhanceGlobalNavigation() {
-  const isRecruitPage = !!document.querySelector('form.rg-form') || location.pathname.includes('/recruit');
-  document.querySelectorAll('.nav-desktop ul, .nav-mobile ul').forEach((list) => {
-    const links = Array.from(list.querySelectorAll('a'));
-    links.forEach((a) => {
-      if (/column\/?$/.test(a.getAttribute('href') || '') && a.textContent.trim() === 'コラム') {
-        if (isRecruitPage) {
-          a.textContent = '求職者向け情報';
-          a.setAttribute('href', '#recruit-column');
-        } else {
-          a.textContent = 'お役立ち情報';
-        }
-      }
-      if (a.textContent.trim() === '事業案内' || a.textContent.trim() === '事業内容') a.textContent = 'サービス';
-      if (a.textContent.trim() === '企業TOP' || a.textContent.trim() === '企業トップ') a.textContent = 'TOP';
-      if (a.textContent.trim() === '採用TOP') a.textContent = '採用トップ';
-    });
-    if (!isRecruitPage && !links.some((a) => (a.getAttribute('href') || '').includes('#faq') || a.textContent.trim() === 'よくある質問')) {
-      const column = links.find((a) => /#column$|column\/?$/.test(a.getAttribute('href') || ''));
-      if (column) {
-        const li = document.createElement('li');
-        li.innerHTML = '<a href="/#faq">よくある質問</a>';
-        column.closest('li').after(li);
-      }
-    }
-    if (!links.some((a) => (a.getAttribute('href') || '').includes('used-cars') || a.textContent.trim() === '車を買う')) {
-      const service = links.find((a) => /#service$/.test(a.getAttribute('href') || ''));
-      if (service) {
-        const li = document.createElement('li');
-        li.innerHTML = '<a href="/used-cars/">車を買う</a>';
-        service.closest('li').after(li);
-      }
-    }
-    const navRank = (item) => {
-      const link = item.querySelector('a');
-      const href = link?.getAttribute('href') || '';
-      const text = link?.textContent.trim() || '';
-      if (text === 'TOP' || href === '/' || href === '../' || href === './index.html') return 0;
-      if (href.endsWith('#service') || text === 'サービス') return 1;
-      if (href.includes('used-cars') || href.endsWith('#sales') || text === '車を買う') return 2;
-      if (href.endsWith('#column') || /column\/?$/.test(href) || text === 'お役立ち情報') return 3;
-      if (href.endsWith('#faq') || text === 'よくある質問') return 4;
-      if (href.endsWith('#flow') || text === '作業の流れ') return 5;
-      if (href.endsWith('#works') || text === '施工事例') return 6;
-      if (href.includes('recruit') || text === '採用情報' || text === '採用トップ') return 7;
-      if (href.endsWith('#company') || text === '会社案内') return 8;
-      if (href.startsWith('tel:') || text === 'お問い合わせ') return 9;
-      return 99;
-    };
-    Array.from(list.children)
-      .sort((a, b) => navRank(a) - navRank(b))
-      .forEach((item) => list.appendChild(item));
-  });
+  // Header content is generated by initSharedHeader().
+  // Keep this function as a no-op so older page-specific markup cannot reorder or duplicate the shared navigation.
 }
 
 function enhanceHomeSalesAndColumns() {
@@ -445,23 +453,7 @@ function enhanceHomeSalesAndColumns() {
     if (localGuide) localGuide.before(section);
   }
 
-  const column = document.getElementById('column');
-  if (column) {
-    const title = column.querySelector('.section-title');
-    const subtitle = column.querySelector('.section-subtitle');
-    const grid = column.querySelector('.column-card-grid');
-    if (title) title.textContent = 'カーライフお役立ち情報';
-    if (subtitle) subtitle.textContent = '車検・修理・保険・購入相談のことを、地域のお客様に向けてわかりやすく発信します。';
-    if (grid) {
-      grid.innerHTML = `
-        <article class="column-card"><p class="column-card__date">最終更新 2026.07.07</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">中古車相談</span><span class="tag-pill tag-pill--subtle">修復歴</span></div><h3><a href="/column/repaired-history-used-car/">修復歴ありの中古車は大丈夫？</a></h3><p>安さだけで選ばず、骨格部位・修理内容・販売後の整備まで確認する考え方を整理しました。</p></article>
-        <article class="column-card"><p class="column-card__date">最終更新 2026.06.23</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">保険修理</span><span class="tag-pill tag-pill--subtle">事故修理</span></div><h3><a href="/column/insurance-repair-customer-flow/">保険修理でお客様がやること・工場が手伝えること</a></h3><p>保険会社との確認、修理内容、代車、納車までの役割分担を整理しました。</p></article>
-        <article class="column-card"><p class="column-card__date">最終更新 2026.07.06</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">中古車相談</span><span class="tag-pill tag-pill--subtle">整備付き販売</span></div><h3><a href="/column/used-car-before-repair-photo/">修理前の写真がある中古車は安心？</a></h3><p>仕入れ時の状態、修理内容、納車前整備まで説明できる販売店に相談するメリットを整理しました。</p></article>
-      `;
-    }
-    const listLink = column.querySelector('.section-link a');
-    if (listLink) listLink.innerHTML = 'お役立ち情報を見る <span class="arrow">›</span>';
-  }
+  // The home column section is now maintained directly in index.html.
 }
 
 function enhanceRecruitColumns() {
