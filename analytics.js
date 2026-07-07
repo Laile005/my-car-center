@@ -126,40 +126,6 @@
     document.head.appendChild(style);
   }
 
-  function initHomeColumnFocus() {
-    var column = document.getElementById('column');
-    if (!column || !document.getElementById('hero')) return;
-    var title = column.querySelector('.section-title');
-    var subtitle = column.querySelector('.section-subtitle');
-    var grid = column.querySelector('.column-card-grid');
-
-    if (title) title.textContent = '板金塗装・修理のお役立ち情報';
-    if (subtitle) {
-      subtitle.textContent = 'キズ・へこみ修理、保険修理、車検、購入後の相談を、地域密着の整備工場目線でわかりやすく発信します。';
-    }
-    if (grid) {
-      grid.outerHTML = [
-        '<div class="column-home-groups">',
-        '<div class="column-home-group"><div class="column-home-group__head"><h3>よく読まれている記事</h3><p>Clarityやアクセス状況を見ながら、反応のよいテーマを優先して表示しています。</p></div><div class="column-card-grid">',
-        '<article class="column-card"><p class="column-card__date">人気記事</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">車検</span><span class="tag-pill tag-pill--subtle">修理相談</span></div><h3><a href="/column/dealer-vs-local-repair/">ディーラー車検・修理と地域密着の整備工場の使い分け</a></h3><p>ディーラーの良さを活かしつつ、日常整備や板金修理を地域の整備工場へ相談する考え方です。</p></article>',
-        '<article class="column-card"><p class="column-card__date">人気記事</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">板金塗装</span><span class="tag-pill tag-pill--subtle">キズ・へこみ</span></div><h3><a href="/column/bankin-direct-repair-shop/">車のキズ・へこみ修理はどこに頼む？</a></h3><p>板金塗装工場へ直接相談するメリットと、見積りで確認したいポイントを解説します。</p></article>',
-        '<article class="column-card"><p class="column-card__date">人気記事</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">中古車相談</span><span class="tag-pill tag-pill--subtle">条件相談</span></div><h3><a href="/column/used-car-order-consultation/">掲載在庫にない中古車も探せる？</a></h3><p>予算、用途、車種、納期から中古車探しを相談するメリットを整理しました。</p></article>',
-        '</div></div>',
-        '<div class="column-home-group"><div class="column-home-group__head"><h3>新着記事</h3><p>中古車・保険・メンテナンスの新しい記事です。</p></div><div class="column-card-grid">',
-        '<article class="column-card"><p class="column-card__date">最終更新 2026.07.08</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">保険相談</span><span class="tag-pill tag-pill--subtle">見直し</span></div><h3><a href="/column/car-insurance-direct-agent-kyosai/">自動車保険はネット型・代理店型・共済のどれがいい？</a></h3><p>保険料だけでなく、事故時に誰へ相談するかまで含めた選び方を整理しました。</p></article>',
-        '<article class="column-card"><p class="column-card__date">最終更新 2026.07.08</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">中古車相談</span><span class="tag-pill tag-pill--subtle">仕入れ相談</span></div><h3><a href="/column/used-car-order-repair-sourcing/">掲載車より仕入れから相談する方が合うケース</a></h3><p>在庫にない車を条件から探し、必要な整備まで見て購入する考え方をまとめました。</p></article>',
-        '<article class="column-card"><p class="column-card__date">最終更新 2026.07.08</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">中古車相談</span><span class="tag-pill tag-pill--subtle">コスパ</span></div><h3><a href="/column/new-vs-used-car-cost/">新車と中古車、今はどちらがコスパいい？</a></h3><p>価格、納期、整備、リセールまで含めて、選び方の考え方を整理しました。</p></article>',
-        '</div></div>',
-        '<div class="column-home-group"><div class="column-home-group__head"><h3>テーマ別に読まれています</h3><p>中古車、保険修理、日常メンテナンスの入口です。</p></div><div class="column-card-grid">',
-        '<article class="column-card"><p class="column-card__date">中古車相談</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">中古車相談</span><span class="tag-pill tag-pill--subtle">修復歴</span></div><h3><a href="/column/repaired-history-used-car/">修復歴ありの中古車は大丈夫？</a></h3><p>安く買う前に、骨格部位・修理内容・購入後の整備を確認する考え方を整理しました。</p></article>',
-        '<article class="column-card"><p class="column-card__date">保険修理</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">保険修理</span><span class="tag-pill tag-pill--subtle">代車</span></div><h3><a href="/column/insurance-repair-loaner-delivery/">保険修理で代車や引き取り納車は相談できる？</a></h3><p>代車、保険会社との確認、修理後の受け取り方まで、事故修理で確認したい流れを整理します。</p></article>',
-        '<article class="column-card"><p class="column-card__date">メンテナンス</p><div class="column-card__tags" aria-label="記事タグ"><span class="tag-pill">メンテナンス</span><span class="tag-pill tag-pill--subtle">オイル選び</span></div><h3><a href="/column/oil-grade-car-model/">オイル交換は車種や年式で変わる？</a></h3><p>軽自動車、ターボ車、低燃費車など、車に合うオイルを確認する時の基本をまとめました。</p></article>',
-        '</div></div>',
-        '</div>'
-      ].join('');
-    }
-  }
-
   function initHomeServiceLinks() {
     if (!document.getElementById('hero')) return;
     var serviceLinks = [
@@ -247,7 +213,6 @@
   }
 
   initCtaLinkPresentation();
-  initHomeColumnFocus();
   initHomeServiceLinks();
   initRecruitColumnCards();
 
