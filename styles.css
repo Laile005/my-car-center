@@ -888,6 +888,12 @@ img {
   box-shadow: 0 18px 34px rgba(15,23,42,.11);
 }
 
+.column-card:has(a[href]),
+.rg-card:has(a[href]),
+.stock-card:has(a[href]){
+  cursor: pointer;
+}
+
 .column-card-grid--editorial .column-card:first-child{
   grid-column: span 2;
   background:

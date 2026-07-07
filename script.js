@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAgeSelect();
   initSiteEnhancements();
   initDesktopPhonePrompt();
+  initClickableCards();
   initMarketingAnalytics();
   initEntryFormFeedback();
   setupConsentGate();
@@ -257,6 +258,28 @@ function initDesktopPhonePrompt() {
   });
 }
 
+function initClickableCards() {
+  const cardSelectors = '.column-card, .rg-card, .stock-card';
+  document.addEventListener('click', (event) => {
+    if (event.defaultPrevented) return;
+    if (event.target.closest('a, button, input, select, textarea, label')) return;
+
+    const card = event.target.closest(cardSelectors);
+    if (!card) return;
+
+    const link = card.querySelector('a[href]');
+    if (!link) return;
+
+    event.preventDefault();
+    trackMarketingEvent('card_area_click', {
+      card_type: card.classList.contains('stock-card') ? 'stock' : card.classList.contains('rg-card') ? 'recruit' : 'column',
+      link_url: link.getAttribute('href') || '',
+      link_text: link.textContent.trim().slice(0, 80)
+    });
+    link.click();
+  });
+}
+
 function addGlobalSalesStyles() {
   if (document.getElementById('codex-sales-styles')) return;
   const style = document.createElement('style');
@@ -274,6 +297,7 @@ function addGlobalSalesStyles() {
     .column-card-grid--editorial .column-card:first-child{grid-column:span 2;background:linear-gradient(135deg,rgba(239,248,255,.98),rgba(255,255,255,1));border-color:rgba(96,165,250,.5)}
     .column-card-grid--editorial .column-card:first-child h2{font-size:clamp(1.35rem,2.4vw,1.75rem)}
     .column-card{position:relative;overflow:hidden}
+    .column-card:has(a[href]),.rg-card:has(a[href]),.stock-card:has(a[href]){cursor:pointer}
     .column-card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--sky),var(--mint));opacity:.78}
     @media (max-width:900px){.column-card-grid--editorial .column-card:first-child{grid-column:auto}}
     .guide-card--accent{border-color:rgba(96,165,250,.48);background:linear-gradient(180deg,rgba(239,248,255,.92),rgba(255,255,255,1));box-shadow:0 14px 32px rgba(37,99,235,.09)}
