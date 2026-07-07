@@ -55,6 +55,10 @@
 - `/bankin-toso/`
   - 板金塗装・キズへこみ修理。
 
+- `/repair-maintenance/`
+  - 修理・整備・車検相談の入口ページ。
+  - 板金塗装、保険修理、車検、点検、日常メンテナンスへつなぐ。
+
 - `/shaken/`
   - 車検・整備。
 
@@ -87,6 +91,11 @@
   - 自社アクセスをGA4/Clarityから除外するための管理用ページ。
   - `noindex, nofollow` で、robotsにも除外を明記。
 
+- `/partner-repair-preview/`
+  - 業者向け修理・仕上げ相談ページの社内確認用URL。
+  - メニューにもサイトマップにも入れない。
+  - `noindex, nofollow` と `robots.txt` で検索除外する。
+
 ## Netlify Functions
 
 - `netlify/functions/goo-stock.js`
@@ -113,6 +122,8 @@
 - メインサイト内でページごとにメニュー構造をバラバラにしない。
 - メインサイトの順番は、おおむねページ構成順にする。
 - 採用ページでは求職者向け導線を優先する。
+- 現在は `script.js` の `initSharedHeader()` で共通ヘッダーを生成する。
+- 静的HTML内のヘッダーが古くても、表示時にはJavaScriptで統一される。
 
 ## 電話導線
 

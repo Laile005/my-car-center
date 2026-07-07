@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://mycarcenter.netlify.app/</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-08</lastmod>
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/recruit</loc>
@@ -10,11 +10,15 @@
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/used-cars/</loc>
-    <lastmod>2026-07-07</lastmod>
+    <lastmod>2026-07-08</lastmod>
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/column/</loc>
-    <lastmod>2026-07-07</lastmod>
+    <lastmod>2026-07-08</lastmod>
+  </url>
+  <url>
+    <loc>https://mycarcenter.netlify.app/repair-maintenance/</loc>
+    <lastmod>2026-07-08</lastmod>
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/company-guide/</loc>
@@ -39,6 +43,18 @@
   <url>
     <loc>https://mycarcenter.netlify.app/column/shaken-fukuyama/</loc>
     <lastmod>2026-07-02</lastmod>
+  </url>
+  <url>
+    <loc>https://mycarcenter.netlify.app/column/car-insurance-direct-agent-kyosai/</loc>
+    <lastmod>2026-07-08</lastmod>
+  </url>
+  <url>
+    <loc>https://mycarcenter.netlify.app/column/used-car-order-repair-sourcing/</loc>
+    <lastmod>2026-07-08</lastmod>
+  </url>
+  <url>
+    <loc>https://mycarcenter.netlify.app/column/new-vs-used-car-cost/</loc>
+    <lastmod>2026-07-08</lastmod>
   </url>
   <url>
     <loc>https://mycarcenter.netlify.app/column/bankin-direct-repair-shop/</loc>

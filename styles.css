@@ -858,6 +858,35 @@ img {
   align-items: stretch;
 }
 
+.column-home-groups{
+  display:grid;
+  gap:2rem;
+}
+
+.column-home-group{
+  display:grid;
+  gap:1rem;
+}
+
+.column-home-group__head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:1rem;
+}
+
+.column-home-group__head h3{
+  margin:0;
+  color:var(--color-navy);
+  font-size:clamp(1.25rem,2.2vw,1.6rem);
+}
+
+.column-home-group__head p{
+  margin:0;
+  color:var(--color-text-muted);
+  font-size:.95rem;
+}
+
 .guide-card,
 .column-card{
   border: 1px solid var(--line);
@@ -1412,6 +1441,11 @@ img {
   .column-card-grid,
   .stock-grid{
     grid-template-columns: 1fr;
+  }
+
+  .column-home-group__head{
+    align-items:flex-start;
+    flex-direction:column;
   }
 
   .column-card-grid--editorial .column-card:first-child{

@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  initSharedHeader();
   initCurrentYear();
   setupHamburgerMenu();
   startHeroSlideshow();
@@ -12,6 +13,57 @@ document.addEventListener('DOMContentLoaded', () => {
   setupConsentGate();
   setupPrivacyModal();
 });
+
+function initSharedHeader() {
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+
+  const depth = location.pathname.split('/').filter(Boolean).length;
+  const prefix = depth === 0 ? '' : '../'.repeat(depth);
+  const isRecruit = location.pathname === '/recruit' || location.pathname === '/recruit.html' || location.pathname.startsWith('/recruit-column/');
+
+  const mainItems = [
+    ['TOP', prefix || './'],
+    ['サービス', `${prefix}repair-maintenance/`],
+    ['車を買う', `${prefix}used-cars/`],
+    ['お役立ち情報', `${prefix}column/`],
+    ['よくある質問', `${prefix}#faq`],
+    ['作業の流れ', `${prefix}#flow`],
+    ['施工事例', `${prefix}#works`],
+    ['採用情報', `${prefix}recruit`],
+    ['会社案内', `${prefix}#company`]
+  ];
+
+  const recruitItems = [
+    ['採用TOP', `${prefix}recruit`],
+    ['仕事内容', `${prefix}recruit#job`],
+    ['働き方', `${prefix}recruit#daily`],
+    ['募集要項', `${prefix}recruit#requirements`],
+    ['採用コラム', `${prefix}recruit#recruit-column`],
+    ['カジュアル面談', `${prefix}recruit#entry`],
+    ['企業TOP', prefix || './']
+  ];
+
+  const items = isRecruit ? recruitItems : mainItems;
+  const logoHref = isRecruit ? `${prefix}recruit` : (prefix || './');
+  const logoSrc = `${prefix}image/Logo.webp`;
+  const desktopLinks = items.map(([label, href]) => `<li><a href="${href}">${label}</a></li>`).join('');
+  const mobileLinks = `${desktopLinks}<li><a href="tel:0849761000">お問い合わせ</a></li>`;
+
+  header.innerHTML = `
+    <div class="header-inner">
+      <a href="${logoHref}" class="logo logo--edge"><img src="${logoSrc}" alt="山本マイカーセンターのロゴ"></a>
+      <nav class="nav-desktop nav-desktop--edge" aria-label="グローバルナビゲーション">
+        <ul>${desktopLinks}</ul>
+      </nav>
+      <div class="hamburger hamburger--edge" id="hamburger" aria-expanded="false"><span></span><span></span><span></span></div>
+    </div>
+    <nav class="nav-mobile" id="nav-mobile" aria-label="モバイルメニュー">
+      <div class="close-menu" id="close-menu">&times;</div>
+      <ul>${mobileLinks}</ul>
+    </nav>
+  `;
+}
 
 // 年表示を現在の年に更新
 function initCurrentYear() {
