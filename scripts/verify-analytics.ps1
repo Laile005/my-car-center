@@ -43,7 +43,7 @@ $runtimeFiles = @(rg --files -g '*.html' -g '*.js' -g '*.toml' | Where-Object {
 $runtime = ($runtimeFiles | ForEach-Object { [IO.File]::ReadAllText((Join-Path $root $_)) }) -join "`n"
 $gaIds = @([regex]::Matches($runtime, '\bG-[A-Z0-9]{10}\b') | ForEach-Object { $_.Value })
 $clarityIds = @([regex]::Matches($runtime, '\bclarityId:\s*["'']([a-z0-9]+)["'']') | ForEach-Object { $_.Groups[1].Value })
-if ($gaIds.Count -ne 1 -or $gaIds[0] -ne 'G-65GV6BS65C') { $errors.Add("runtime GA4 ID mismatch/count: $($gaIds -join ',')") }
+if ($gaIds.Count -ne 1 -or $gaIds[0] -ne 'G-ZR46K2ME6D') { $errors.Add("runtime GA4 ID mismatch/count: $($gaIds -join ',')") }
 if ($clarityIds.Count -ne 1 -or $clarityIds[0] -ne 'xh8bpqs76a') { $errors.Add("runtime Clarity ID mismatch/count: $($clarityIds -join ',')") }
 if (([regex]::Matches($runtime, 'gtag\(["'']config["'']')).Count -ne 1) { $errors.Add('gtag config must occur exactly once') }
 if (([regex]::Matches($runtime, 'googletagmanager\.com/gtag/js')).Count -ne 1) { $errors.Add('GA4 loader must occur exactly once') }

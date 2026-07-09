@@ -2,7 +2,7 @@
   'use strict';
 
   var config = {
-    ga4Id: 'G-65GV6BS65C',
+    ga4Id: 'G-ZR46K2ME6D',
     clarityId: 'xh8bpqs76a',
     enableScrollDepth: true,
     enableCtaTracking: true,
