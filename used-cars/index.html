@@ -77,16 +77,43 @@
 </header>
 
 <main>
-  <section class="column-hero">
+  <section class="column-hero purchase-hero">
     <div class="container">
       <p class="breadcrumb"><a href="../">ホーム</a> / 中古車探し・新車購入相談</p>
-      <h1 class="column-hero__title">条件に合う中古車探しも相談できます</h1>
-      <p class="column-hero__lead">グーネット掲載在庫だけでなく、業者専用オークション等も活用し、予算・用途・納期に合う車を一緒に探します。仕入れ後の点検・整備・板金塗装まで同じ窓口で相談できます。</p>
-      <p><a class="recruit-cta" href="tel:0849761000">電話で問い合わせる</a></p>
+      <div class="purchase-hero__layout">
+        <div>
+          <p class="purchase-hero__eyebrow">掲載車も、まだ掲載されていない一台も</p>
+          <h1 class="column-hero__title">希望に合う中古車を、整備まで見てご提案します</h1>
+          <p class="column-hero__lead">グーネット掲載在庫に加え、業者専用オークション等から条件に合う車を探せます。仕入れ時の状態を確認し、必要な整備や板金塗装まで同じ工場で対応します。</p>
+        </div>
+        <div class="purchase-hero__actions">
+          <a class="recruit-cta" href="#stock">掲載中の車を見る</a>
+          <a class="button-secondary" href="#order-consultation">条件から探す相談</a>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="section skin-white">
+  <section class="section stock-showcase" id="stock">
+    <div class="container">
+      <div class="stock-showcase__head">
+        <div>
+          <p class="section-kicker">AVAILABLE CARS</p>
+          <h2 class="section-title">現在の掲載在庫</h2>
+          <p class="section-subtitle">掲載状況は随時変わります。気になる車は、来店前に在庫状況をご確認ください。</p>
+        </div>
+        <span class="stock-showcase__note">購入後の整備・車検も同じ窓口で対応</span>
+      </div>
+      <div class="stock-status" id="stock-status" role="status">在庫情報を読み込んでいます…</div>
+      <div class="stock-grid" id="stock-grid"></div>
+      <div class="stock-actions">
+        <a class="button-secondary" href="https://www.goo-net.com/usedcar_shop/1010169/stock.html#tab_detail" target="_blank" rel="noopener">グーネットで全在庫を見る</a>
+        <a class="recruit-cta" href="#order-consultation">希望条件から中古車を探す</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section skin-white order-consultation" id="order-consultation">
     <div class="container">
       <article class="guide-card guide-card--featured">
         <div>
@@ -109,18 +136,6 @@
         <article class="guide-card guide-card--accent"><h3>仕入れ後に状態を確認</h3><p>外装、走行距離、修理歴、納車後に必要になりそうな整備まで確認し、予算内で無理のない車探しをサポートします。</p></article>
         <article class="guide-card"><h3>キズやへこみも相談可</h3><p>板金塗装まで同じ窓口で相談できるため、中古車の小キズやへこみも購入前に確認しやすくなります。</p></article>
         <article class="guide-card"><h3>購入後の動きも相談しやすい</h3><p>納車後の整備、キズ修理、代車の相談まで同じ窓口で対応できます。車を買った後も頼りやすい体制です。</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <h2 class="section-title">現在の掲載在庫</h2>
-      <p class="section-subtitle">グーネット掲載在庫は随時変動します。掲載中の車以外も、条件に合わせた中古車探しをご相談いただけます。</p>
-      <div class="stock-status" id="stock-status" role="status">在庫情報を読み込んでいます…</div>
-      <div class="stock-grid" id="stock-grid"></div>
-      <div class="section-link">
-        <a class="link-with-arrow" href="https://www.goo-net.com/usedcar_shop/1010169/stock.html#tab_detail" target="_blank" rel="noopener">グーネットで全在庫を見る <span class="arrow">›</span></a>
       </div>
     </div>
   </section>

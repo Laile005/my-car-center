@@ -19,42 +19,43 @@ function initSharedHeader() {
   const header = document.querySelector('.site-header');
   if (!header) return;
 
-  const depth = location.pathname.split('/').filter(Boolean).length;
-  const prefix = depth === 0 ? '' : '../'.repeat(depth);
-  const isRecruit = location.pathname === '/recruit' || location.pathname === '/recruit.html' || location.pathname.startsWith('/recruit-column/');
+  const currentPath = location.pathname.replace(/\/+$/, '');
+  const isRecruit = currentPath.endsWith('/recruit')
+    || currentPath.endsWith('/recruit.html')
+    || currentPath.includes('/recruit-column/');
 
   const mainItems = [
-    { label: 'TOP', href: prefix || './' },
-    { label: '整備・修理', href: `${prefix}repair-maintenance/` },
-    { label: '車を買う', href: `${prefix}used-cars/` },
-    { label: '保険相談', href: `${prefix}repair-maintenance/#insurance-repair` },
-    { label: 'お役立ち情報', href: `${prefix}column/` },
-    { label: '採用情報', href: `${prefix}recruit` },
+    { label: 'TOP', href: '/#hero' },
+    { label: '整備・修理', href: '/#service' },
+    { label: '新車・中古車', href: '/#sales' },
+    { label: '保険相談', href: '/#insurance' },
+    { label: 'お役立ち情報', href: '/#column' },
+    { label: '採用情報', href: '/recruit' },
     {
       label: '会社情報',
-      href: `${prefix}#company`,
+      href: '/#company',
       children: [
-        { label: 'よくある質問', href: `${prefix}#faq` },
-        { label: '作業の流れ', href: `${prefix}#flow` },
-        { label: '施工事例', href: `${prefix}#works` },
-        { label: '会社案内', href: `${prefix}#company` }
+        { label: 'よくある質問', href: '/#faq' },
+        { label: '作業の流れ', href: '/#flow' },
+        { label: '施工事例', href: '/#works' },
+        { label: '会社案内', href: '/#company' }
       ]
     }
   ];
 
   const recruitItems = [
-    { label: '採用TOP', href: `${prefix}recruit` },
-    { label: '仕事内容', href: `${prefix}recruit#job` },
-    { label: '働き方', href: `${prefix}recruit#daily` },
-    { label: '募集要項', href: `${prefix}recruit#requirements` },
-    { label: '採用コラム', href: `${prefix}recruit#recruit-column` },
-    { label: 'カジュアル面談', href: `${prefix}recruit#entry` },
-    { label: '企業TOP', href: prefix || './' }
+    { label: 'TOP', href: '/' },
+    { label: '仕事内容', href: '/recruit#job' },
+    { label: '働き方', href: '/recruit#about' },
+    { label: '先輩の声', href: '/recruit#voice' },
+    { label: '募集要項', href: '/recruit#requirements' },
+    { label: '採用コラム', href: '/recruit#recruit-column' },
+    { label: 'カジュアル面談', href: '/recruit#entry' }
   ];
 
   const items = isRecruit ? recruitItems : mainItems;
-  const logoHref = isRecruit ? `${prefix}recruit` : (prefix || './');
-  const logoSrc = `${prefix}image/Logo.webp`;
+  const logoHref = isRecruit ? '/recruit' : '/';
+  const logoSrc = '/image/Logo.webp';
   const desktopLinks = items.map((item) => {
     const children = item.children || [];
     if (!children.length) return `<li><a href="${item.href}">${item.label}</a></li>`;
