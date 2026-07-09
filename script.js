@@ -58,9 +58,9 @@ function initSharedHeader() {
 
   const mainItems = [
     { label: 'TOP', href: '/#hero' },
-    { label: '整備・修理', href: '/#service' },
-    { label: '新車・中古車', href: '/#sales' },
-    { label: 'お役立ち情報', href: '/#column' },
+    { label: '整備・修理', href: '/repair-maintenance/' },
+    { label: '新車・中古車', href: '/used-cars/' },
+    { label: 'お役立ち情報', href: '/column/' },
     { label: '採用情報', href: '/recruit' },
     {
       label: '会社情報',
