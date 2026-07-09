@@ -1050,10 +1050,13 @@ img {
   align-items: center;
   justify-content: space-between;
   gap: .8rem;
-  padding: .78rem .9rem;
+  flex: 0 0 4rem;
+  min-height: 4rem;
+  padding: .5rem .9rem;
   border: 1px solid rgba(96,165,250,.28);
-  border-radius: 10px;
+  border-radius: 8px;
   color: var(--ink);
+  line-height: 1.45;
   background: #f8fcff;
   font-weight: 700;
   line-height: 1.55;
@@ -1405,27 +1408,27 @@ img {
 
 .column-hero{
   margin-top: var(--header-height);
-  padding: clamp(42px, 7vw, 68px) 0 clamp(38px, 6vw, 56px);
+  padding: clamp(18px, 2.5vw, 28px) 0 clamp(18px, 2.5vw, 26px);
   background:
     linear-gradient(120deg, rgba(96,165,250,.18), rgba(34,211,238,.12)),
     #fff;
 }
 
 .column-hero .breadcrumb{
-  margin-bottom: var(--flow-md);
+  margin-bottom: .75rem;
 }
 
 .column-hero__title{
-  font-size: clamp(1.9rem, 3.5vw, 2.75rem);
+  font-size: clamp(1.75rem, 2.7vw, 2.2rem);
   line-height: 1.25;
-  margin: 0 0 var(--flow-md);
+  margin: 0 0 .8rem;
 }
 
 .column-hero__lead{
   color: #475569;
   max-width: 720px;
   margin: 0;
-  line-height: 1.85;
+  line-height: 1.75;
 }
 
 .column-hero p:has(.recruit-cta){
@@ -2008,8 +2011,8 @@ img {
 }
 @media (max-width: 560px){
   .purchase-hero{
-    padding-top: 28px;
-    padding-bottom: 30px;
+    padding-top: 18px;
+    padding-bottom: 20px;
   }
 
   .purchase-hero .breadcrumb{
@@ -2123,7 +2126,7 @@ img {
 
 /* Repair and maintenance hub */
 .repair-hero{
-  padding: clamp(34px, 5vw, 56px) 0;
+  padding: clamp(18px, 2.5vw, 26px) 0;
   background:
     linear-gradient(110deg, rgba(239,248,255,.98), rgba(240,253,255,.92));
 }
@@ -2132,7 +2135,7 @@ img {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem);
   align-items: center;
-  gap: clamp(2rem, 6vw, 5rem);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
 }
 
 .repair-hero .breadcrumb{
@@ -2157,18 +2160,18 @@ img {
 
 .repair-hero .column-hero__title{
   max-width: 45rem;
-  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-size: clamp(1.85rem, 2.7vw, 2.25rem);
 }
 
 .repair-hero__actions{
   display: flex;
   flex-wrap: wrap;
   gap: .7rem;
-  margin-top: 1.45rem;
+  margin-top: .8rem;
 }
 
 .repair-hero__assurance{
-  padding: clamp(1.25rem, 3vw, 1.75rem);
+  padding: clamp(1rem, 2vw, 1.35rem);
   border: 1px solid rgba(96,165,250,.34);
   border-radius: 8px;
   background: rgba(255,255,255,.76);
@@ -2192,7 +2195,7 @@ img {
   display: grid;
   grid-template-columns: 7rem 1fr;
   gap: .8rem;
-  padding: .8rem 0;
+  padding: .6rem 0;
   border-top: 1px solid rgba(148,163,184,.25);
 }
 
@@ -2709,7 +2712,7 @@ img {
   }
 
   .repair-hero{
-    padding: 28px 0 30px;
+    padding: 18px 0 20px;
   }
 
   .repair-hero__inner{
