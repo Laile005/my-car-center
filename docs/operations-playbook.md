@@ -24,6 +24,8 @@ git pull origin main
 ## 本番反映後の確認
 
 - トップページが表示される
+- `https://yamamoto-mycar.com/` がHTTPSで表示される
+- `www`とNetlify既定URLが独自ドメインへ転送される
 - `/used-cars/` が表示される
 - Goo-net在庫カードが表示される、または取得失敗時も相談導線が崩れない
 - `/column/` と記事が表示される
@@ -31,11 +33,14 @@ git pull origin main
 - 電話ボタンがスマホでは電話、PCでは番号表示になる
 - Search Consoleでサイトマップが読める
 
+独自ドメイン移行後は、Search Consoleに `yamamoto-mycar.com` のドメインプロパティを追加し、
+`https://yamamoto-mycar.com/sitemap.xml` を送信する。GA4とClarityは同じ測定IDを継続利用する。
+
 ## 自社アクセスを計測から除外する
 
 本番反映後、確認に使うPC・スマホで次を開く。
 
-`https://mycarcenter.netlify.app/analytics-optout/`
+`https://yamamoto-mycar.com/analytics-optout/`
 
 「このブラウザを計測しない」を押す。
 

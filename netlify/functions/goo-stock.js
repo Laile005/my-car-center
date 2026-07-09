@@ -147,7 +147,7 @@ async function fetchDetailData(url) {
   try {
     const response = await fetchWithTimeout(url, {
       headers: {
-        'user-agent': 'Mozilla/5.0 (compatible; MyCarCenterSite/1.0; +https://mycarcenter.netlify.app/)',
+        'user-agent': 'Mozilla/5.0 (compatible; MyCarCenterSite/1.0; +https://yamamoto-mycar.com/)',
         'accept-language': 'ja,en;q=0.8'
       }
     }, DETAIL_FETCH_TIMEOUT_MS);
@@ -239,7 +239,7 @@ exports.handler = async () => {
   try {
     const response = await fetchWithTimeout(SHOP_URL, {
       headers: {
-        'user-agent': 'Mozilla/5.0 (compatible; MyCarCenterSite/1.0; +https://mycarcenter.netlify.app/)',
+        'user-agent': 'Mozilla/5.0 (compatible; MyCarCenterSite/1.0; +https://yamamoto-mycar.com/)',
         'accept-language': 'ja,en;q=0.8'
       }
     }, SHOP_FETCH_TIMEOUT_MS);

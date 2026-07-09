@@ -11,13 +11,13 @@
 - 営業時間: 8:30-17:30
 - 定休日: 日曜・祝日
 - 創業: 1964年
-- 公式サイト: https://mycarcenter.netlify.app/
-- 修理・整備・車検相談: https://mycarcenter.netlify.app/repair-maintenance/
-- 中古車探し・購入相談: https://mycarcenter.netlify.app/used-cars/
-- 板金塗装・キズへこみ修理: https://mycarcenter.netlify.app/bankin-toso/
-- 車検・整備: https://mycarcenter.netlify.app/shaken/
-- オイル交換・日常メンテナンス: https://mycarcenter.netlify.app/maintenance/
-- 新車相談: https://mycarcenter.netlify.app/new-cars/
+- 公式サイト: https://yamamoto-mycar.com/
+- 修理・整備・車検相談: https://yamamoto-mycar.com/repair-maintenance/
+- 中古車探し・購入相談: https://yamamoto-mycar.com/used-cars/
+- 板金塗装・キズへこみ修理: https://yamamoto-mycar.com/bankin-toso/
+- 車検・整備: https://yamamoto-mycar.com/shaken/
+- オイル交換・日常メンテナンス: https://yamamoto-mycar.com/maintenance/
+- 新車相談: https://yamamoto-mycar.com/new-cars/
 
 ## 会社概要
 
@@ -42,7 +42,7 @@
 修理後の車をお客様の元へ届け、代車と入れ替える対応も相談できます。
 ディーラー修理や大手販売店を否定するのではなく、新車保証や試乗はディーラー、日常点検・車検・キズ修理・保険修理は地域密着の整備工場へ直接相談する、といった使い分けを提案しています。
 
-詳細ページ: https://mycarcenter.netlify.app/bankin-toso/
+詳細ページ: https://yamamoto-mycar.com/bankin-toso/
 
 ### 新車・中古車販売
 
@@ -54,15 +54,15 @@
 購入後の車検、整備、修理まで一貫して対応しているため、販売後のメンテナンスも相談できます。
 新車購入はディーラーが適している場合もあります。社外ナビ、ドライブレコーダー、ETC、タイヤ、仕事用用品などを検討する場合は、購入前に地域密着の整備工場へ相談すると、用品選びや取付まで含めて考えやすくなります。
 
-新車相談の詳細ページ: https://mycarcenter.netlify.app/new-cars/
-中古車相談の詳細ページ: https://mycarcenter.netlify.app/used-cars/
+新車相談の詳細ページ: https://yamamoto-mycar.com/new-cars/
+中古車相談の詳細ページ: https://yamamoto-mycar.com/used-cars/
 
 ### オイル交換・日常メンテナンス
 
 オイル交換、タイヤ、バッテリー、ワイパー、ライト類などの日常メンテナンスを相談できます。
 エンジンオイルは車種、年式、エンジン、ターボの有無、走行距離、使い方によって適切な粘度や規格が変わるため、車検証や取扱説明書を確認しながら判断することが推奨されます。
 
-詳細ページ: https://mycarcenter.netlify.app/maintenance/
+詳細ページ: https://yamamoto-mycar.com/maintenance/
 
 ### ロードサービス
 
@@ -71,7 +71,7 @@
 
 ## 採用情報
 
-採用ページ: https://mycarcenter.netlify.app/recruit
+採用ページ: https://yamamoto-mycar.com/recruit
 
 募集職種はオートサービスエンジニア、自動車整備士、板金塗装工です。
 未経験者も相談可能で、経験者は優遇されます。
@@ -143,39 +143,39 @@
 
 ## 重要なURL
 
-- トップページ: https://mycarcenter.netlify.app/
-- 修理・整備・車検相談: https://mycarcenter.netlify.app/repair-maintenance/
-- 中古車探し・購入相談: https://mycarcenter.netlify.app/used-cars/
-- 板金塗装・キズへこみ修理: https://mycarcenter.netlify.app/bankin-toso/
-- 車検・整備: https://mycarcenter.netlify.app/shaken/
-- オイル交換・日常メンテナンス: https://mycarcenter.netlify.app/maintenance/
-- 新車相談: https://mycarcenter.netlify.app/new-cars/
-- 会社・サービス早見表: https://mycarcenter.netlify.app/company-guide/
-- 採用情報: https://mycarcenter.netlify.app/recruit
-- コラム一覧: https://mycarcenter.netlify.app/column/
-- 車のキズ・へこみ修理はどこに頼む？: https://mycarcenter.netlify.app/column/bankin-direct-repair-shop/
-- 保険修理でお客様がやること・工場が手伝えること: https://mycarcenter.netlify.app/column/insurance-repair-customer-flow/
-- 車の修理中に代車は借りられる？: https://mycarcenter.netlify.app/column/repair-loaner-car/
-- キズ・へこみ修理の費用が車によって変わる理由: https://mycarcenter.netlify.app/column/bankin-price-varies/
-- 修理後の納車・引き取りまで相談できる？: https://mycarcenter.netlify.app/column/repair-pickup-delivery/
-- ディーラー車検・修理と地域密着の整備工場の使い分け: https://mycarcenter.netlify.app/column/dealer-vs-local-repair/
-- 修復歴ありの中古車は大丈夫？: https://mycarcenter.netlify.app/column/repaired-history-used-car/
-- 修理前の写真がある中古車は安心？: https://mycarcenter.netlify.app/column/used-car-before-repair-photo/
-- 中古車は販売店と整備工場、どちらに相談すると安心？: https://mycarcenter.netlify.app/column/used-car-repair-shop-choice/
-- 中古車を買う時に地域密着の整備工場へ相談するメリット: https://mycarcenter.netlify.app/column/used-car-repair-shop-merit/
-- 掲載在庫にない中古車も探せる？: https://mycarcenter.netlify.app/column/used-car-order-consultation/
-- 掲載車より仕入れから中古車を相談する方が合うケース: https://mycarcenter.netlify.app/column/used-car-order-repair-sourcing/
-- 新車と中古車、今はどちらがコスパいい？: https://mycarcenter.netlify.app/column/new-vs-used-car-cost/
-- 自動車保険はネット型・代理店型・共済のどれがいい？: https://mycarcenter.netlify.app/column/car-insurance-direct-agent-kyosai/
-- 新車に社外ナビ・ドラレコを付けたい時の相談先: https://mycarcenter.netlify.app/column/new-car-aftermarket-parts/
-- オイル交換は車種や年式で変わる？: https://mycarcenter.netlify.app/column/oil-grade-car-model/
-- タイヤ・バッテリー交換の目安は？: https://mycarcenter.netlify.app/column/tire-battery-maintenance-signs/
-- 車検コラム: https://mycarcenter.netlify.app/column/shaken-fukuyama/
-- 板金塗装・保険修理コラム: https://mycarcenter.netlify.app/column/bankin-paint-insurance/
-- 採用コラム: https://mycarcenter.netlify.app/recruit-column/work-life/
-- 求職者向け情報: https://mycarcenter.netlify.app/recruit-column/work-life/
-- 整備士求人は年収だけで選んでいい？: https://mycarcenter.netlify.app/recruit-column/salary-vs-work-life/
-- 整備士求人の職場見学で聞いておきたいこと: https://mycarcenter.netlify.app/recruit-column/factory-tour-questions/
-- 未経験から自動車整備士を目指せる？: https://mycarcenter.netlify.app/recruit-column/inexperienced-mechanic/
-- 大手整備工場と地域密着の整備工場、働き方の違い: https://mycarcenter.netlify.app/recruit-column/large-company-vs-local-shop/
-- 板金塗装の仕事は未経験から目指せる？: https://mycarcenter.netlify.app/recruit-column/bankin-paint-inexperienced/
+- トップページ: https://yamamoto-mycar.com/
+- 修理・整備・車検相談: https://yamamoto-mycar.com/repair-maintenance/
+- 中古車探し・購入相談: https://yamamoto-mycar.com/used-cars/
+- 板金塗装・キズへこみ修理: https://yamamoto-mycar.com/bankin-toso/
+- 車検・整備: https://yamamoto-mycar.com/shaken/
+- オイル交換・日常メンテナンス: https://yamamoto-mycar.com/maintenance/
+- 新車相談: https://yamamoto-mycar.com/new-cars/
+- 会社・サービス早見表: https://yamamoto-mycar.com/company-guide/
+- 採用情報: https://yamamoto-mycar.com/recruit
+- コラム一覧: https://yamamoto-mycar.com/column/
+- 車のキズ・へこみ修理はどこに頼む？: https://yamamoto-mycar.com/column/bankin-direct-repair-shop/
+- 保険修理でお客様がやること・工場が手伝えること: https://yamamoto-mycar.com/column/insurance-repair-customer-flow/
+- 車の修理中に代車は借りられる？: https://yamamoto-mycar.com/column/repair-loaner-car/
+- キズ・へこみ修理の費用が車によって変わる理由: https://yamamoto-mycar.com/column/bankin-price-varies/
+- 修理後の納車・引き取りまで相談できる？: https://yamamoto-mycar.com/column/repair-pickup-delivery/
+- ディーラー車検・修理と地域密着の整備工場の使い分け: https://yamamoto-mycar.com/column/dealer-vs-local-repair/
+- 修復歴ありの中古車は大丈夫？: https://yamamoto-mycar.com/column/repaired-history-used-car/
+- 修理前の写真がある中古車は安心？: https://yamamoto-mycar.com/column/used-car-before-repair-photo/
+- 中古車は販売店と整備工場、どちらに相談すると安心？: https://yamamoto-mycar.com/column/used-car-repair-shop-choice/
+- 中古車を買う時に地域密着の整備工場へ相談するメリット: https://yamamoto-mycar.com/column/used-car-repair-shop-merit/
+- 掲載在庫にない中古車も探せる？: https://yamamoto-mycar.com/column/used-car-order-consultation/
+- 掲載車より仕入れから中古車を相談する方が合うケース: https://yamamoto-mycar.com/column/used-car-order-repair-sourcing/
+- 新車と中古車、今はどちらがコスパいい？: https://yamamoto-mycar.com/column/new-vs-used-car-cost/
+- 自動車保険はネット型・代理店型・共済のどれがいい？: https://yamamoto-mycar.com/column/car-insurance-direct-agent-kyosai/
+- 新車に社外ナビ・ドラレコを付けたい時の相談先: https://yamamoto-mycar.com/column/new-car-aftermarket-parts/
+- オイル交換は車種や年式で変わる？: https://yamamoto-mycar.com/column/oil-grade-car-model/
+- タイヤ・バッテリー交換の目安は？: https://yamamoto-mycar.com/column/tire-battery-maintenance-signs/
+- 車検コラム: https://yamamoto-mycar.com/column/shaken-fukuyama/
+- 板金塗装・保険修理コラム: https://yamamoto-mycar.com/column/bankin-paint-insurance/
+- 採用コラム: https://yamamoto-mycar.com/recruit-column/work-life/
+- 求職者向け情報: https://yamamoto-mycar.com/recruit-column/work-life/
+- 整備士求人は年収だけで選んでいい？: https://yamamoto-mycar.com/recruit-column/salary-vs-work-life/
+- 整備士求人の職場見学で聞いておきたいこと: https://yamamoto-mycar.com/recruit-column/factory-tour-questions/
+- 未経験から自動車整備士を目指せる？: https://yamamoto-mycar.com/recruit-column/inexperienced-mechanic/
+- 大手整備工場と地域密着の整備工場、働き方の違い: https://yamamoto-mycar.com/recruit-column/large-company-vs-local-shop/
+- 板金塗装の仕事は未経験から目指せる？: https://yamamoto-mycar.com/recruit-column/bankin-paint-inexperienced/

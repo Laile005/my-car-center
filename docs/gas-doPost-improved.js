@@ -1,7 +1,7 @@
 function doPost(e) {
   const SHEET_ID = '1xEsB3YJvbvD5JKaSU95RmczIKUJpROQulwzYEardG4Q';
   const SHEET_NAME = '応募者名簿';
-  const ALLOWED_ORIGINS = ['https://mycarcenter.netlify.app'];
+  const ALLOWED_ORIGINS = ['https://yamamoto-mycar.com'];
   const TO = 'mmaika@eos.ocn.ne.jp';
   const CC = 'ac.side.job19@gmail.com';
 

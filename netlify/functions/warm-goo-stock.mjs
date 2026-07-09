@@ -1,6 +1,6 @@
 function getSiteUrl(context) {
   const netlifyUrl = globalThis.Netlify?.env?.get?.('URL');
-  return context?.site?.url || netlifyUrl || 'https://mycarcenter.netlify.app';
+  return context?.site?.url || netlifyUrl || 'https://yamamoto-mycar.com';
 }
 
 export default async (_request, context) => {
@@ -9,7 +9,7 @@ export default async (_request, context) => {
   try {
     const response = await fetch(target, {
       headers: {
-        'user-agent': 'MyCarCenterWarmup/1.0 (+https://mycarcenter.netlify.app/)',
+        'user-agent': 'MyCarCenterWarmup/1.0 (+https://yamamoto-mycar.com/)',
         'x-mcc-warmup': '1'
       }
     });

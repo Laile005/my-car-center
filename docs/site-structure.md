@@ -2,7 +2,8 @@
 
 ## 公開URL
 
-- 本番: `https://mycarcenter.netlify.app/`
+- 本番: `https://yamamoto-mycar.com/`
+- Netlify既定URL: `https://mycarcenter.netlify.app/`（独自ドメインへ転送）
 - GitHub: `Laile005/my-car-center`
 - Netlify publish directory: リポジトリ直下
 
@@ -135,7 +136,7 @@
 
 本番反映後、社内PCや確認用スマホでは次を開く。
 
-`https://mycarcenter.netlify.app/analytics-optout/`
+`https://yamamoto-mycar.com/analytics-optout/`
 
 「このブラウザを計測しない」を押すと、そのブラウザではGA4とClarityを読み込まない。
 

@@ -18,4 +18,4 @@ Allow: /
 Disallow: /analytics-optout/
 Disallow: /partner-repair-preview/
 
-Sitemap: https://mycarcenter.netlify.app/sitemap.xml
+Sitemap: https://yamamoto-mycar.com/sitemap.xml

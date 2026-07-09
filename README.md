@@ -2,7 +2,7 @@
 
 山本マイカーセンター株式会社の公式サイトです。
 
-本番URL: https://mycarcenter.netlify.app/
+本番URL: https://yamamoto-mycar.com/
 
 ## 引き継ぎ資料
 
