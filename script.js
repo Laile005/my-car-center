@@ -252,7 +252,7 @@ function initEntryFormFeedback() {
       if (resultEl)  { resultEl.style.display = 'block'; resultEl.textContent = '送信ありがとうございました。担当よりご連絡します。'; }
       resultEl && resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
-      trackMarketingEvent('recruit_form_submit_error', { error_message: String(data.error || '') });
+      trackMarketingEvent('recruit_form_submit_error', { error_source: 'gas_response' });
       // 失敗：エラーメッセージ
       if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '送信する'; }
       if (resultEl)  { resultEl.style.display = 'block'; resultEl.textContent = '送信に失敗しました。時間をおいて再度お試しください。'; }

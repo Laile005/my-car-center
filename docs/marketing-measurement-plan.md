@@ -10,11 +10,11 @@
 
 - Google Search Console: 検索キーワード、表示回数、クリック、掲載順位、インデックス状況を見る。
 - Google Analytics 4: ページ閲覧、電話クリック、Goo-net遷移、採用フォーム送信開始/成功、CTAクリック、スクロール到達率を見る。
-- Microsoft Clarity: ヒートマップと録画で、どこを読まれているか、どこで迷っているかを見る。採用フォームの個人情報保護のため、初期設定では採用ページでは読み込まない。
+- Microsoft Clarity: ヒートマップと録画で、どこを読まれているか、どこで迷っているかを見る。採用ページも対象とし、応募フォームと送信結果は明示的にマスクする。
 
 ## サイト側の設定
 
-`analytics-config.js` にIDを入れる。
+`analytics-head.js` の設定オブジェクトにIDを入れる。このファイルは本番ドメインでのみGA4とClarityを起動し、`analytics.js` は独自イベントだけを担当する。
 
 ```js
 window.MCC_ANALYTICS = {
@@ -22,11 +22,11 @@ window.MCC_ANALYTICS = {
   clarityId: 'xxxxxxxxxx',
   enableScrollDepth: true,
   enableCtaTracking: true,
-  disableClarityOnRecruit: true
+  enableVisibilityTracking: true
 };
 ```
 
-IDが空の場合、外部計測タグは読み込まれない。
+採用フォームと送信結果には `data-clarity-mask="true"` を付け、録画へ入力値を送信しない。
 
 ## GA4で見るイベント
 

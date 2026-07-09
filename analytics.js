@@ -1,38 +1,6 @@
 (function () {
-  var OPT_OUT_KEY = 'mcc_analytics_optout';
-
-  function syncAnalyticsOptOut() {
-    var params = new URLSearchParams(location.search);
-    var setting = params.get('mcc_analytics');
-    try {
-      if (setting === 'off') {
-        localStorage.setItem(OPT_OUT_KEY, '1');
-      } else if (setting === 'on') {
-        localStorage.removeItem(OPT_OUT_KEY);
-      }
-      return localStorage.getItem(OPT_OUT_KEY) === '1';
-    } catch (error) {
-      return setting === 'off';
-    }
-  }
-
-  var analyticsDisabled = syncAnalyticsOptOut();
-  if (analyticsDisabled) {
-    window.MCC_ANALYTICS_DISABLED = true;
-  }
-
-  function loadScriptOnce(src, id) {
-    if (id && document.getElementById(id)) return Promise.resolve();
-    return new Promise(function (resolve, reject) {
-      var script = document.createElement('script');
-      if (id) script.id = id;
-      script.src = src;
-      script.async = true;
-      script.onload = resolve;
-      script.onerror = reject;
-      document.head.appendChild(script);
-    });
-  }
+  var analyticsDisabled = window.MCC_ANALYTICS_DISABLED === true;
+  var config = window.MCC_ANALYTICS || {};
 
   function sendEvent(name, params) {
     if (analyticsDisabled) return;
@@ -80,18 +48,16 @@
       if (!link) return;
       var href = link.getAttribute('href') || '';
       var text = link.textContent.replace(/\s+/g, ' ').trim().slice(0, 80);
-      var params = { link_text: text, link_url: href };
-
       if (href.indexOf('tel:') === 0) {
-        sendEvent('phone_click', params);
+        sendEvent('phone_click', { link_type: 'telephone' });
       } else if (href.indexOf('goo-net.com') !== -1) {
-        sendEvent('goo_net_click', params);
+        sendEvent('goo_net_click', { link_text: text, link_url: href });
       } else if (link.closest('.column-card') || link.closest('.rg-card')) {
-        sendEvent('article_card_click', params);
+        sendEvent('article_card_click', { link_text: text, link_url: href });
       } else if (link.classList.contains('recruit-cta') || link.classList.contains('link-with-arrow')) {
-        sendEvent('cta_click', params);
+        sendEvent('cta_click', { link_text: text, link_url: href });
       } else if (href.indexOf('/recruit') !== -1 || href === '#entry') {
-        sendEvent('recruit_link_click', params);
+        sendEvent('recruit_link_click', { link_text: text, link_url: href });
       }
     });
   }
@@ -216,30 +182,8 @@
   initHomeServiceLinks();
   initRecruitColumnCards();
 
-  loadScriptOnce('/analytics-config.js', 'mcc-analytics-config')
-    .catch(function () {})
-    .finally(function () {
-      var config = window.MCC_ANALYTICS || {};
-      var ga4Id = String(config.ga4Id || '').trim();
-      var clarityId = String(config.clarityId || '').trim();
-      var isRecruitPage = !!document.querySelector('form.rg-form') || location.pathname.indexOf('/recruit') !== -1;
-
-      if (!analyticsDisabled && ga4Id) {
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function gtag(){ window.dataLayer.push(arguments); };
-        window.gtag('js', new Date());
-        window.gtag('config', ga4Id, { send_page_view: true });
-        loadScriptOnce('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(ga4Id), 'mcc-ga4');
-      }
-
-      if (!analyticsDisabled && clarityId && !(config.disableClarityOnRecruit && isRecruitPage)) {
-        window.clarity = window.clarity || function clarity(){ (window.clarity.q = window.clarity.q || []).push(arguments); };
-        loadScriptOnce('https://www.clarity.ms/tag/' + encodeURIComponent(clarityId), 'mcc-clarity');
-      }
-
-      if (!analyticsDisabled && config.enableCtaTracking !== false) initClickTracking();
-      if (!analyticsDisabled && config.enableScrollDepth !== false) initScrollDepthTracking();
-      if (!analyticsDisabled && config.enableVisibilityTracking !== false) initVisibilityTracking();
-      flushQueue();
-    });
+  if (!analyticsDisabled && config.enableCtaTracking !== false) initClickTracking();
+  if (!analyticsDisabled && config.enableScrollDepth !== false) initScrollDepthTracking();
+  if (!analyticsDisabled && config.enableVisibilityTracking !== false) initVisibilityTracking();
+  flushQueue();
 })();
