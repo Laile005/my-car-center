@@ -2,6 +2,12 @@
   publish = "."
   functions = "netlify/functions"
 
+[[redirects]]
+  from = "https://mycarcenter.netlify.app/*"
+  to = "https://yamamoto-mycar.com/:splat"
+  status = 301
+  force = true
+
 [[headers]]
   for = "/*"
   [headers.values]
