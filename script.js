@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  initPageIdentity();
   initSharedHeader();
   initCurrentYear();
   setupHamburgerMenu();
@@ -15,6 +16,37 @@ document.addEventListener('DOMContentLoaded', () => {
   setupPrivacyModal();
 });
 
+function initPageIdentity() {
+  const body = document.body;
+  if (!body) return;
+
+  const parts = location.pathname.split('/').filter(Boolean);
+  const knownPages = [
+    'repair-maintenance', 'bankin-toso', 'shaken', 'maintenance', 'new-cars',
+    'used-cars', 'column', 'recruit-column', 'company-guide',
+    'partner-repair-preview', 'analytics-optout'
+  ];
+  const first = knownPages.find((name) => parts.includes(name))
+    || (location.pathname.endsWith('/recruit') || location.pathname.endsWith('/recruit.html') ? 'recruit' : 'home');
+  const safeName = first.replace(/[^a-z0-9-]/gi, '-');
+  body.classList.add(`page-${safeName}`);
+
+  const pageIndex = parts.indexOf(first);
+  const columnSlug = pageIndex >= 0 ? (parts[pageIndex + 1] || '') : '';
+  if (first === 'column' && columnSlug && columnSlug !== 'index.html') {
+    body.classList.add('page-article');
+    const slug = columnSlug;
+    if (/used-car|new-vs-used/.test(slug)) body.classList.add('article-tone-used');
+    else if (/insurance|bankin|bumper|accident|repair/.test(slug)) body.classList.add('article-tone-repair');
+    else if (/oil|tire|maintenance|shaken|dealer/.test(slug)) body.classList.add('article-tone-maintenance');
+    else if (/new-car/.test(slug)) body.classList.add('article-tone-sales');
+  }
+
+  if (first === 'recruit-column') {
+    body.classList.add('page-article', 'article-tone-recruit');
+  }
+}
+
 function initSharedHeader() {
   const header = document.querySelector('.site-header');
   if (!header) return;
@@ -28,7 +60,6 @@ function initSharedHeader() {
     { label: 'TOP', href: '/#hero' },
     { label: '整備・修理', href: '/#service' },
     { label: '新車・中古車', href: '/#sales' },
-    { label: '保険相談', href: '/#insurance' },
     { label: 'お役立ち情報', href: '/#column' },
     { label: '採用情報', href: '/recruit' },
     {

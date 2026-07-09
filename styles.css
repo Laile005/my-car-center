@@ -1497,6 +1497,7 @@ img {
 }
 
 .article__header{
+  width: min(820px, calc(100% - 2rem));
   max-width: 820px;
   margin: 0 auto 2rem;
 }
@@ -1523,6 +1524,7 @@ img {
 }
 
 .article__body{
+  width: min(820px, calc(100% - 2rem));
   max-width: 820px;
   margin: 0 auto;
 }
@@ -2095,4 +2097,713 @@ img {
 /* モバイルメニュー開閉時にスクロール禁止 */
 .no-scroll {
   overflow: hidden;
+}
+
+/* =====================================
+   Page identities: shared tone, varied structure
+===================================== */
+.page-repair-maintenance .column-hero,
+.page-bankin-toso .column-hero,
+.page-shaken .column-hero,
+.page-maintenance .column-hero,
+.page-new-cars .column-hero,
+.page-column:not(.page-article) .column-hero,
+.page-partner-repair-preview .column-hero{
+  min-height: 0;
+}
+
+.page-repair-maintenance .guide-card,
+.page-bankin-toso .guide-card,
+.page-shaken .guide-card,
+.page-maintenance .guide-card,
+.page-new-cars .guide-card,
+.page-partner-repair-preview .guide-card{
+  border-radius: 8px;
+}
+
+/* Repair and maintenance hub */
+.repair-hero{
+  padding: clamp(34px, 5vw, 56px) 0;
+  background:
+    linear-gradient(110deg, rgba(239,248,255,.98), rgba(240,253,255,.92));
+}
+
+.repair-hero__inner{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem);
+  align-items: center;
+  gap: clamp(2rem, 6vw, 5rem);
+}
+
+.repair-hero .breadcrumb{
+  margin-bottom: .85rem;
+}
+
+.repair-eyebrow,
+.repair-card-label{
+  color: #0f6aa8;
+  font-size: .76rem;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.repair-eyebrow{
+  margin: 0 0 .6rem;
+}
+
+.repair-card-label{
+  margin: 0 0 .7rem !important;
+}
+
+.repair-hero .column-hero__title{
+  max-width: 45rem;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+}
+
+.repair-hero__actions{
+  display: flex;
+  flex-wrap: wrap;
+  gap: .7rem;
+  margin-top: 1.45rem;
+}
+
+.repair-hero__assurance{
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  border: 1px solid rgba(96,165,250,.34);
+  border-radius: 8px;
+  background: rgba(255,255,255,.76);
+  box-shadow: 0 12px 28px rgba(15,23,42,.06);
+}
+
+.repair-hero__assurance-label{
+  margin: 0 0 .85rem;
+  color: #475569;
+  font-size: .78rem;
+  font-weight: 700;
+}
+
+.repair-hero__assurance dl{
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+
+.repair-hero__assurance dl > div{
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: .8rem;
+  padding: .8rem 0;
+  border-top: 1px solid rgba(148,163,184,.25);
+}
+
+.repair-hero__assurance dt{
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.repair-hero__assurance dd{
+  margin: 0;
+  color: #64748b;
+  font-size: .88rem;
+}
+
+.repair-services{
+  padding-top: clamp(2.8rem, 6vw, 4.5rem);
+}
+
+.repair-service-grid .guide-card{
+  position: relative;
+  border-color: rgba(148,163,184,.28);
+  border-top: 3px solid #7dd3fc;
+  box-shadow: 0 9px 22px rgba(15,23,42,.045);
+}
+
+.repair-service-grid .guide-card--accent{
+  border-color: rgba(96,165,250,.42);
+  border-top-color: #38bdf8;
+  background: #fff;
+}
+
+.repair-consult-strip{
+  display: grid;
+  grid-template-columns: 12rem 1fr;
+  align-items: center;
+  gap: 1.3rem;
+  margin-top: 1.2rem;
+  padding: 1.05rem 1.2rem;
+  border: 1px solid rgba(148,163,184,.27);
+  border-radius: 8px;
+  background: #f8fbff;
+}
+
+.repair-consult-strip h2{
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.repair-consult-strip ul{
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.repair-consult-strip li{
+  padding: .38rem .7rem;
+  border: 1px solid rgba(96,165,250,.24);
+  border-radius: 999px;
+  background: #fff;
+  color: #334155;
+  font-size: .82rem;
+}
+
+.repair-support__layout{
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+
+.repair-support h2{
+  margin: 0 0 .9rem;
+  font-size: clamp(1.65rem, 3vw, 2.35rem);
+  line-height: 1.4;
+}
+
+.repair-support__list{
+  counter-reset: support;
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.repair-support__list li{
+  counter-increment: support;
+  display: grid;
+  grid-template-columns: 2.3rem 1fr;
+  gap: .9rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(148,163,184,.3);
+}
+
+.repair-support__list li::before{
+  content: counter(support, decimal-leading-zero);
+  color: #0ea5e9;
+  font-size: .8rem;
+  font-weight: 800;
+}
+
+.repair-support__list strong,
+.repair-support__list span{
+  display: block;
+}
+
+.repair-support__list span{
+  margin-top: .25rem;
+  color: #64748b;
+  font-size: .9rem;
+  line-height: 1.7;
+}
+
+.repair-flow-section{
+  scroll-margin-top: var(--header-height);
+}
+
+.repair-flow{
+  counter-reset: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid rgba(148,163,184,.35);
+}
+
+.repair-flow li{
+  min-width: 0;
+  padding: 1.25rem 1.15rem 0;
+  border-left: 1px solid rgba(148,163,184,.25);
+}
+
+.repair-flow li:first-child{
+  border-left: 0;
+}
+
+.repair-flow li > span{
+  color: #0ea5e9;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.repair-flow h3{
+  margin: .45rem 0 .35rem;
+  font-size: 1.05rem;
+}
+
+.repair-flow p{
+  margin: 0;
+  color: #64748b;
+  font-size: .88rem;
+}
+
+.repair-columns{
+  background: #f8fbff;
+}
+
+.repair-columns .column-card{
+  box-shadow: none;
+  border-radius: 8px;
+}
+
+.repair-mobile-cta{
+  display: none;
+}
+
+/* Bodywork page: technical, direct and process-led */
+.page-bankin-toso .column-hero{
+  background: #fff;
+  border-bottom: 1px solid rgba(96,165,250,.3);
+}
+
+.page-bankin-toso .column-hero .container{
+  padding-left: clamp(1rem, 3vw, 2rem);
+  border-left: 4px solid #38bdf8;
+}
+
+.page-bankin-toso main > .section:nth-of-type(2) .guide-card{
+  border: 0;
+  border-top: 3px solid #7dd3fc;
+  box-shadow: none;
+  background: #f8fbff;
+}
+
+.page-bankin-toso main > .section:nth-of-type(3) .guide-grid{
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.page-bankin-toso main > .section:nth-of-type(3) .guide-card{
+  border: 0;
+  border-right: 1px solid var(--line);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.page-bankin-toso main > .section:nth-of-type(3) .guide-card:last-child{
+  border-right: 0;
+}
+
+.page-bankin-toso main > .section:nth-of-type(4) .guide-card{
+  border-color: rgba(14,165,233,.23);
+  box-shadow: 0 8px 18px rgba(15,23,42,.04);
+}
+
+/* Vehicle inspection page: ordered and procedural */
+.page-shaken .column-hero .container{
+  display: grid;
+  grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+  gap: .75rem clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+
+.page-shaken .column-hero .breadcrumb{
+  grid-column: 1 / -1;
+}
+
+.page-shaken .column-hero__lead,
+.page-shaken .column-hero p:has(.recruit-cta){
+  grid-column: 2;
+}
+
+.page-shaken .column-hero p:has(.recruit-cta){
+  margin-top: .4rem;
+}
+
+.page-shaken main > .section:nth-of-type(2) .guide-grid{
+  counter-reset: inspection;
+}
+
+.page-shaken main > .section:nth-of-type(2) .guide-card{
+  counter-increment: inspection;
+  border: 0;
+  border-top: 1px solid #7dd3fc;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.page-shaken main > .section:nth-of-type(2) .guide-card::before{
+  content: counter(inspection, decimal-leading-zero);
+  display: block;
+  margin-bottom: .7rem;
+  color: #0ea5e9;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.page-shaken .faq-list{
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* Maintenance page: compact checklist feel */
+.page-maintenance .column-hero{
+  text-align: center;
+  background: #f8fbff;
+}
+
+.page-maintenance .column-hero__lead{
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.page-maintenance main > .section:nth-of-type(2) .guide-grid{
+  gap: .8rem;
+}
+
+.page-maintenance main > .section:nth-of-type(2) .guide-card{
+  min-height: 0;
+  padding: 1.15rem 1.25rem;
+  border: 0;
+  border-left: 3px solid #38bdf8;
+  box-shadow: none;
+  background: #f8fbff;
+}
+
+.page-maintenance main > .section:nth-of-type(3) .guide-card{
+  border: 0;
+  box-shadow: none;
+  background: #fff;
+}
+
+/* New car page: comparison and choice */
+.page-new-cars .column-hero .container,
+.page-column:not(.page-article) .column-hero .container{
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: .75rem clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+
+.page-new-cars .column-hero .breadcrumb,
+.page-column:not(.page-article) .column-hero .breadcrumb{
+  grid-column: 1 / -1;
+}
+
+.page-new-cars .column-hero__lead{
+  grid-column: 2;
+}
+
+.page-new-cars .column-hero p:has(.recruit-cta){
+  grid-column: 2;
+  margin-top: .4rem;
+}
+
+.page-new-cars main > .section:nth-of-type(2) .guide-grid{
+  gap: 0;
+  border-block: 1px solid var(--line);
+}
+
+.page-new-cars main > .section:nth-of-type(2) .guide-card{
+  border: 0;
+  border-right: 1px solid var(--line);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.page-new-cars main > .section:nth-of-type(2) .guide-card:last-child{
+  border-right: 0;
+}
+
+.page-new-cars main > .section:nth-of-type(3) .guide-card:first-child{
+  background: #eff8ff;
+  border-color: rgba(96,165,250,.35);
+}
+
+/* Column index: editorial rather than service-card driven */
+.page-column:not(.page-article) .column-hero{
+  background: #fff;
+  border-top: 5px solid #7dd3fc;
+  border-bottom: 1px solid var(--line);
+}
+
+.page-column:not(.page-article) .column-hero__lead{
+  max-width: 35rem;
+}
+
+.page-column:not(.page-article) .column-hero .container{
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+}
+
+.page-column:not(.page-article) .column-hero__title{
+  font-size: clamp(1.9rem, 3.2vw, 2.45rem);
+}
+
+.page-column:not(.page-article) main > .section:nth-of-type(2){
+  background: #f8fbff;
+}
+
+.page-column:not(.page-article) .theme-card{
+  position: relative;
+  border: 0;
+  border-top: 2px solid #7dd3fc;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.page-column:not(.page-article) .theme-card::after{
+  content: "記事を選ぶ";
+  display: block;
+  margin-top: auto;
+  padding-top: .9rem;
+  color: #0f6aa8;
+  font-size: .8rem;
+  font-weight: 800;
+}
+
+.page-column:not(.page-article) .section-title{
+  font-size: clamp(1.65rem, 3vw, 2.25rem);
+}
+
+.page-maintenance .section-title{
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+/* B2B preview: restrained and operational */
+.page-partner-repair-preview .column-hero{
+  background: #f8fafc;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.page-partner-repair-preview .guide-card{
+  box-shadow: none;
+  border-color: #cbd5e1;
+}
+
+.page-partner-repair-preview main > .section:nth-of-type(3) .guide-grid{
+  gap: 0;
+}
+
+.page-partner-repair-preview main > .section:nth-of-type(3) .guide-card{
+  border-radius: 0;
+  border-width: 1px 0 1px 1px;
+}
+
+.page-partner-repair-preview main > .section:nth-of-type(3) .guide-card:last-child{
+  border-right-width: 1px;
+}
+
+/* Company guide: concise reference sheet */
+.page-company-guide .article__header{
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border-left: 4px solid #38bdf8;
+  background: #f8fbff;
+}
+
+.page-company-guide .article__body h2{
+  padding: .75rem 0 .35rem;
+  border-top: 0;
+  border-bottom: 1px solid rgba(96,165,250,.35);
+}
+
+/* Article pages: category-led editorial rhythm */
+.page-article{
+  --article-accent: #38bdf8;
+  --article-soft: #f0f9ff;
+}
+
+.page-article.article-tone-used{
+  --article-accent: #14b8a6;
+  --article-soft: #f0fdfa;
+}
+
+.page-article.article-tone-repair{
+  --article-accent: #0ea5e9;
+  --article-soft: #f0f9ff;
+}
+
+.page-article.article-tone-maintenance{
+  --article-accent: #22c55e;
+  --article-soft: #f0fdf4;
+}
+
+.page-article.article-tone-sales{
+  --article-accent: #f59e0b;
+  --article-soft: #fffbeb;
+}
+
+.page-article.article-tone-recruit{
+  --article-accent: #2563eb;
+  --article-soft: #eff6ff;
+}
+
+.page-article .article__header{
+  padding-bottom: 1.6rem;
+  border-bottom: 3px solid var(--article-accent);
+}
+
+.page-article .article__eyebrow,
+.page-article .article__date{
+  color: var(--article-accent);
+}
+
+.page-article .article__summary,
+.page-article .article__note{
+  border-color: var(--article-accent);
+  border-radius: 0;
+  background: var(--article-soft);
+}
+
+.page-article .article__body h2{
+  padding-left: .75rem;
+  border-left: 3px solid var(--article-accent);
+}
+
+.page-article .article__body h3{
+  padding-bottom: .4rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--article-accent) 35%, #e2e8f0);
+}
+
+@media (max-width: 900px){
+  .repair-hero__inner,
+  .repair-support__layout,
+  .page-shaken .column-hero .container,
+  .page-new-cars .column-hero .container,
+  .page-column:not(.page-article) .column-hero .container{
+    grid-template-columns: 1fr;
+  }
+
+  .page-shaken .column-hero__lead,
+  .page-shaken .column-hero p:has(.recruit-cta),
+  .page-new-cars .column-hero__lead,
+  .page-new-cars .column-hero p:has(.recruit-cta){
+    grid-column: auto;
+  }
+
+  .repair-consult-strip{
+    grid-template-columns: 1fr;
+  }
+
+  .repair-flow{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 1.5rem;
+  }
+
+  .repair-flow li:nth-child(3){
+    border-left: 0;
+  }
+
+  .page-shaken .faq-list{
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px){
+  .page-repair-maintenance{
+    padding-bottom: 4.6rem;
+  }
+
+  .repair-hero{
+    padding: 28px 0 30px;
+  }
+
+  .repair-hero__inner{
+    gap: 1.25rem;
+  }
+
+  .repair-hero .column-hero__title{
+    font-size: 1.75rem;
+  }
+
+  .repair-hero .column-hero__title br{
+    display: none;
+  }
+
+  .repair-hero__assurance{
+    display: none;
+  }
+
+  .repair-hero__actions{
+    display: grid;
+  }
+
+  .repair-service-grid{
+    gap: .8rem;
+  }
+
+  .repair-consult-strip{
+    padding: 1rem;
+  }
+
+  .repair-flow{
+    grid-template-columns: 1fr;
+    border-top: 0;
+  }
+
+  .repair-flow li,
+  .repair-flow li:nth-child(3){
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: .1rem .75rem;
+    padding: .9rem 0;
+    border-top: 1px solid rgba(148,163,184,.3);
+    border-left: 0;
+  }
+
+  .repair-flow h3,
+  .repair-flow p{
+    grid-column: 2;
+  }
+
+  .repair-flow h3{
+    margin: 0;
+  }
+
+  .repair-mobile-cta{
+    position: fixed;
+    z-index: 950;
+    right: .7rem;
+    bottom: .65rem;
+    left: .7rem;
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: .45rem;
+    padding: .45rem;
+    border: 1px solid rgba(148,163,184,.3);
+    border-radius: 999px;
+    background: rgba(255,255,255,.96);
+    box-shadow: 0 12px 30px rgba(15,23,42,.18);
+  }
+
+  .repair-mobile-cta a{
+    display: grid;
+    min-height: 2.7rem;
+    place-items: center;
+    border-radius: 999px;
+    color: #0f3f73;
+    background: #eff8ff;
+    font-size: .88rem;
+    font-weight: 800;
+  }
+
+  .repair-mobile-cta a:first-child{
+    color: #fff;
+    background: linear-gradient(90deg, var(--sky), var(--mint));
+  }
+
+  .page-bankin-toso main > .section:nth-of-type(3) .guide-grid,
+  .page-new-cars main > .section:nth-of-type(2) .guide-grid{
+    border: 0;
+  }
+
+  .page-bankin-toso main > .section:nth-of-type(3) .guide-card,
+  .page-new-cars main > .section:nth-of-type(2) .guide-card{
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
 }
