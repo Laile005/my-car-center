@@ -1,21 +1,17 @@
 User-agent: OAI-SearchBot
 Allow: /
 Disallow: /analytics-optout/
-Disallow: /partner-repair-preview/
 
 User-agent: GPTBot
 Allow: /
 Disallow: /analytics-optout/
-Disallow: /partner-repair-preview/
 
 User-agent: ChatGPT-User
 Allow: /
 Disallow: /analytics-optout/
-Disallow: /partner-repair-preview/
 
 User-agent: *
 Allow: /
 Disallow: /analytics-optout/
-Disallow: /partner-repair-preview/
 
 Sitemap: https://yamamoto-mycar.com/sitemap.xml

@@ -2810,3 +2810,333 @@ img {
     border-bottom: 1px solid var(--line);
   }
 }
+
+/* =====================================
+   Business customers
+===================================== */
+.page-business{
+  --business-line: rgba(51,65,85,.22);
+  --business-soft: #f4f9fc;
+}
+
+.business-hero{
+  margin-top: var(--header-height);
+  padding: clamp(20px, 3vw, 30px) 0;
+  border-bottom: 1px solid rgba(96,165,250,.3);
+  background:
+    linear-gradient(115deg, rgba(239,248,255,.96), rgba(255,255,255,.98));
+}
+
+.business-hero__layout{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(20rem, 26rem);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: center;
+}
+
+.business-hero .breadcrumb{
+  margin-bottom: .65rem;
+}
+
+.business-eyebrow{
+  margin: 0 0 .55rem;
+  color: #0f6aa8;
+  font-size: .76rem;
+  font-weight: 800;
+}
+
+.business-hero h1{
+  margin: 0;
+  font-size: clamp(1.9rem, 3vw, 2.5rem);
+  line-height: 1.28;
+}
+
+.business-hero__lead{
+  max-width: 43rem;
+  margin: .75rem 0 0;
+  color: #475569;
+  line-height: 1.85;
+}
+
+.business-actions{
+  display: flex;
+  flex-wrap: wrap;
+  gap: .7rem;
+  margin-top: .9rem;
+}
+
+.business-hero__scope{
+  padding: .9rem 1.1rem;
+  border: 1px solid rgba(96,165,250,.32);
+  border-radius: 8px;
+  background: rgba(255,255,255,.82);
+  box-shadow: 0 12px 28px rgba(15,23,42,.055);
+}
+
+.business-hero__scope > p{
+  margin: 0 0 .45rem;
+  color: #64748b;
+  font-size: .78rem;
+  font-weight: 700;
+}
+
+.business-hero__scope ul{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.business-hero__scope li{
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: .7rem;
+  padding: .48rem 0;
+  border-top: 1px solid var(--business-line);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.business-hero__scope li span{
+  color: #0ea5e9;
+  font-size: .76rem;
+}
+
+.business-section-head{
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: end;
+  margin-bottom: 2rem;
+}
+
+.business-section-head h2{
+  margin: 0;
+  font-size: clamp(1.7rem, 3vw, 2.35rem);
+  line-height: 1.4;
+}
+
+.business-section-head p{
+  margin: 0;
+  color: #64748b;
+  line-height: 1.8;
+}
+
+.business-service-list{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--business-line);
+}
+
+.business-service-list article{
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 1rem;
+  padding: 1.45rem 1.25rem;
+  border-right: 1px solid var(--business-line);
+  border-bottom: 1px solid var(--business-line);
+}
+
+.business-service-list article:nth-child(2n){
+  border-right: 0;
+}
+
+.business-service-list article > span{
+  color: #0ea5e9;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.business-service-list h3{
+  margin: 0 0 .4rem;
+  font-size: 1.08rem;
+}
+
+.business-service-list p{
+  margin: 0;
+  color: #64748b;
+  font-size: .92rem;
+  line-height: 1.75;
+}
+
+.business-audiences{
+  background: var(--business-soft);
+}
+
+.business-audience-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.business-audience-grid article{
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid rgba(96,165,250,.3);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(15,23,42,.045);
+}
+
+.business-audience-label{
+  margin: 0 0 .65rem;
+  color: #0f6aa8;
+  font-size: .8rem;
+  font-weight: 800;
+}
+
+.business-audience-grid h3{
+  margin: 0 0 1rem;
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  line-height: 1.5;
+}
+
+.business-audience-grid ul{
+  display: grid;
+  gap: .55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.business-audience-grid li{
+  position: relative;
+  padding-left: 1.1rem;
+  color: #475569;
+}
+
+.business-audience-grid li::before{
+  content: "";
+  position: absolute;
+  top: .72em;
+  left: 0;
+  width: .4rem;
+  height: 2px;
+  background: #38bdf8;
+}
+
+.business-flow ol{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 2rem 0 0;
+  padding: 0;
+  border-top: 1px solid var(--business-line);
+  list-style: none;
+}
+
+.business-flow li{
+  padding: 1.2rem 1rem 0;
+  border-left: 1px solid var(--business-line);
+}
+
+.business-flow li:first-child{
+  border-left: 0;
+}
+
+.business-flow li > span{
+  color: #0ea5e9;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.business-flow h3{
+  margin: .45rem 0 .35rem;
+  font-size: 1.02rem;
+}
+
+.business-flow p{
+  margin: 0;
+  color: #64748b;
+  font-size: .88rem;
+  line-height: 1.7;
+}
+
+.business-cta-section{
+  padding-top: 2.5rem;
+  background: #fff;
+}
+
+.business-cta{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: center;
+  padding: clamp(1.35rem, 3vw, 2rem);
+  border: 1px solid rgba(96,165,250,.4);
+  border-radius: 8px;
+  background: #f8fbff;
+}
+
+.business-cta h2{
+  margin: 0 0 .45rem;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+}
+
+.business-cta p:not(.business-eyebrow){
+  margin: 0;
+  color: #64748b;
+}
+
+@media (max-width: 900px){
+  .business-hero__layout,
+  .business-section-head{
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+
+  .business-flow ol{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 1.5rem;
+  }
+
+  .business-flow li:nth-child(3){
+    border-left: 0;
+  }
+}
+
+@media (max-width: 600px){
+  .business-hero{
+    padding: 18px 0 22px;
+  }
+
+  .business-hero h1{
+    font-size: 1.8rem;
+  }
+
+  .business-hero h1 br{
+    display: none;
+  }
+
+  .business-hero__scope{
+    display: none;
+  }
+
+  .business-actions{
+    display: grid;
+  }
+
+  .business-service-list,
+  .business-audience-grid,
+  .business-flow ol,
+  .business-cta{
+    grid-template-columns: 1fr;
+  }
+
+  .business-service-list article{
+    border-right: 0;
+  }
+
+  .business-flow ol{
+    border-top: 0;
+    row-gap: 0;
+  }
+
+  .business-flow li,
+  .business-flow li:nth-child(3){
+    padding: 1rem 0;
+    border-top: 1px solid var(--business-line);
+    border-left: 0;
+  }
+
+  .business-cta{
+    gap: 1.2rem;
+  }
+}

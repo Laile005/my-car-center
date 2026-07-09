@@ -23,7 +23,7 @@ function initPageIdentity() {
   const parts = location.pathname.split('/').filter(Boolean);
   const knownPages = [
     'repair-maintenance', 'bankin-toso', 'shaken', 'maintenance', 'new-cars',
-    'used-cars', 'column', 'recruit-column', 'company-guide',
+    'used-cars', 'business', 'column', 'recruit-column', 'company-guide',
     'partner-repair-preview', 'analytics-optout'
   ];
   const first = knownPages.find((name) => parts.includes(name))
@@ -58,9 +58,10 @@ function initSharedHeader() {
 
   const mainItems = [
     { label: 'TOP', href: '/#hero' },
-    { label: '整備・修理', href: '/repair-maintenance/' },
     { label: '新車・中古車', href: '/used-cars/' },
+    { label: '整備・修理', href: '/repair-maintenance/' },
     { label: 'お役立ち情報', href: '/column/' },
+    { label: '法人のお客様', href: '/business/' },
     { label: '採用情報', href: '/recruit' },
     {
       label: '会社情報',

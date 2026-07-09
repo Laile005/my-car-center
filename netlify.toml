@@ -34,3 +34,9 @@
   to = "/recruit-column/work-life/"
   status = 301
   force = true
+
+[[redirects]]
+  from = "/partner-repair-preview/*"
+  to = "/business/:splat"
+  status = 301
+  force = true
