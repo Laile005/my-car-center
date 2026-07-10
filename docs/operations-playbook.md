@@ -1,4 +1,4 @@
-# 運用手順
+﻿# 運用手順
 
 ## デプロイ
 
@@ -61,6 +61,12 @@ git pull origin main
 - `recruit_form_submit_success`: 採用フォーム送信成功
 - `recruit_form_submit_error`: 採用フォーム送信エラー
 
+## 週次レポート
+
+GA4とClarityの週次レポートは [marketing-reporting.md](./marketing-reporting.md) の手順で実行する。
+
+ClarityはData Export APIの仕様上、1回の取得で直近72時間までしか取れない。週次では最新スナップショットを残して、前回分と比較する運用にする。
+
 キーイベント候補:
 
 - `phone_click`
@@ -70,7 +76,7 @@ git pull origin main
 
 ## Search Console
 
-Search Consoleで検索キーワードが見られる。
+Search Consoleで検索キーワードを確認できる。
 
 GA4だけでは検索キーワードは基本的にわからない。
 

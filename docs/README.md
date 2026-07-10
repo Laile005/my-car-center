@@ -1,4 +1,4 @@
-# 山本マイカーセンター サイト引き継ぎ資料
+﻿# 山本マイカーセンター サイト引き継ぎ資料
 
 この `docs` フォルダは、山本マイカーセンター株式会社のWebサイトを、別のAI・開発者・運用担当者が引き継ぐための資料です。
 
@@ -18,6 +18,9 @@
 
 5. [marketing-roadmap.md](./marketing-roadmap.md)
    - SEO / LLO / GEO、GA4、Clarity、Search Consoleを使った改善方針。
+
+6. [marketing-reporting.md](./marketing-reporting.md)
+   - GA4 / Clarity の週次レポート実行方法と、手動発行が必要な項目。
 
 ## 既存資料
 

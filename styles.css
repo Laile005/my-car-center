@@ -469,6 +469,26 @@ img {
   font-weight: 700;
 }
 
+.hero-lead {
+  margin: 1rem 0 0;
+  max-width: 34rem;
+  line-height: 1.8;
+  font-size: 1rem;
+  color: rgba(15,23,42,.92);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem;
+  margin-top: 1.2rem;
+  pointer-events: auto;
+}
+
+.hero-actions > * {
+  min-width: 11rem;
+}
+
 @media screen and (max-width: 1090px) {
   html, body {
     margin: 0;
