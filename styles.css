@@ -476,9 +476,9 @@ img {
 /* キャッチコピー */
 .hero-content {
   position: absolute;
-  top: clamp(4.5rem, 14%, 6rem);
+  top: 42%;
   left: clamp(2rem, 8vw, 8rem);
-  transform: none;
+  transform: translateY(-50%);
   z-index: 3;
   color: var(--ink);
   width: min(49vw, 660px);
