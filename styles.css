@@ -380,7 +380,14 @@ img {
   position: relative;
   width: 100%;
   min-height: 0;
-  height: clamp(520px, calc(100svh - var(--header-height) - 120px), 600px);
+  height: clamp(
+    540px,
+    min(
+      calc(100vw * 10 / 21 - var(--header-height)),
+      calc(100svh - var(--header-height) - 72px)
+    ),
+    680px
+  );
   overflow: hidden;
   margin-top: var(--header-height);
 }
@@ -399,10 +406,11 @@ img {
   pointer-events: none;
   background: linear-gradient(
     90deg,
-    rgba(255,255,255,.96) 0%,
-    rgba(255,255,255,.88) 25%,
-    rgba(255,255,255,.46) 43%,
-    rgba(255,255,255,0) 66%
+    rgba(255,255,255,.98) 0%,
+    rgba(255,255,255,.92) 24%,
+    rgba(255,255,255,.6) 39%,
+    rgba(255,255,255,.08) 55%,
+    rgba(255,255,255,0) 64%
   );
 }
 
@@ -467,12 +475,12 @@ img {
 /* キャッチコピー */
 .hero-content {
   position: absolute;
-  top: 50%;
-  left: clamp(2rem, 7vw, 8rem);
-  transform: translateY(-50%);
+  top: clamp(4.5rem, 14%, 6rem);
+  left: clamp(2rem, 8vw, 8rem);
+  transform: none;
   z-index: 3;
   color: var(--ink);
-  width: min(51vw, 660px);
+  width: min(49vw, 660px);
   max-width: calc(100% - 4rem);
 }
 .hero-content .hero-title {
@@ -510,7 +518,7 @@ img {
   }
   .section-hero {
     min-height: 0;
-    height: clamp(500px, calc(100svh - var(--header-height) - 72px), 580px);
+    height: clamp(520px, calc(100svh - var(--header-height) - 48px), 620px);
   }
   .section-hero::after{
     background: linear-gradient(
