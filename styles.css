@@ -379,17 +379,18 @@ img {
 .section-hero {
   position: relative;
   width: 100%;
-  min-height: 0;
-  height: clamp(
-    540px,
-    min(
-      calc(100vw * 10 / 21 - var(--header-height)),
-      calc(100svh - var(--header-height) - 72px)
-    ),
-    680px
-  );
+  min-height: calc(100vh - var(--header-height));
+  height: calc(100vh - var(--header-height));
+  padding: 0;
   overflow: hidden;
   margin-top: var(--header-height);
+}
+
+@supports (height: 100svh) {
+  .section-hero {
+    min-height: calc(100svh - var(--header-height));
+    height: calc(100svh - var(--header-height));
+  }
 }
 .section.skin-hero-soft{
   background:
@@ -515,10 +516,6 @@ img {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-  }
-  .section-hero {
-    min-height: 0;
-    height: clamp(520px, calc(100svh - var(--header-height) - 48px), 620px);
   }
   .section-hero::after{
     background: linear-gradient(
