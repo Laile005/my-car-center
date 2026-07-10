@@ -379,8 +379,8 @@ img {
 .section-hero {
   position: relative;
   width: 100%;
-  min-height: 500px;
-  height: min(660px, max(500px, calc(100svh - var(--header-height) - 88px)));
+  min-height: 0;
+  height: clamp(520px, calc(100svh - var(--header-height) - 120px), 600px);
   overflow: hidden;
   margin-top: var(--header-height);
 }
@@ -502,23 +502,6 @@ img {
   color: rgba(15,23,42,.84);
 }
 
-@media (min-width: 1091px) and (max-height: 760px) {
-  .section-hero {
-    min-height: 460px;
-    height: calc(100svh - var(--header-height) - 56px);
-  }
-
-  .hero-content .hero-title {
-    font-size: clamp(2.25rem, 3.15vw, 3.75rem);
-  }
-
-  .hero-lead {
-    margin-top: 1.05rem;
-    line-height: 1.72;
-  }
-}
-
-
 @media screen and (max-width: 1090px) {
   html, body {
     margin: 0;
@@ -527,7 +510,7 @@ img {
   }
   .section-hero {
     min-height: 0;
-    height: clamp(560px, 74svh, 620px);
+    height: clamp(500px, calc(100svh - var(--header-height) - 72px), 580px);
   }
   .section-hero::after{
     background: linear-gradient(
