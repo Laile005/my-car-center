@@ -1271,6 +1271,114 @@ img {
   scroll-margin-top: var(--header-height);
 }
 
+#order-flow{
+  scroll-margin-top: calc(var(--header-height) + 1rem);
+}
+
+.purchase-flow{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid rgba(148,163,184,.35);
+}
+
+.purchase-flow li{
+  min-width: 0;
+  padding: 1.25rem 1.15rem 0;
+  border-left: 1px solid rgba(148,163,184,.25);
+}
+
+.purchase-flow li:first-child{
+  border-left: 0;
+}
+
+.purchase-flow li > span{
+  color: #0ea5e9;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.purchase-flow h3{
+  margin: .45rem 0 .35rem;
+  font-size: 1.05rem;
+}
+
+.purchase-flow p{
+  margin: 0;
+  color: #64748b;
+  font-size: .88rem;
+  line-height: 1.7;
+}
+
+.purchase-flow__note{
+  max-width: 58rem;
+  margin: 2rem auto 0;
+  padding: 1rem 1.15rem;
+  border-left: 3px solid var(--sky);
+  background: #f8fbff;
+  color: #475569;
+  line-height: 1.8;
+}
+
+.purchase-flow__cta{
+  margin: 1.25rem 0 0;
+  text-align: center;
+}
+
+.new-car-consultation__layout{
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(20rem, 1.05fr);
+  align-items: center;
+  gap: clamp(2rem, 6vw, 5rem);
+}
+
+.new-car-consultation .section-title,
+.new-car-consultation .section-subtitle{
+  max-width: 44rem;
+  margin-left: 0;
+  text-align: left;
+}
+
+.new-car-consultation .section-subtitle{
+  margin-bottom: 1.35rem;
+}
+
+.new-car-consultation__action{
+  margin: 0;
+}
+
+.new-car-consultation__points{
+  display: grid;
+  margin: 0;
+  border-top: 1px solid rgba(148,163,184,.3);
+  border-bottom: 1px solid rgba(148,163,184,.3);
+}
+
+.new-car-consultation__points > div{
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(148,163,184,.24);
+}
+
+.new-car-consultation__points > div:first-child{
+  border-top: 0;
+}
+
+.new-car-consultation__points dt{
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.new-car-consultation__points dd{
+  margin: 0;
+  color: #64748b;
+  line-height: 1.7;
+}
+
 #insurance{
   scroll-margin-top: calc(var(--header-height) + 1rem);
 }
@@ -2035,6 +2143,58 @@ img {
 
   .guide-card--featured{
     grid-template-columns: 1fr;
+  }
+
+  .purchase-flow{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 1.5rem;
+  }
+
+  .purchase-flow li:nth-child(3){
+    border-left: 0;
+  }
+
+  .new-car-consultation__layout{
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+}
+
+@media (max-width: 600px){
+  .purchase-flow{
+    grid-template-columns: 1fr;
+    border-top: 0;
+  }
+
+  .purchase-flow li,
+  .purchase-flow li:nth-child(3){
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: .1rem .75rem;
+    padding: .9rem 0;
+    border-top: 1px solid rgba(148,163,184,.3);
+    border-left: 0;
+  }
+
+  .purchase-flow h3,
+  .purchase-flow p{
+    grid-column: 2;
+  }
+
+  .purchase-flow h3{
+    margin: 0;
+  }
+
+  .purchase-flow__note{
+    margin-top: 1.4rem;
+    padding: .85rem 1rem;
+    font-size: .92rem;
+  }
+
+  .new-car-consultation__points > div{
+    grid-template-columns: 1fr;
+    gap: .3rem;
+    padding: .85rem 0;
   }
 }
 
