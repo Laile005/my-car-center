@@ -58,7 +58,8 @@ function initSharedHeader() {
 
   const mainItems = [
     { label: 'TOP', href: '/#hero' },
-    { label: '新車・中古車', href: '/used-cars/' },
+    { label: '新車', href: '/new-cars/' },
+    { label: '中古車', href: '/used-cars/' },
     { label: '整備・修理', href: '/repair-maintenance/' },
     { label: 'お役立ち情報', href: '/column/' },
     { label: '法人のお客様', href: '/business/' },
@@ -77,7 +78,6 @@ function initSharedHeader() {
 
   const recruitItems = [
     { label: 'TOP', href: '/' },
-    { label: '採用TOP', href: '/recruit' },
     { label: '仕事内容', href: '/recruit#job' },
     { label: '働き方', href: '/recruit#about' },
     { label: '先輩の声', href: '/recruit#voice' },
@@ -475,14 +475,14 @@ function enhanceHomeSalesAndColumns() {
     section.setAttribute('aria-labelledby', 'sales-title');
     section.innerHTML = `
       <div class="container">
-        <h2 class="section-title" id="sales-title">車の購入相談</h2>
-        <p class="section-subtitle">掲載在庫だけでなく、条件から中古車を探す相談もできます。新車は国内全メーカー相談可能です。</p>
+        <h2 class="section-title" id="sales-title">新車・中古車の購入相談</h2>
+        <p class="section-subtitle">中古車は掲載在庫と条件からの車探しに対応しています。新車は国内全メーカーからご相談いただけます。</p>
         <div class="guide-grid">
-          <article class="guide-card guide-card--accent"><h3>条件から中古車を探す</h3><p>業者専用オークション等も活用し、仕入れ後の点検・整備・板金塗装まで見てご提案できます。掲載在庫に希望の車がない時ほどご相談ください。</p></article>
+          <article class="guide-card guide-card--accent"><h3>条件から中古車を探す</h3><p>業者専用オークション等も活用し、仕入れ後の点検・整備・板金塗装を行ってご提案します。掲載在庫に希望の車がない時ほどご相談ください。</p></article>
           <article class="guide-card"><h3>中古車在庫</h3><p>掲載在庫はグーネットで更新しています。気になる車は、来店前に電話で在庫状況をご確認ください。</p></article>
           <article class="guide-card"><h3>新車相談</h3><p>軽自動車、コンパクト、ミニバン、商用車まで、用途・予算・納期に合わせて国内メーカーからご提案します。</p></article>
         </div>
-        <div class="section-link"><a href="/used-cars/" class="link-with-arrow">在庫車・購入相談を見る <span class="arrow">›</span></a></div>
+        <div class="section-link section-sales__links"><a href="/used-cars/" class="link-with-arrow">中古車を探す <span class="arrow">›</span></a><a href="/new-cars/" class="link-with-arrow">新車相談を見る <span class="arrow">›</span></a></div>
       </div>`;
     if (localGuide) localGuide.before(section);
   }
