@@ -26,6 +26,17 @@ Recommended next site edits:
 Working rule:
 - If a sentence is useful for a human visitor, it is usually useful for LLO / GEO too.
 - Prefer clear summaries and concrete examples over slogan stacking.
+- Do not expose internal marketing language such as "AI / search summary", "traffic data", or "content for LLMs" in customer-facing pages.
+- Avoid the phrases `見られます`, `町の整備工場`, and `整備まで見て`. Prefer concrete wording such as `点検・整備に対応します` or `地域密着の整備工場`.
+
+Design direction (2026-07-10 review):
+- Keep white, pale blue, restrained blue/cyan CTAs, generous spacing, and the Yamamoto red logo.
+- The homepage hero uses the real-photo carousel with a full-width left fade. Do not put the hero copy inside a floating white/translucent card.
+- Homepage hero copy is intentionally two lines on desktop and the hero is capped at 700px desktop / 620px mobile.
+- Core service pages use compact split heroes on desktop and hide the summary panel on phones so the first view is not consumed by the hero.
+- `bankin-toso/`, `shaken/`, `maintenance/`, and `new-cars/` share the `service-detail-hero` structure but use different restrained accent colors.
+- Article pages use an editorial header and readable content width. SEO / LLO / GEO structure must still read naturally to a person.
+- Run `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\verify-site.ps1` after site-wide copy or layout changes.
 
 Current changes applied:
 - Homepage hero now says the shop can handle repair, inspection, used-car sourcing, finishing, and sales in one flow.
