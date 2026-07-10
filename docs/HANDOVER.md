@@ -44,3 +44,15 @@ GA4 auth update:
 - The report script now accepts either service-account JSON or authorized_user ADC JSON.
 - This means user-account auth can be used once a local ADC file is created with gcloud.
 - The machine currently does not have an ADC file yet, so the script is ready but not switched over in practice.
+
+
+Local Google Cloud SDK status:
+- Installed at %LOCALAPPDATA%\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd.
+- Verified with `gcloud --version`.
+- `gcloud auth application-default login --no-launch-browser` reaches the Google sign-in URL, but the interactive login still needs a real browser session from the user.
+
+
+GA4 auth result:
+- gcloud application-default login completed successfully and created an authorized_user ADC file.
+- The weekly report now runs with that ADC file, but GA4 still returns 403 Forbidden.
+- That points to GA4 property access / Data API permission, not a local auth failure.

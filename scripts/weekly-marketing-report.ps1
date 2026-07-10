@@ -1,4 +1,4 @@
-﻿param(
+param(
   [string]$Ga4PropertyId,
   [string]$Ga4ServiceAccount,
   [string]$ClarityToken,
@@ -276,6 +276,24 @@ function Invoke-JsonApi {
     return Invoke-RestMethod -Method $Method -Uri $Uri -Headers $Headers
   }
   catch {
+    $detail = $null
+    if ($_.Exception.Response) {
+      try {
+        $stream = $_.Exception.Response.GetResponseStream()
+        if ($stream) {
+          $reader = New-Object IO.StreamReader($stream)
+          $detail = $reader.ReadToEnd()
+        }
+      }
+      catch {
+        $detail = $null
+      }
+    }
+
+    if ($detail) {
+      throw ("Request failed [{0} {1}]: {2}; Body: {3}" -f $Method, $Uri, $_.Exception.Message, $detail)
+    }
+
     throw ("Request failed [{0} {1}]: {2}" -f $Method, $Uri, $_.Exception.Message)
   }
 }
@@ -620,17 +638,17 @@ if ($gaSummary.rows -and $gaSummary.rows.Count -gt 0) {
 
 $channelRows = @()
 if ($gaChannels -and $gaChannels.rows) {
-  $channelRows = @($gaChannels.rows | ForEach-Object { @($_.dimensionValues[0].value, $_.metricValues[0].value, $_.metricValues[1].value, $_.metricValues[2].value) })
+  $channelRows = @($gaChannels.rows | ForEach-Object { ,@($_.dimensionValues[0].value, $_.metricValues[0].value, $_.metricValues[1].value, $_.metricValues[2].value) })
 }
 
 $pageRows = @()
 if ($gaPages -and $gaPages.rows) {
-  $pageRows = @($gaPages.rows | ForEach-Object { @($_.dimensionValues[0].value, $_.metricValues[0].value, $_.metricValues[1].value, $_.metricValues[2].value) })
+  $pageRows = @($gaPages.rows | ForEach-Object { ,@($_.dimensionValues[0].value, $_.metricValues[0].value, $_.metricValues[1].value, $_.metricValues[2].value) })
 }
 
 $eventRows = @()
 if ($gaEvents -and $gaEvents.rows) {
-  $eventRows = @($gaEvents.rows | ForEach-Object { @($_.dimensionValues[0].value, $_.metricValues[0].value) })
+  $eventRows = @($gaEvents.rows | ForEach-Object { ,@($_.dimensionValues[0].value, $_.metricValues[0].value) })
 }
 
 $lines = New-Object System.Collections.Generic.List[string]

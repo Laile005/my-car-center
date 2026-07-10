@@ -77,6 +77,7 @@ function initSharedHeader() {
 
   const recruitItems = [
     { label: 'TOP', href: '/' },
+    { label: '採用TOP', href: '/recruit' },
     { label: '仕事内容', href: '/recruit#job' },
     { label: '働き方', href: '/recruit#about' },
     { label: '先輩の声', href: '/recruit#voice' },
@@ -86,7 +87,7 @@ function initSharedHeader() {
   ];
 
   const items = isRecruit ? recruitItems : mainItems;
-  const logoHref = isRecruit ? '/recruit' : '/';
+  const logoHref = '/';
   const logoSrc = '/image/Logo.webp';
   const desktopLinks = items.map((item) => {
     const children = item.children || [];
