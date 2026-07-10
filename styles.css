@@ -379,8 +379,8 @@ img {
 .section-hero {
   position: relative;
   width: 100%;
-  min-height: 560px;
-  height: clamp(560px, 72vh, 700px);
+  min-height: 500px;
+  height: min(660px, max(500px, calc(100svh - var(--header-height) - 88px)));
   overflow: hidden;
   margin-top: var(--header-height);
 }
@@ -500,6 +500,22 @@ img {
   line-height: 1.85;
   font-size: clamp(.95rem, 1.25vw, 1.05rem);
   color: rgba(15,23,42,.84);
+}
+
+@media (min-width: 1091px) and (max-height: 760px) {
+  .section-hero {
+    min-height: 460px;
+    height: calc(100svh - var(--header-height) - 56px);
+  }
+
+  .hero-content .hero-title {
+    font-size: clamp(2.25rem, 3.15vw, 3.75rem);
+  }
+
+  .hero-lead {
+    margin-top: 1.05rem;
+    line-height: 1.72;
+  }
 }
 
 
