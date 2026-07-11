@@ -119,12 +119,7 @@ function initSharedFooter() {
   const footer = document.querySelector('.footer');
   if (!footer) return;
 
-  const currentPath = location.pathname.replace(/\/+$/, '');
-  const isRecruit = currentPath.endsWith('/recruit')
-    || currentPath.endsWith('/recruit.html')
-    || currentPath.includes('/recruit-column/');
-
-  const corporateGroups = [
+  const footerGroups = [
     {
       title: '車のご相談',
       links: [
@@ -135,17 +130,15 @@ function initSharedFooter() {
       ]
     },
     {
-      title: '山本マイカーセンター',
+      title: '会社情報',
       links: [
         ['法人のお客様', '/business/'],
-        ['採用情報', '/recruit'],
+        ['よくある質問', '/#faq'],
+        ['作業の流れ', '/#flow'],
+        ['施工事例', '/#works'],
         ['会社情報', '/#company'],
-        ['よくある質問', '/#faq']
       ]
-    }
-  ];
-
-  const recruitGroups = [
+    },
     {
       title: '採用情報',
       links: [
@@ -156,27 +149,17 @@ function initSharedFooter() {
         ['求職者向け情報', '/recruit#recruit-column'],
         ['カジュアル面談', '/recruit#entry']
       ]
-    },
-    {
-      title: '企業サイト',
-      links: [
-        ['TOP', '/'],
-        ['新車', '/new-cars/'],
-        ['中古車', '/used-cars/'],
-        ['整備・修理', '/repair-maintenance/']
-      ]
     }
   ];
 
-  const groups = isRecruit ? recruitGroups : corporateGroups;
-  const groupsMarkup = groups.map((group) => `
+  const groupsMarkup = footerGroups.map((group) => `
     <nav class="footer-nav-group" aria-label="${group.title}">
       <h2>${group.title}</h2>
       <ul>${group.links.map(([label, href]) => `<li><a href="${href}">${label}</a></li>`).join('')}</ul>
     </nav>
   `).join('');
 
-  footer.className = `footer footer--shared${isRecruit ? ' footer--recruit' : ''}`;
+  footer.className = 'footer footer--shared';
   footer.innerHTML = `
     <div class="footer-inner">
       <div class="footer-brand">

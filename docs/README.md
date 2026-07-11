@@ -13,13 +13,16 @@
 3. [implementation-decisions.md](./implementation-decisions.md)
    - 実装した理由、検討したが採用しなかったこと、同じ議論を繰り返さないための判断メモ。
 
-4. [operations-playbook.md](./operations-playbook.md)
+4. [site-guidelines.md](./site-guidelines.md)
+   - サイト全体で伝える約束、言葉、導線、デザイン、改行の共通ルール。
+
+5. [operations-playbook.md](./operations-playbook.md)
    - 日常運用、デプロイ、計測除外、記事追加、確認手順。
 
-5. [marketing-roadmap.md](./marketing-roadmap.md)
+6. [marketing-roadmap.md](./marketing-roadmap.md)
    - SEO / LLO / GEO、GA4、Clarity、Search Consoleを使った改善方針。
 
-6. [marketing-reporting.md](./marketing-reporting.md)
+7. [marketing-reporting.md](./marketing-reporting.md)
    - GA4 / Clarity の週次レポート実行方法と、手動発行が必要な項目。
 
 ## 既存資料
