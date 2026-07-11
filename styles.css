@@ -105,17 +105,33 @@ img {
 .nav-desktop ul {
   list-style: none;
   display: flex;
-  gap: clamp(.55rem, 1.25vw, 1.25rem);
+  gap: .15rem;
 }
 
 .nav-desktop li{
   position: relative;
 }
 
-.nav-desktop ul li a {
+.nav-desktop > ul > li + li::before{
+  content: "";
+  position: absolute;
+  left: -.08rem;
+  top: 50%;
+  width: 1px;
+  height: 1.05rem;
+  background: #e2e8f0;
+  transform: translateY(-50%);
+}
+
+.nav-desktop > ul > li > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.35rem;
+  padding: .35rem clamp(.38rem, .62vw, .65rem);
+  border-radius: 7px;
   font-weight: 500;
   color: var(--ink);
-  transition: color 0.3s;
+  transition: color .2s ease, background-color .2s ease;
   white-space: nowrap;
   font-size: clamp(.82rem, .92vw, .96rem);
 }
@@ -166,6 +182,12 @@ img {
 .nav-desktop ul li a:hover,
 .nav-desktop ul li a[aria-current="page"] {
   color: var(--sky);
+}
+
+.nav-desktop > ul > li > a:hover,
+.nav-desktop > ul > li > a:focus-visible{
+  background: #eff8ff;
+  outline: none;
 }
 
 /* ハンバーガー（モバイル） */
