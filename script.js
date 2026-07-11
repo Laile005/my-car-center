@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initPageIdentity();
   initSharedHeader();
+  initSharedFooter();
   initCurrentYear();
   setupHamburgerMenu();
   startHeroSlideshow();
@@ -111,6 +112,81 @@ function initSharedHeader() {
       <div class="close-menu" id="close-menu">&times;</div>
       <ul>${mobileLinks}</ul>
     </nav>
+  `;
+}
+
+function initSharedFooter() {
+  const footer = document.querySelector('.footer');
+  if (!footer) return;
+
+  const currentPath = location.pathname.replace(/\/+$/, '');
+  const isRecruit = currentPath.endsWith('/recruit')
+    || currentPath.endsWith('/recruit.html')
+    || currentPath.includes('/recruit-column/');
+
+  const corporateGroups = [
+    {
+      title: '車のご相談',
+      links: [
+        ['新車', '/new-cars/'],
+        ['中古車', '/used-cars/'],
+        ['整備・修理', '/repair-maintenance/'],
+        ['お役立ち情報', '/column/']
+      ]
+    },
+    {
+      title: '山本マイカーセンター',
+      links: [
+        ['法人のお客様', '/business/'],
+        ['採用情報', '/recruit'],
+        ['会社情報', '/#company'],
+        ['よくある質問', '/#faq']
+      ]
+    }
+  ];
+
+  const recruitGroups = [
+    {
+      title: '採用情報',
+      links: [
+        ['仕事内容', '/recruit#job'],
+        ['働き方', '/recruit#about'],
+        ['先輩の声', '/recruit#voice'],
+        ['募集要項', '/recruit#requirements'],
+        ['求職者向け情報', '/recruit#recruit-column'],
+        ['カジュアル面談', '/recruit#entry']
+      ]
+    },
+    {
+      title: '企業サイト',
+      links: [
+        ['TOP', '/'],
+        ['新車', '/new-cars/'],
+        ['中古車', '/used-cars/'],
+        ['整備・修理', '/repair-maintenance/']
+      ]
+    }
+  ];
+
+  const groups = isRecruit ? recruitGroups : corporateGroups;
+  const groupsMarkup = groups.map((group) => `
+    <nav class="footer-nav-group" aria-label="${group.title}">
+      <h2>${group.title}</h2>
+      <ul>${group.links.map(([label, href]) => `<li><a href="${href}">${label}</a></li>`).join('')}</ul>
+    </nav>
+  `).join('');
+
+  footer.className = `footer footer--shared${isRecruit ? ' footer--recruit' : ''}`;
+  footer.innerHTML = `
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a class="footer-brand__logo" href="/" aria-label="山本マイカーセンター トップへ"><img src="/image/Logo.webp" alt="山本マイカーセンターのロゴ"></a>
+        <p>〒720-1144<br>広島県福山市駅家町坊寺174-2</p>
+        <a class="footer-brand__phone" href="tel:0849761000">084-976-1000</a>
+      </div>
+      <div class="footer-navs">${groupsMarkup}</div>
+    </div>
+    <div class="footer-copy">&copy; <span id="year"></span> 山本マイカーセンター株式会社</div>
   `;
 }
 
