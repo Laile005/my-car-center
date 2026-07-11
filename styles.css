@@ -327,13 +327,21 @@ img {
   font-weight: 700;
   text-align: center;
   color: var(--ink);
+  max-width: min(100%, 26ch);
+  margin-right: auto;
+  margin-left: auto;
   margin-bottom: 0.5rem;
+  text-wrap: balance;
 }
 .section-subtitle {
+  max-width: min(100%, 62ch);
+  margin-right: auto;
+  margin-left: auto;
   text-align: center;
   color: var(--muted);
   font-size: 1rem;
   margin-bottom: 3rem;
+  text-wrap: pretty;
 }
 .section-title + .guide-grid,
 .section-title + .column-card-grid,
@@ -538,6 +546,7 @@ img {
   line-height: 1.85;
   font-size: clamp(.95rem, 1.25vw, 1.05rem);
   color: rgba(15,23,42,.84);
+  text-wrap: balance;
 }
 
 @media screen and (max-width: 1090px) {
@@ -1086,6 +1095,7 @@ img {
 .column-card h2{
   font-size: 1.08rem;
   margin: 0;
+  text-wrap: balance;
 }
 
 .guide-card p,
@@ -1191,6 +1201,11 @@ img {
   color: #fff;
   background: linear-gradient(135deg, var(--sky), var(--mint));
   transform: translateY(-1px);
+}
+
+/* 共通カードの display:flex より優先し、ページ外の記事を確実に隠す */
+#all-articles .column-card[hidden]{
+  display: none !important;
 }
 
 .column-card__date{
@@ -1562,6 +1577,7 @@ img {
   font-size: clamp(1.75rem, 2.7vw, 2.2rem);
   line-height: 1.25;
   margin: 0 0 .8rem;
+  text-wrap: balance;
 }
 
 .column-hero__lead{
@@ -1569,6 +1585,7 @@ img {
   max-width: 720px;
   margin: 0;
   line-height: 1.75;
+  text-wrap: pretty;
 }
 
 .column-hero p:has(.recruit-cta){
