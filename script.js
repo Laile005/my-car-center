@@ -428,13 +428,11 @@ function addGlobalSalesStyles() {
     .guide-card p,.column-card p{margin:0;line-height:1.8}
     .guide-card p:has(.recruit-cta){text-align:center;margin-top:auto;padding-top:var(--flow-lg,1.65rem)}
     .guide-card .recruit-cta{align-self:center;justify-content:center;color:#0f3f73;background:#fff;border:1px solid rgba(96,165,250,.45);box-shadow:0 8px 20px rgba(15,23,42,.07)}
-    .guide-card .recruit-cta::after{color:#fff;background:linear-gradient(135deg,var(--sky),var(--mint));border-radius:999px;display:inline-grid;place-items:center;width:1.35rem;height:1.35rem;font-size:1.05rem}
-    .column-card-grid--editorial .column-card:first-child{grid-column:span 2;background:linear-gradient(135deg,rgba(239,248,255,.98),rgba(255,255,255,1));border-color:rgba(96,165,250,.5)}
-    .column-card-grid--editorial .column-card:first-child h2{font-size:clamp(1.35rem,2.4vw,1.75rem)}
+    .guide-card .recruit-cta::after{width:.38rem;height:.38rem;padding:0;border:0;border-right:2px solid currentColor;border-bottom:2px solid currentColor;border-radius:0;background:transparent;font-size:0;transform:rotate(-45deg) translate(-.03rem,.03rem)}
+    .column-card-grid--editorial .column-card:first-child{background:linear-gradient(135deg,rgba(239,248,255,.98),rgba(255,255,255,1));border-color:rgba(96,165,250,.5)}
     .column-card{position:relative;overflow:hidden}
     .column-card:has(a[href]),.rg-card:has(a[href]),.stock-card:has(a[href]){cursor:pointer}
     .column-card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--sky),var(--mint));opacity:.78}
-    @media (max-width:900px){.column-card-grid--editorial .column-card:first-child{grid-column:auto}}
     .guide-card--accent{border-color:rgba(96,165,250,.48);background:linear-gradient(180deg,rgba(239,248,255,.92),rgba(255,255,255,1));box-shadow:0 14px 32px rgba(37,99,235,.09)}
     .stock-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;align-items:stretch}
     .stock-card{border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;height:100%}
