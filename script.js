@@ -539,7 +539,7 @@ function enhanceHomeSalesAndColumns() {
           <article class="guide-card"><h3>中古車在庫</h3><p>掲載在庫はグーネットで更新しています。気になる車は、来店前に電話で在庫状況をご確認ください。</p></article>
           <article class="guide-card"><h3>新車相談</h3><p>軽自動車、コンパクト、ミニバン、商用車まで、用途・予算・納期に合わせて国内メーカーからご提案します。</p></article>
         </div>
-        <div class="section-link section-sales__links"><a href="/used-cars/" class="link-with-arrow">中古車を探す <span class="arrow">›</span></a><a href="/new-cars/" class="link-with-arrow">新車相談を見る <span class="arrow">›</span></a></div>
+        <div class="section-link section-sales__links"><a href="/used-cars/" class="link-with-arrow">中古車を探す <span class="arrow" aria-hidden="true"></span></a><a href="/new-cars/" class="link-with-arrow">新車相談を見る <span class="arrow" aria-hidden="true"></span></a></div>
       </div>`;
     if (localGuide) localGuide.before(section);
   }
