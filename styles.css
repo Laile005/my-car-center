@@ -406,17 +406,19 @@ img {
 }
 
 .link-with-arrow .arrow{
+  position: relative;
   font-size: 0;
 }
 
 .link-with-arrow .arrow::after{
   content: "";
-  display: block;
-  width: .34rem;
-  height: .34rem;
-  border-right: 2px solid #fff;
-  border-bottom: 2px solid #fff;
-  transform: rotate(-45deg) translate(-.03rem, .03rem);
+  position: absolute;
+  inset: 0;
+  width: .44rem;
+  height: .56rem;
+  margin: auto;
+  background: #fff;
+  clip-path: polygon(16% 0, 40% 0, 86% 50%, 40% 100%, 16% 100%, 61% 50%);
 }
 .link-with-arrow:hover {
   color: #0b2f55;
