@@ -525,6 +525,32 @@ button.rg-btn{
   border-radius: 4px;
 }
 
+.rg-entry__indeed{ margin: 1.25rem 0 0; }
+.rg-indeed-link{
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  min-height: 2.8rem;
+  padding: .65rem 1rem;
+  border: 1px solid rgba(40, 148, 218, .42);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .76);
+  color: #14558e;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 18px rgba(15, 61, 112, .08);
+  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+.rg-indeed-link:hover{
+  border-color: rgba(40, 148, 218, .72);
+  box-shadow: 0 12px 24px rgba(15, 61, 112, .13);
+  transform: translateY(-1px);
+}
+.rg-indeed-link:focus-visible{
+  outline: 2px solid var(--sky);
+  outline-offset: 3px;
+}
+
 /* ========== エントリーフォーム ========== */
 .rg-form{
   background: #fff;
@@ -542,6 +568,7 @@ button.rg-btn{
 }
 @media (max-width: 720px){
   .rg-form--grid .rg-form__grid{ grid-template-columns: 1fr; }
+  .rg-indeed-link{ width: 100%; justify-content: center; }
 }
 
 /* ラベル/見出し */

@@ -34,6 +34,7 @@ window.MCC_ANALYTICS = {
 - `phone_dial`: スマホ等の電話リンク、またはPCの番号案内内から実際に電話を発信した。
 - `phone_click`: 共有の計測対象外で追加された電話リンク用の予備イベント。日常の判断には使わない。
 - `goo_net_click`: Goo-netへ遷移した
+- `indeed_apply_click`: Indeedの求人ページへ遷移した
 - `cta_click`: CTAボタンが押された
 - `recruit_link_click`: 採用導線が押された
 - `recruit_form_submit_start`: 採用フォーム送信が開始された

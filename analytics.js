@@ -53,6 +53,8 @@
         // Keep this only as a fallback for a link added outside the shared setup.
         if (link.dataset.mccPhoneTracked === 'true') return;
         sendEvent('phone_click', { link_type: 'telephone' });
+      } else if (href.indexOf('indeed.com') !== -1) {
+        sendEvent('indeed_apply_click', { link_text: text, link_url: href });
       } else if (href.indexOf('goo-net.com') !== -1) {
         sendEvent('goo_net_click', { link_text: text, link_url: href });
       } else if (link.closest('.column-card') || link.closest('.rg-card')) {
