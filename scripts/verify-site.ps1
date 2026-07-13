@@ -49,8 +49,8 @@ foreach ($file in $htmlFiles) {
   }
 }
 
-$publicTextFiles = Get-ChildItem $root -Recurse -Include *.html,*.js | Where-Object {
-  $_.FullName -notmatch '\\design-mock\\'
+$publicTextFiles = Get-ChildItem $root -Recurse -Include *.html,*.js -ErrorAction SilentlyContinue | Where-Object {
+  $_.FullName -notmatch '\\design-mock\\' -and $_.FullName -notmatch '\\node_modules\\'
 }
 $awkwardPattern = '短い結論|AI・検索向け|検索向け要約|町の整備工場|整備まで見|Clarityやアクセス状況|アクセス状況を見ながら'
 foreach ($file in $publicTextFiles) {

@@ -138,6 +138,12 @@ GA4だけでは検索キーワードは基本的にわからない。
 - Netlify Functionのタイムアウト
 - キャッシュが古い
 
+確認方法:
+
+- NetlifyのFunctionsで `warm-goo-stock` の実行ログを見る。
+- 初回デプロイ後は、毎時の定期実行で在庫が保存される。閲覧者がGoo-net取得を起こす構成ではない。
+- `goo-stock` / `inventory-feed` が `not-ready` の場合は、次の `warm-goo-stock` 実行結果を確認する。
+
 方針:
 
 - 取得できない時に固定車両を表示しない

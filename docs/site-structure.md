@@ -104,19 +104,18 @@
 ## Netlify Functions
 
 - `netlify/functions/goo-stock.js`
-  - Goo-netの在庫ページを取得し、最大3台をJSONで返す。
-  - 詳細ページも取得し、画像、年式、走行距離、価格情報を補完する。
-  - 24時間のメモリキャッシュと、Netlify CDNの `stale-while-revalidate` を使う。
+  - Netlify Blobsに保存済みの最大3台をJSONで返す。閲覧者のアクセスではGoo-netを取得しない。
 
 - `netlify/functions/inventory-feed.js`
   - `goo-stock.js` の別名エンドポイント。
 
 - `netlify/functions/warm-goo-stock.mjs`
-  - 1日1回、Goo-net在庫取得関数を起こしてキャッシュを温める。
+  - 毎時起動し、保存済みデータが24時間を超えた時だけGoo-netを取得する。
+  - 詳細ページも取得し、画像、年式、走行距離、価格情報を補完してNetlify Blobsへ保存する。
 
 ## 中古車在庫表示の考え方
 
-- Goo-netには公式APIがないため、Netlify Functionでページを取得して表示している。
+- Goo-netには公式APIがないため、サーバーの定期処理がページを取得して表示用データを保存している。
 - 取得に失敗した場合、ダミーの3台を表示しない。
 - 取得できない時も「掲載在庫は変動します」「条件から探せます」という相談導線を残す。
 - 在庫表示は問い合わせのきっかけであり、主役は「掲載外の車も条件から探せる」こと。

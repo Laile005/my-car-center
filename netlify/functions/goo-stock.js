@@ -2,9 +2,10 @@ const SHOP_URL = 'https://www.goo-net.com/usedcar_shop/1010169/stock.html';
 const MAX_VISIBLE_CARS = 3;
 const SHOP_FETCH_TIMEOUT_MS = 6000;
 const DETAIL_FETCH_TIMEOUT_MS = 4500;
-const MEMORY_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+const { connectLambda, getStore } = require('@netlify/blobs');
 
-let memoryCache = null;
+const STORE_NAME = 'yamamoto-goo-stock';
+const STORE_KEY = 'latest.json';
 
 async function fetchWithTimeout(url, options = {}, timeoutMs = 6000) {
   const controller = new AbortController();
@@ -220,65 +221,63 @@ function parseStock(html, limit = MAX_VISIBLE_CARS) {
   return cars;
 }
 
-exports.handler = async () => {
+async function buildInventory() {
+  const response = await fetchWithTimeout(SHOP_URL, {
+    headers: {
+      'user-agent': 'Mozilla/5.0 (compatible; MyCarCenterSite/1.0; +https://yamamoto-mycar.com/)',
+      'accept-language': 'ja,en;q=0.8'
+    }
+  }, SHOP_FETCH_TIMEOUT_MS);
+  if (!response.ok) throw new Error(`goo-net responded ${response.status}`);
+
+  const buffer = await response.arrayBuffer();
+  const html = decodeHtml(buffer, response.headers.get('content-type') || '');
+  const cars = await enrichCars(parseStock(html, MAX_VISIBLE_CARS));
+
+  if (!cars.length) throw new Error('no listed cars found');
+
+  return {
+    ok: true,
+    source: SHOP_URL,
+    updatedAt: new Date().toISOString(),
+    cars
+  };
+}
+
+exports.buildInventory = buildInventory;
+
+exports.handler = async (event) => {
   const headers = {
     'access-control-allow-origin': '*',
-    'cache-control': 'public, max-age=0, must-revalidate',
-    'netlify-cdn-cache-control': 'public, durable, max-age=86400, stale-while-revalidate=604800',
+    // Visitors only read the prepared inventory. Goo-net is never fetched here.
+    'cache-control': 'public, max-age=300, stale-while-revalidate=600',
+    'netlify-cdn-cache-control': 'public, max-age=900, stale-while-revalidate=3600',
     'content-type': 'application/json; charset=utf-8'
   };
 
-  if (memoryCache && memoryCache.expiresAt > Date.now()) {
-    return {
-      statusCode: 200,
-      headers: { ...headers, 'x-mcc-cache': 'memory' },
-      body: memoryCache.body
-    };
-  }
-
   try {
-    const response = await fetchWithTimeout(SHOP_URL, {
-      headers: {
-        'user-agent': 'Mozilla/5.0 (compatible; MyCarCenterSite/1.0; +https://yamamoto-mycar.com/)',
-        'accept-language': 'ja,en;q=0.8'
-      }
-    }, SHOP_FETCH_TIMEOUT_MS);
-    if (!response.ok) throw new Error(`goo-net responded ${response.status}`);
-
-    const buffer = await response.arrayBuffer();
-    const html = decodeHtml(buffer, response.headers.get('content-type') || '');
-    const cars = await enrichCars(parseStock(html, MAX_VISIBLE_CARS));
-    const body = JSON.stringify({
-      ok: cars.length > 0,
-      source: SHOP_URL,
-      updatedAt: new Date().toISOString(),
-      cars
-    });
-    memoryCache = {
-      body,
-      expiresAt: Date.now() + MEMORY_CACHE_TTL_MS
-    };
-
-    return {
-      statusCode: 200,
-      headers: { ...headers, 'x-mcc-cache': 'fresh' },
-      body
-    };
-  } catch (error) {
-    if (memoryCache) {
+    connectLambda(event);
+    const inventory = await getStore(STORE_NAME).get(STORE_KEY, { type: 'json' });
+    if (!inventory || !Array.isArray(inventory.cars) || inventory.cars.length === 0) {
       return {
         statusCode: 200,
-        headers: { ...headers, 'x-mcc-cache': 'stale' },
-        body: memoryCache.body
+        headers: { ...headers, 'x-mcc-stock': 'not-ready' },
+        body: JSON.stringify({ ok: false, source: SHOP_URL, cars: [] })
       };
     }
+
     return {
       statusCode: 200,
-      headers,
+      headers: { ...headers, 'x-mcc-stock': 'stored' },
+      body: JSON.stringify(inventory)
+    };
+  } catch (error) {
+    return {
+      statusCode: 200,
+      headers: { ...headers, 'x-mcc-stock': 'read-error' },
       body: JSON.stringify({
         ok: false,
         source: SHOP_URL,
-        error: String(error),
         cars: []
       })
     };

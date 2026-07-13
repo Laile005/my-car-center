@@ -1,44 +1,30 @@
-function getSiteUrl(context) {
-  const netlifyUrl = globalThis.Netlify?.env?.get?.('URL');
-  return context?.site?.url || netlifyUrl || 'https://yamamoto-mycar.com';
-}
+import { getStore } from '@netlify/blobs';
+import { createRequire } from 'node:module';
 
-export default async (_request, context) => {
-  const target = new URL('/.netlify/functions/goo-stock', getSiteUrl(context)).toString();
+const require = createRequire(import.meta.url);
+const { buildInventory } = require('./goo-stock.js');
+const STORE_NAME = 'yamamoto-goo-stock';
+const STORE_KEY = 'latest.json';
+const REFRESH_INTERVAL_MS = 24 * 60 * 60 * 1000;
+
+export default async () => {
+  const store = getStore(STORE_NAME);
 
   try {
-    const response = await fetch(target, {
-      headers: {
-        'user-agent': 'MyCarCenterWarmup/1.0 (+https://yamamoto-mycar.com/)',
-        'x-mcc-warmup': '1'
-      }
-    });
-    const body = await response.text();
+    const current = await store.get(STORE_KEY, { type: 'json' });
+    const updatedAt = Date.parse(current?.updatedAt || '');
+    if (Number.isFinite(updatedAt) && Date.now() - updatedAt < REFRESH_INTERVAL_MS) {
+      console.log('goo-stock refresh skipped: daily inventory is still current');
+      return Response.json({ ok: true, refreshed: false, updatedAt: current.updatedAt });
+    }
 
-    console.log(`goo-stock warmup ${response.status} ${response.headers.get('x-mcc-cache') || 'unknown'}`);
+    const inventory = await buildInventory();
+    await store.setJSON(STORE_KEY, inventory);
+    console.log(`goo-stock refreshed: ${inventory.cars.length} vehicle(s)`);
 
-    return new Response(JSON.stringify({
-      ok: response.ok,
-      status: response.status,
-      cache: response.headers.get('x-mcc-cache') || '',
-      bytes: body.length,
-      target
-    }), {
-      headers: { 'content-type': 'application/json; charset=utf-8' }
-    });
+    return Response.json({ ok: true, refreshed: true, updatedAt: inventory.updatedAt });
   } catch (error) {
-    console.log(`goo-stock warmup failed: ${String(error)}`);
-    return new Response(JSON.stringify({
-      ok: false,
-      error: String(error),
-      target
-    }), {
-      status: 200,
-      headers: { 'content-type': 'application/json; charset=utf-8' }
-    });
+    console.log(`goo-stock refresh failed: ${String(error)}`);
+    return Response.json({ ok: false }, { status: 200 });
   }
-};
-
-export const config = {
-  schedule: '@daily'
 };

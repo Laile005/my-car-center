@@ -2,6 +2,10 @@
   publish = "."
   functions = "netlify/functions"
 
+[functions."warm-goo-stock"]
+  # The job checks hourly, but only reaches Goo-net when the saved data is 24h old.
+  schedule = "@hourly"
+
 [[redirects]]
   from = "https://mycarcenter.netlify.app/*"
   to = "https://yamamoto-mycar.com/:splat"

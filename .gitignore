@@ -1,4 +1,5 @@
-﻿reports/
+reports/
+node_modules/
 *.log
 *.tmp
 codex-windows-sandbox-setup.exe
