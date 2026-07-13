@@ -1,8 +1,7 @@
 import { getStore } from '@netlify/blobs';
-import { createRequire } from 'node:module';
+import gooStock from './goo-stock.js';
 
-const require = createRequire(import.meta.url);
-const { buildInventory } = require('./goo-stock.js');
+const { buildInventory } = gooStock;
 const STORE_NAME = 'yamamoto-goo-stock';
 const STORE_KEY = 'latest.json';
 const REFRESH_INTERVAL_MS = 24 * 60 * 60 * 1000;

@@ -1199,6 +1199,7 @@ img {
   border-radius: 999px;
   background: linear-gradient(135deg, var(--sky), var(--mint));
   transform: translateY(-50%);
+  z-index: 0;
 }
 
 .theme-link::before{
@@ -1211,6 +1212,7 @@ img {
   background: #fff;
   clip-path: polygon(16% 0, 40% 0, 86% 50%, 40% 100%, 16% 100%, 61% 50%);
   transform: translateY(-50%);
+  z-index: 1;
 }
 
 .theme-link:hover{
