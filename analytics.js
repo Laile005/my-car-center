@@ -49,6 +49,9 @@
       var href = link.getAttribute('href') || '';
       var text = link.textContent.replace(/\s+/g, ' ').trim().slice(0, 80);
       if (href.indexOf('tel:') === 0) {
+        // Phone links are tracked more precisely by initDesktopPhonePrompt.
+        // Keep this only as a fallback for a link added outside the shared setup.
+        if (link.dataset.mccPhoneTracked === 'true') return;
         sendEvent('phone_click', { link_type: 'telephone' });
       } else if (href.indexOf('goo-net.com') !== -1) {
         sendEvent('goo_net_click', { link_text: text, link_url: href });

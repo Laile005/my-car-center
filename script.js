@@ -434,13 +434,26 @@ function initDesktopPhonePrompt() {
   };
 
   phoneLinks.forEach((link) => {
+    link.dataset.mccPhoneTracked = 'true';
     link.addEventListener('click', (event) => {
-      if (canCallDirectly()) return;
+      const linkText = link.textContent.trim().replace(/\s+/g, ' ').slice(0, 80);
+      if (canCallDirectly()) {
+        trackMarketingEvent('phone_dial', { contact_method: 'direct', link_text: linkText });
+        return;
+      }
       event.preventDefault();
-      trackMarketingEvent('phone_prompt_open', { link_text: link.textContent.trim() });
+      trackMarketingEvent('phone_prompt_open', { contact_method: 'desktop_prompt', link_text: linkText });
       show();
     });
   });
+
+  const modalPhoneLink = modal.querySelector('a[href^="tel:"]');
+  if (modalPhoneLink) {
+    modalPhoneLink.dataset.mccPhoneTracked = 'true';
+    modalPhoneLink.addEventListener('click', () => {
+      trackMarketingEvent('phone_dial', { contact_method: 'desktop_prompt' });
+    });
+  }
 
   closeBtn?.addEventListener('click', hide);
   modal.addEventListener('click', (event) => {

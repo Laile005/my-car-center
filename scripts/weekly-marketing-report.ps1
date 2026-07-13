@@ -5,6 +5,8 @@ param(
   [string]$ClarityProjectId,
   [string]$Output,
   [string]$DataDir,
+  [string]$StartDate = '7daysAgo',
+  [string]$EndDate = 'today',
   [switch]$Help
 )
 
@@ -47,6 +49,8 @@ function Show-Help {
     '  -ClarityProjectId <id>    Optional Clarity project id',
     '  -Output <path>            Markdown output path',
     '  -DataDir <path>           Raw JSON output directory',
+    '  -StartDate <date>         GA4 start date (default: 7daysAgo)',
+    '  -EndDate <date>           GA4 end date (default: today)',
     '  -Help                     Show this help',
     '',
     'Fallbacks:',
@@ -530,6 +534,7 @@ $gaSummary = $null
 $gaChannels = $null
 $gaPages = $null
 $gaEvents = $null
+$gaInquiryActions = $null
 $clarityResults = @{}
 
 $outputPath = if ($Output) { [IO.Path]::GetFullPath((Join-Path $root $Output)) } else { Join-Path $root ('reports\marketing\weekly-report-{0}.md' -f (Get-Date -Format 'yyyy-MM-dd')) }
@@ -544,7 +549,7 @@ New-Item -ItemType Directory -Force -Path $rawDir | Out-Null
 try {
   $gaAuth = Get-GoogleAccessToken -CredentialPath $ga4ServiceAccount
   $gaHeaders = @{ Authorization = "Bearer $($gaAuth.AccessToken)" }
-  $gaDateRange = @{ startDate = '7daysAgo'; endDate = 'today' }
+  $gaDateRange = @{ startDate = $StartDate; endDate = $EndDate }
   $gaBase = "https://analyticsdata.googleapis.com/v1beta/properties/${ga4PropertyId}:runReport"
 
   $gaSummary = Invoke-JsonApi -Uri $gaBase -Method 'Post' -Headers $gaHeaders -Body @{
@@ -578,7 +583,8 @@ try {
     'phone_click', 'goo_net_click', 'cta_click', 'article_card_click',
     'recruit_link_click', 'recruit_form_submit_start', 'recruit_form_submit_success',
     'recruit_form_submit_error', 'scroll_depth', 'recruit_entry_view',
-    'sales_section_view', 'column_section_view', 'used_car_stock_view'
+    'sales_section_view', 'column_section_view', 'used_car_stock_view',
+    'phone_prompt_open', 'phone_dial'
   )
 
   $gaEvents = Invoke-JsonApi -Uri $gaBase -Method 'Post' -Headers $gaHeaders -Body @{
@@ -586,6 +592,19 @@ try {
     dimensions = @(@{ name = 'eventName' })
     metrics = @(@{ name = 'eventCount' })
     dimensionFilter = @{ filter = @{ fieldName = 'eventName'; inListFilter = @{ values = $trackedEvents } } }
+    orderBys = @(@{ metric = @{ metricName = 'eventCount' }; desc = $true })
+    limit = 50
+  }
+
+  $inquiryEvents = @(
+    'phone_prompt_open', 'phone_dial', 'phone_click', 'goo_net_click',
+    'recruit_form_submit_start', 'recruit_form_submit_success', 'recruit_form_submit_error'
+  )
+  $gaInquiryActions = Invoke-JsonApi -Uri $gaBase -Method 'Post' -Headers $gaHeaders -Body @{
+    dateRanges = @($gaDateRange)
+    dimensions = @(@{ name = 'eventName' }, @{ name = 'pagePathPlusQueryString' })
+    metrics = @(@{ name = 'eventCount' })
+    dimensionFilter = @{ filter = @{ fieldName = 'eventName'; inListFilter = @{ values = $inquiryEvents } } }
     orderBys = @(@{ metric = @{ metricName = 'eventCount' }; desc = $true })
     limit = 50
   }
@@ -621,6 +640,7 @@ catch {
   gaChannels = $gaChannels
   gaPages = $gaPages
   gaEvents = $gaEvents
+  gaInquiryActions = $gaInquiryActions
   clarity = $clarityResults
 } | ConvertTo-Json -Depth 30 | Set-Content -Encoding UTF8 -LiteralPath (Join-Path $rawDir 'report-data.json')
 
@@ -651,13 +671,18 @@ if ($gaEvents -and $gaEvents.rows) {
   $eventRows = @($gaEvents.rows | ForEach-Object { ,@($_.dimensionValues[0].value, $_.metricValues[0].value) })
 }
 
+$inquiryActionRows = @()
+if ($gaInquiryActions -and $gaInquiryActions.rows) {
+  $inquiryActionRows = @($gaInquiryActions.rows | ForEach-Object { ,@($_.dimensionValues[0].value, $_.dimensionValues[1].value, $_.metricValues[0].value) })
+}
+
 $lines = New-Object System.Collections.Generic.List[string]
 $lines.Add('# Weekly Marketing Report')
 $lines.Add('')
 $lines.Add(('Generated: {0}' -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss')))
 $lines.Add(('GA4 property: {0}' -f $ga4PropertyId))
 $lines.Add(('Clarity project: {0}' -f $clarityProjectId))
-$lines.Add('GA4 window: last 7 days')
+$lines.Add(('GA4 window: {0} to {1}' -f $StartDate, $EndDate))
 $lines.Add('Clarity window: last 72 hours')
 $lines.Add('')
 
@@ -665,6 +690,7 @@ Write-Section -Lines $lines -Title 'Overview' -Body (Build-MarkdownTable -Header
 Write-Section -Lines $lines -Title 'Channel mix' -Body (Build-MarkdownTable -Headers @('Channel', 'Sessions', 'Active users', 'Page views') -Rows $channelRows)
 Write-Section -Lines $lines -Title 'Top pages' -Body (Build-MarkdownTable -Headers @('Page', 'Page views', 'Active users', 'Sessions') -Rows $pageRows)
 Write-Section -Lines $lines -Title 'Tracked events' -Body (Build-MarkdownTable -Headers @('Event', 'Count') -Rows $eventRows)
+Write-Section -Lines $lines -Title 'Inquiry actions by page' -Body (Build-MarkdownTable -Headers @('Action', 'Page', 'Count') -Rows $inquiryActionRows)
 
 foreach ($entry in @('clarity-channel', 'clarity-url', 'clarity-device')) {
   $response = $clarityResults[$entry]

@@ -50,7 +50,7 @@ if (([regex]::Matches($runtime, 'googletagmanager\.com/gtag/js')).Count -ne 1) {
 if (([regex]::Matches($runtime, 'clarity\.ms/tag/')).Count -ne 1) { $errors.Add('Clarity loader must occur exactly once') }
 if (Test-Path (Join-Path $root 'analytics-config.js')) { $errors.Add('retired analytics-config.js still exists') }
 
-$events = @('phone_click','goo_net_click','cta_click','article_card_click','recruit_link_click','recruit_form_submit_start','recruit_form_submit_success','recruit_form_submit_error','scroll_depth','recruit_entry_view','sales_section_view','column_section_view','used_car_stock_view')
+$events = @('phone_click','phone_prompt_open','phone_dial','goo_net_click','cta_click','article_card_click','recruit_link_click','recruit_form_submit_start','recruit_form_submit_success','recruit_form_submit_error','scroll_depth','recruit_entry_view','sales_section_view','column_section_view','used_car_stock_view')
 foreach ($eventName in $events) {
   if (-not $runtime.Contains("'$eventName'")) { $errors.Add("event missing: $eventName") }
 }
