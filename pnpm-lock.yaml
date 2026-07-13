@@ -11,6 +11,10 @@ importers:
       '@netlify/blobs':
         specifier: 10.7.9
         version: 10.7.9
+    devDependencies:
+      '@netlify/dev-utils':
+        specifier: 4.4.6
+        version: 4.4.6
 
 packages:
 

@@ -2,5 +2,8 @@
   "private": true,
   "dependencies": {
     "@netlify/blobs": "10.7.9"
+  },
+  "devDependencies": {
+    "@netlify/dev-utils": "4.4.6"
   }
 }

@@ -3,7 +3,7 @@ $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 $verificationFile = 'google45bdb2885daf7421.html'
 $htmlFiles = Get-ChildItem $root -Recurse -Filter *.html | Where-Object {
-  $_.FullName -notmatch '\\design-mock\\' -and $_.Name -ne $verificationFile
+  $_.FullName -notmatch '\\design-mock\\' -and $_.FullName -notmatch '\\node_modules\\' -and $_.Name -ne $verificationFile
 }
 $errors = New-Object System.Collections.Generic.List[string]
 
