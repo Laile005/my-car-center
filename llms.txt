@@ -116,6 +116,7 @@
 
 - 車のキズ・へこみ修理はどこに頼む？: https://yamamoto-mycar.com/column/bankin-direct-repair-shop/
 - 保険修理でお客様がやること・工場が手伝えること: https://yamamoto-mycar.com/column/insurance-repair-customer-flow/
+- 車の修理、保険を使う？自費にする？: https://yamamoto-mycar.com/column/insurance-use-or-self-pay/
 - 車の修理中に代車は借りられる？: https://yamamoto-mycar.com/column/repair-loaner-car/
 - キズ・へこみ修理の費用が車によって変わる理由: https://yamamoto-mycar.com/column/bankin-price-varies/
 - 修理後の納車・引き取りまで相談できる？: https://yamamoto-mycar.com/column/repair-pickup-delivery/
@@ -139,4 +140,5 @@
 - 未経験から自動車整備士を目指せる？: https://yamamoto-mycar.com/recruit-column/inexperienced-mechanic/
 - 大手整備工場と地域密着の整備工場、働き方の違い: https://yamamoto-mycar.com/recruit-column/large-company-vs-local-shop/
 - 板金塗装の仕事は未経験から目指せる？: https://yamamoto-mycar.com/recruit-column/bankin-paint-inexperienced/
+- 板金塗装の仕事はどんな1日？: https://yamamoto-mycar.com/recruit-column/bankin-paint-workday/
 - 整備士として無理なく働く職場選び: https://yamamoto-mycar.com/recruit-column/work-life/
