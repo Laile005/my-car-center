@@ -550,6 +550,13 @@ button.rg-btn{
   outline: 2px solid var(--sky);
   outline-offset: 3px;
 }
+.rg-indeed-link__icon{
+  width: .48rem;
+  height: .48rem;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: rotate(45deg) translate(-.04rem, .04rem);
+}
 
 /* ========== エントリーフォーム ========== */
 .rg-form{
