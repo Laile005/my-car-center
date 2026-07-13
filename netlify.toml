@@ -2,6 +2,9 @@
   publish = "."
   functions = "netlify/functions"
 
+[functions]
+  node_bundler = "esbuild"
+
 [functions."warm-goo-stock"]
   # The job checks hourly, but only reaches Goo-net when the saved data is 24h old.
   schedule = "@hourly"

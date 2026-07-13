@@ -1,7 +1,9 @@
 {
   "private": true,
   "dependencies": {
-    "@netlify/blobs": "10.7.9"
+    "@netlify/blobs": "10.7.9",
+    "@netlify/otel": "6.0.3",
+    "@netlify/runtime-utils": "2.3.0"
   },
   "devDependencies": {
     "@netlify/dev-utils": "4.4.6"
