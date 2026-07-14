@@ -250,8 +250,8 @@ exports.handler = async (event) => {
   const headers = {
     'access-control-allow-origin': '*',
     // Visitors only read the prepared inventory. Goo-net is never fetched here.
-    'cache-control': 'public, max-age=300, stale-while-revalidate=600',
-    'netlify-cdn-cache-control': 'public, max-age=900, stale-while-revalidate=3600',
+    'cache-control': 'public, max-age=600, stale-while-revalidate=86400',
+    'netlify-cdn-cache-control': 'public, durable, max-age=86400, stale-while-revalidate=604800',
     'content-type': 'application/json; charset=utf-8'
   };
 
