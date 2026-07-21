@@ -42,7 +42,7 @@ Clarityのプロジェクトで、`Settings -> Data Export -> Generate new API t
 以下のように、リポジトリ外へ置いてください。
 
 ```powershell
-$env:GOOGLE_APPLICATION_CREDENTIALS = "$env:USERPROFILE\.codex-secrets\yamamoto-mycar-ga4.json"
+$env:GOOGLE_APPLICATION_CREDENTIALS = "$env:USERPROFILE\Codex\.codex-secrets\yamamoto-mycar-ga4.json"
 $env:MCC_GA4_PROPERTY_ID = "544191103"
 $env:MCC_CLARITY_TOKEN = "xxxxx"
 $env:MCC_CLARITY_PROJECT_ID = "xh8bpqs76a"

@@ -15,7 +15,7 @@ $root = Split-Path -Parent $PSScriptRoot
 Set-Location $root
 
 function Get-DefaultSecrets {
-  $secretPath = Join-Path $env:USERPROFILE '.codex-secrets\marketing-report-secrets.json'
+  $secretPath = Join-Path $env:USERPROFILE 'Codex\.codex-secrets\marketing-report-secrets.json'
   if (-not (Test-Path $secretPath)) { return $null }
   return Get-Content -Raw -LiteralPath $secretPath | ConvertFrom-Json
 }
@@ -59,7 +59,7 @@ function Show-Help {
   '  User ADC file created by `gcloud auth application-default login`',
     '  $env:MCC_CLARITY_TOKEN',
     '  $env:MCC_CLARITY_PROJECT_ID',
-    '  C:\Users\ko0v0\.codex-secrets\marketing-report-secrets.json'
+    '  C:\Users\ko0v0\Codex\.codex-secrets\marketing-report-secrets.json'
   ) | ForEach-Object { Write-Output $_ }
 }
 
