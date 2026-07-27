@@ -1,6 +1,7 @@
 param(
   [string]$Ga4PropertyId,
   [string]$Ga4ServiceAccount,
+  [string]$SearchConsoleSiteUrl,
   [string]$ClarityToken,
   [string]$ClarityProjectId,
   [string]$Output,
@@ -45,6 +46,7 @@ function Show-Help {
     'Options:',
     '  -Ga4PropertyId <id>       Google Analytics 4 property ID',
     '  -Ga4ServiceAccount <path> Google credential JSON path',
+    '  -SearchConsoleSiteUrl <url> Search Console property (default: sc-domain:yamamoto-mycar.com)',
     '  -ClarityToken <token>     Microsoft Clarity Data Export token',
     '  -ClarityProjectId <id>    Optional Clarity project id',
     '  -Output <path>            Markdown output path',
@@ -443,7 +445,9 @@ function Write-Section {
 function Get-GoogleAccessToken {
   param(
     [Parameter(Mandatory = $true)]
-    [string]$CredentialPath
+    [string]$CredentialPath,
+    [Parameter(Mandatory = $true)]
+    [string]$Scope
   )
 
   $credential = Get-Content -Raw -LiteralPath $CredentialPath | ConvertFrom-Json
@@ -455,7 +459,7 @@ function Get-GoogleAccessToken {
     $jwt = [JwtRsaSigner]::Sign(
       $credential.private_key,
       $credential.client_email,
-      'https://www.googleapis.com/auth/analytics.readonly',
+      $Scope,
       $credential.private_key_id
     )
 
@@ -515,6 +519,8 @@ if ($Help) {
 $secrets = Get-DefaultSecrets
 $ga4PropertyId = Get-Value -Explicit $Ga4PropertyId -EnvName 'MCC_GA4_PROPERTY_ID' -Secrets $secrets -SecretProperty 'ga4PropertyId'
 $ga4ServiceAccount = Get-Value -Explicit $Ga4ServiceAccount -EnvName 'GOOGLE_APPLICATION_CREDENTIALS' -Secrets $secrets -SecretProperty 'ga4ServiceAccount'
+$searchConsoleSiteUrl = Get-Value -Explicit $SearchConsoleSiteUrl -EnvName 'MCC_SEARCH_CONSOLE_SITE_URL' -Secrets $secrets -SecretProperty 'searchConsoleSiteUrl'
+$searchConsoleSiteUrl = if ($searchConsoleSiteUrl) { $searchConsoleSiteUrl } else { 'sc-domain:yamamoto-mycar.com' }
 $clarityToken = Get-Value -Explicit $ClarityToken -EnvName 'MCC_CLARITY_TOKEN' -Secrets $secrets -SecretProperty 'clarityToken'
 $clarityProjectId = Get-Value -Explicit $ClarityProjectId -EnvName 'MCC_CLARITY_PROJECT_ID' -Secrets $secrets -SecretProperty 'clarityProjectId'
 
@@ -535,6 +541,10 @@ $gaChannels = $null
 $gaPages = $null
 $gaEvents = $null
 $gaInquiryActions = $null
+$searchConsoleSummary = $null
+$searchConsoleQueries = $null
+$searchConsolePages = $null
+$searchConsoleSitemaps = $null
 $clarityResults = @{}
 
 $outputPath = if ($Output) { [IO.Path]::GetFullPath((Join-Path $root $Output)) } else { Join-Path $root ('reports\marketing\weekly-report-{0}.md' -f (Get-Date -Format 'yyyy-MM-dd')) }
@@ -547,7 +557,7 @@ New-Item -ItemType Directory -Force -Path (Split-Path -Parent $latestPath) | Out
 New-Item -ItemType Directory -Force -Path $rawDir | Out-Null
 
 try {
-  $gaAuth = Get-GoogleAccessToken -CredentialPath $ga4ServiceAccount
+  $gaAuth = Get-GoogleAccessToken -CredentialPath $ga4ServiceAccount -Scope 'https://www.googleapis.com/auth/analytics.readonly'
   $gaHeaders = @{ Authorization = "Bearer $($gaAuth.AccessToken)" }
   $gaDateRange = @{ startDate = $StartDate; endDate = $EndDate }
   $gaBase = "https://analyticsdata.googleapis.com/v1beta/properties/${ga4PropertyId}:runReport"
@@ -618,6 +628,32 @@ catch {
 }
 
 try {
+  $searchConsoleAuth = Get-GoogleAccessToken -CredentialPath $ga4ServiceAccount -Scope 'https://www.googleapis.com/auth/webmasters.readonly'
+  $searchConsoleHeaders = @{ Authorization = "Bearer $($searchConsoleAuth.AccessToken)" }
+  $encodedSiteUrl = [uri]::EscapeDataString($searchConsoleSiteUrl)
+  $searchConsoleBase = "https://searchconsole.googleapis.com/webmasters/v3/sites/$encodedSiteUrl"
+
+  # Search Console data is normally delayed by a few days, so avoid incomplete current-day figures.
+  $searchConsoleEndDate = (Get-Date).AddDays(-3).ToString('yyyy-MM-dd')
+  $searchConsoleStartDate = (Get-Date).AddDays(-9).ToString('yyyy-MM-dd')
+  $searchConsoleDateRange = @{ startDate = $searchConsoleStartDate; endDate = $searchConsoleEndDate; type = 'web' }
+
+  $searchConsoleSummary = Invoke-JsonApi -Uri "$searchConsoleBase/searchAnalytics/query" -Method 'Post' -Headers $searchConsoleHeaders -Body $searchConsoleDateRange
+  $searchConsoleQueries = Invoke-JsonApi -Uri "$searchConsoleBase/searchAnalytics/query" -Method 'Post' -Headers $searchConsoleHeaders -Body ($searchConsoleDateRange + @{
+    dimensions = @('query')
+    rowLimit = 10
+  })
+  $searchConsolePages = Invoke-JsonApi -Uri "$searchConsoleBase/searchAnalytics/query" -Method 'Post' -Headers $searchConsoleHeaders -Body ($searchConsoleDateRange + @{
+    dimensions = @('page')
+    rowLimit = 10
+  })
+  $searchConsoleSitemaps = Invoke-JsonApi -Uri "$searchConsoleBase/sitemaps" -Method 'Get' -Headers $searchConsoleHeaders -Body $null
+}
+catch {
+  $issues.Add(("Search Console: {0}" -f $_.Exception.Message))
+}
+
+try {
   $clarityBase = 'https://www.clarity.ms/export-data/api/v1/project-live-insights'
   $clarityRequests = @(
     @{ Name = 'clarity-channel'; Dimension1 = 'Channel' },
@@ -641,6 +677,15 @@ catch {
   gaPages = $gaPages
   gaEvents = $gaEvents
   gaInquiryActions = $gaInquiryActions
+  searchConsole = @{
+    property = $searchConsoleSiteUrl
+    startDate = $searchConsoleStartDate
+    endDate = $searchConsoleEndDate
+    summary = $searchConsoleSummary
+    queries = $searchConsoleQueries
+    pages = $searchConsolePages
+    sitemaps = $searchConsoleSitemaps
+  }
   clarity = $clarityResults
 } | ConvertTo-Json -Depth 30 | Set-Content -Encoding UTF8 -LiteralPath (Join-Path $rawDir 'report-data.json')
 
@@ -676,6 +721,32 @@ if ($gaInquiryActions -and $gaInquiryActions.rows) {
   $inquiryActionRows = @($gaInquiryActions.rows | ForEach-Object { ,@($_.dimensionValues[0].value, $_.dimensionValues[1].value, $_.metricValues[0].value) })
 }
 
+$searchConsoleSummaryRows = @()
+if ($searchConsoleSummary.rows -and $searchConsoleSummary.rows.Count -gt 0) {
+  $summary = $searchConsoleSummary.rows[0]
+  $searchConsoleSummaryRows = @(
+    @('Clicks', $summary.clicks),
+    @('Impressions', $summary.impressions),
+    @('CTR', ('{0:P2}' -f $summary.ctr)),
+    @('Average position', ('{0:N1}' -f $summary.position))
+  )
+}
+
+$searchConsoleQueryRows = @()
+if ($searchConsoleQueries.rows) {
+  $searchConsoleQueryRows = @($searchConsoleQueries.rows | ForEach-Object { ,@($_.keys[0], $_.clicks, $_.impressions, ('{0:P2}' -f $_.ctr), ('{0:N1}' -f $_.position)) })
+}
+
+$searchConsolePageRows = @()
+if ($searchConsolePages.rows) {
+  $searchConsolePageRows = @($searchConsolePages.rows | ForEach-Object { ,@($_.keys[0], $_.clicks, $_.impressions, ('{0:P2}' -f $_.ctr), ('{0:N1}' -f $_.position)) })
+}
+
+$searchConsoleSitemapRows = @()
+if ($searchConsoleSitemaps.sitemap) {
+  $searchConsoleSitemapRows = @($searchConsoleSitemaps.sitemap | ForEach-Object { ,@($_.path, $_.type, $_.isPending, $_.lastSubmitted, $_.lastDownloaded, $_.errors, $_.warnings) })
+}
+
 $lines = New-Object System.Collections.Generic.List[string]
 $lines.Add('# Weekly Marketing Report')
 $lines.Add('')
@@ -683,6 +754,8 @@ $lines.Add(('Generated: {0}' -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss')))
 $lines.Add(('GA4 property: {0}' -f $ga4PropertyId))
 $lines.Add(('Clarity project: {0}' -f $clarityProjectId))
 $lines.Add(('GA4 window: {0} to {1}' -f $StartDate, $EndDate))
+$lines.Add(('Search Console property: {0}' -f $searchConsoleSiteUrl))
+$lines.Add(('Search Console window: {0} to {1}' -f $searchConsoleStartDate, $searchConsoleEndDate))
 $lines.Add('Clarity window: last 72 hours')
 $lines.Add('')
 
@@ -691,6 +764,10 @@ Write-Section -Lines $lines -Title 'Channel mix' -Body (Build-MarkdownTable -Hea
 Write-Section -Lines $lines -Title 'Top pages' -Body (Build-MarkdownTable -Headers @('Page', 'Page views', 'Active users', 'Sessions') -Rows $pageRows)
 Write-Section -Lines $lines -Title 'Tracked events' -Body (Build-MarkdownTable -Headers @('Event', 'Count') -Rows $eventRows)
 Write-Section -Lines $lines -Title 'Inquiry actions by page' -Body (Build-MarkdownTable -Headers @('Action', 'Page', 'Count') -Rows $inquiryActionRows)
+Write-Section -Lines $lines -Title 'Search Console overview' -Body (Build-MarkdownTable -Headers @('Metric', 'Value') -Rows $searchConsoleSummaryRows)
+Write-Section -Lines $lines -Title 'Search Console top queries' -Body (Build-MarkdownTable -Headers @('Query', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $searchConsoleQueryRows)
+Write-Section -Lines $lines -Title 'Search Console top pages' -Body (Build-MarkdownTable -Headers @('Page', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $searchConsolePageRows)
+Write-Section -Lines $lines -Title 'Search Console sitemaps' -Body (Build-MarkdownTable -Headers @('Sitemap', 'Type', 'Pending', 'Submitted', 'Downloaded', 'Errors', 'Warnings') -Rows $searchConsoleSitemapRows)
 
 foreach ($entry in @('clarity-channel', 'clarity-url', 'clarity-device')) {
   $response = $clarityResults[$entry]

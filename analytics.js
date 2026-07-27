@@ -28,6 +28,7 @@
     if (path.indexOf('/recruit') === 0) return 'recruit';
     if (path.indexOf('/used-cars/') === 0) return 'used_cars';
     if (path.indexOf('/bankin-toso/') === 0) return 'bankin_toso';
+    if (path.indexOf('/insurance-repair/') === 0) return 'insurance_repair';
     if (path.indexOf('/shaken/') === 0) return 'shaken';
     if (path.indexOf('/maintenance/') === 0) return 'maintenance';
     if (path.indexOf('/new-cars/') === 0) return 'new_cars';

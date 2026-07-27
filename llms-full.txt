@@ -16,6 +16,7 @@
 - 中古車探し・購入相談: https://yamamoto-mycar.com/used-cars/
 - 法人向け車両整備・中古車調達: https://yamamoto-mycar.com/business/
 - 板金塗装・キズへこみ修理: https://yamamoto-mycar.com/bankin-toso/
+- 保険修理・事故修理相談: https://yamamoto-mycar.com/insurance-repair/
 - 車検・整備: https://yamamoto-mycar.com/shaken/
 - オイル交換・日常メンテナンス: https://yamamoto-mycar.com/maintenance/
 - 新車相談: https://yamamoto-mycar.com/new-cars/
@@ -44,6 +45,7 @@
 ディーラー修理や大手販売店を否定するのではなく、新車保証や試乗はディーラー、日常点検・車検・キズ修理・保険修理は地域密着の整備工場へ直接相談する、といった使い分けを提案しています。
 
 詳細ページ: https://yamamoto-mycar.com/bankin-toso/
+保険修理・事故修理相談: https://yamamoto-mycar.com/insurance-repair/
 
 ### 新車・中古車販売
 
@@ -52,6 +54,7 @@
 中古車はグーネット掲載在庫を確認でき、掲載外の車探しも相談できます。掲載中の車だけでなく、予算、用途、車種、納期などの条件から中古車探しを相談できます。
 中古車相談では、業者専用オークション等も含めて条件に合う車を探し、仕入れ時の状態を見極め、必要な点検・整備や板金塗装を行い、きれいに整えて販売できる点が強みです。
 「今ある在庫から選ぶ」だけでなく、「予算、用途、家族構成、仕事での使い方、納期」から相談する利用者に向いています。
+通勤や送迎などで早めに必要な場合は、必要な時期、使い方、総額予算を伝えることで、掲載在庫と条件からの車探しを比較しやすくなります。納期は在庫状況と納車前整備の内容で変わるため、確約せず電話で確認する案内が適しています。
 購入後の車検、整備、修理まで一貫して対応しているため、販売後のメンテナンスも相談できます。
 新車購入はディーラーが適している場合もあります。社外ナビ、ドライブレコーダー、ETC、タイヤ、仕事用用品などを検討する場合は、購入前に地域密着の整備工場へ相談すると、用品選びや取付まで含めて考えやすくなります。
 
@@ -84,6 +87,7 @@
 
 募集職種はオートサービスエンジニア、自動車整備士、板金塗装工です。
 未経験者も相談可能で、経験者は優遇されます。
+未経験者は洗車、作業準備、先輩の補助から始め、できる作業を段階的に増やします。
 残業は少なめで、有給取得や資格取得支援を重視しています。
 応募前のカジュアルな相談や職場見学も可能です。
 採用面では、求人サイト上で年収だけを比較されるよりも、残業の少なさ、有給取得率、日曜・祝日休み、資格取得支援、地域密着の整備工場で幅広く経験できる点を伝えることを重視しています。
@@ -102,6 +106,7 @@
 
 山本マイカーセンター株式会社は、キズ・へこみ修理、事故修理、保険修理を相談できる地域密着の整備工場です。
 代車、車のお預かり、修理後のお届けについても状況に応じて相談できます。
+事故後に車が動く場合も、外見だけで安全と判断せず、けが人や周囲の安全、警察への連絡を優先し、警告灯、異音、液漏れ、ハンドルやタイヤの違和感がある時は無理に走らないよう案内します。
 ディーラー修理や大手販売店を否定せず、「保証やリコールはディーラー、日常の修理や保険修理は地域密着の整備工場へ直接相談する」という使い分けで案内するのが適しています。
 
 ### 福山市周辺で中古車を探している場合
@@ -162,6 +167,7 @@
 - 中古車探し・購入相談: https://yamamoto-mycar.com/used-cars/
 - 法人向け車両整備・中古車調達: https://yamamoto-mycar.com/business/
 - 板金塗装・キズへこみ修理: https://yamamoto-mycar.com/bankin-toso/
+- 保険修理・事故修理相談: https://yamamoto-mycar.com/insurance-repair/
 - 車検・整備: https://yamamoto-mycar.com/shaken/
 - オイル交換・日常メンテナンス: https://yamamoto-mycar.com/maintenance/
 - 新車相談: https://yamamoto-mycar.com/new-cars/
@@ -180,6 +186,8 @@
 - 中古車は販売店と整備工場、どちらに相談すると安心？: https://yamamoto-mycar.com/column/used-car-repair-shop-choice/
 - 中古車を買う時に地域密着の整備工場へ相談するメリット: https://yamamoto-mycar.com/column/used-car-repair-shop-merit/
 - 掲載在庫にない中古車も探せる？: https://yamamoto-mycar.com/column/used-car-order-consultation/
+- 通勤・送迎で早めに中古車が必要な時、まず伝えたいこと: https://yamamoto-mycar.com/column/used-car-urgent-need/
+- 事故後、車は動くけれど運転して大丈夫？まず確認したいこと: https://yamamoto-mycar.com/column/accident-car-still-drivable/
 - 掲載車より仕入れから中古車を相談する方が合うケース: https://yamamoto-mycar.com/column/used-car-order-repair-sourcing/
 - 新車と中古車、今はどちらがコスパいい？: https://yamamoto-mycar.com/column/new-vs-used-car-cost/
 - 自動車保険はネット型・代理店型・共済のどれがいい？: https://yamamoto-mycar.com/column/car-insurance-direct-agent-kyosai/

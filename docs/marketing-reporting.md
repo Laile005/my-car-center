@@ -1,6 +1,6 @@
 ﻿# マーケティングレポート設定
 
-このサイトの週次レポートは、GA4とMicrosoft Clarityを別々に使います。
+このサイトの週次レポートは、GA4、Google Search Console、Microsoft Clarityを使います。
 
 GA4は週次の集計に向いています。ClarityはData Export APIの仕様上、1回の取得対象は直近24時間、48時間、72時間までです。なので、Clarityは「最新の72時間スナップショット」として保存し、週次レポートに併記する運用にします。
 
@@ -31,6 +31,18 @@ GA4の管理画面で、`G-ZR46K2ME6D` のプロパティに対応する数値�
 - Google Analytics Data API が有効化されているか
 - プロパティIDが数値の GA4 プロパティ ID になっているか
 
+## Google Search Console
+
+週次レポートでは、Search Console APIから検索クエリ、検索結果に表示されたページ、サイトマップの状況を取得します。Search Consoleは数日前までの確定データを返すため、レポートでは直近3日を除いた7日間を確認します。
+
+必要な前提は次です。
+
+- Google Search Console API を有効化する
+- `marketing@marketing-501922.iam.gserviceaccount.com` を `yamamoto-mycar.com` のSearch Consoleプロパティにフルユーザーとして追加する
+- GA4と同じサービスアカウントJSONを使う
+
+プロパティは既定でドメインプロパティの `sc-domain:yamamoto-mycar.com` を使います。必要な時だけ `MCC_SEARCH_CONSOLE_SITE_URL` または `-SearchConsoleSiteUrl` で変更できます。
+
 ## Clarity
 
 Clarityのプロジェクトで、`Settings -> Data Export -> Generate new API token` からトークンを発行します。これはプロジェクト管理者だけができます。
@@ -44,6 +56,7 @@ Clarityのプロジェクトで、`Settings -> Data Export -> Generate new API t
 ```powershell
 $env:GOOGLE_APPLICATION_CREDENTIALS = "$env:USERPROFILE\Codex\.codex-secrets\yamamoto-mycar-ga4.json"
 $env:MCC_GA4_PROPERTY_ID = "544191103"
+$env:MCC_SEARCH_CONSOLE_SITE_URL = "sc-domain:yamamoto-mycar.com"
 $env:MCC_CLARITY_TOKEN = "xxxxx"
 $env:MCC_CLARITY_PROJECT_ID = "xh8bpqs76a"
 ```
@@ -80,4 +93,5 @@ powershell -ExecutionPolicy Bypass -File .\scripts\weekly-marketing-report.ps1 -
 - GA4の403は、サービスアカウントにGA4プロパティ権限がない時に起きやすいです。
 - Clarityの403は、トークンの形式か権限不足の可能性があります。
 - Clarityは72時間制限があるため、週次レポートでは最新スナップショットとして扱います。
+- Search Consoleのデータが表示されない場合は、サービスアカウントのユーザー権限とAPIの有効化を確認します。新しいプロパティでは、検索データがたまるまで数日から数週間かかります。
 - どちらかが失敗しても、レポートは残りのデータで生成します。失敗内容は `## Notes` に出します。

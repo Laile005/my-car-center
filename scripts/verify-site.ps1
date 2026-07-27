@@ -2,8 +2,11 @@ $ErrorActionPreference = 'Stop'
 
 $root = Split-Path -Parent $PSScriptRoot
 $verificationFile = 'google45bdb2885daf7421.html'
-$htmlFiles = Get-ChildItem $root -Recurse -Filter *.html | Where-Object {
-  $_.FullName -notmatch '\\design-mock\\' -and $_.FullName -notmatch '\\node_modules\\' -and $_.Name -ne $verificationFile
+$htmlFiles = Get-ChildItem $root -Recurse -Filter *.html -ErrorAction SilentlyContinue | Where-Object {
+  $_.FullName -notmatch '\\design-mock\\' -and
+  $_.FullName -notmatch '\\node_modules\\' -and
+  $_.FullName -notmatch '\\.tmp\\' -and
+  $_.Name -ne $verificationFile
 }
 $errors = New-Object System.Collections.Generic.List[string]
 
@@ -50,7 +53,9 @@ foreach ($file in $htmlFiles) {
 }
 
 $publicTextFiles = Get-ChildItem $root -Recurse -Include *.html,*.js -ErrorAction SilentlyContinue | Where-Object {
-  $_.FullName -notmatch '\\design-mock\\' -and $_.FullName -notmatch '\\node_modules\\'
+  $_.FullName -notmatch '\\design-mock\\' -and
+  $_.FullName -notmatch '\\node_modules\\' -and
+  $_.FullName -notmatch '\\.tmp\\'
 }
 $awkwardPattern = '短い結論|AI・検索向け|検索向け要約|町の整備工場|整備まで見|Clarityやアクセス状況|アクセス状況を見ながら|記事を選ぶ'
 foreach ($file in $publicTextFiles) {
