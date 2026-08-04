@@ -270,6 +270,14 @@ function initEntryFormFeedback() {
   const resultEl = document.getElementById('entry-result');
   const submitBtn = document.getElementById('submit-btn');
   let waitingForGasMessage = false;
+  let formStarted = false;
+
+  // 応募への関心と送信完了を分けて把握する。
+  form.addEventListener('focusin', (event) => {
+    if (formStarted || !event.target.matches('input:not([type="hidden"]), textarea, select')) return;
+    formStarted = true;
+    trackMarketingEvent('recruit_form_start', { form_name: 'recruit_entry' });
+  });
 
   // 送信開始時（多重送信防止＆状態表示）
   form.addEventListener('submit', () => {
