@@ -76,10 +76,10 @@ powershell -ExecutionPolicy Bypass -File .\scripts\weekly-marketing-report.ps1
 powershell -ExecutionPolicy Bypass -File .\scripts\weekly-marketing-report.ps1 -Output .\reports\marketing\weekly-report.md
 ```
 
-過去の全期間や任意期間を確認する場合は、GA4側だけ日付を指定できます。ClarityはAPI仕様上、常に直近72時間のスナップショットです。
+過去の全期間や任意期間を確認する場合は、GA4とSearch Consoleそれぞれの日付を指定できます。Search Consoleは確定値を使うため、終了日は通常3日ほど前にします。ClarityはAPI仕様上、常に直近72時間のスナップショットです。
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\weekly-marketing-report.ps1 -StartDate 2026-07-01 -EndDate today -Output .\reports\marketing\all-time.md
+powershell -ExecutionPolicy Bypass -File .\scripts\weekly-marketing-report.ps1 -StartDate 2026-07-01 -EndDate today -SearchConsoleStartDate 2026-07-01 -SearchConsoleEndDate 2026-07-31 -Output .\reports\marketing\all-time.md
 ```
 
 ## 出力物

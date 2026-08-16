@@ -8,6 +8,8 @@ param(
   [string]$DataDir,
   [string]$StartDate = '7daysAgo',
   [string]$EndDate = 'today',
+  [string]$SearchConsoleStartDate,
+  [string]$SearchConsoleEndDate,
   [switch]$Help
 )
 
@@ -53,6 +55,8 @@ function Show-Help {
     '  -DataDir <path>           Raw JSON output directory',
     '  -StartDate <date>         GA4 start date (default: 7daysAgo)',
     '  -EndDate <date>           GA4 end date (default: today)',
+    '  -SearchConsoleStartDate <date> Search Console start date (default: 9 days ago)',
+    '  -SearchConsoleEndDate <date>   Search Console end date (default: 3 days ago)',
     '  -Help                     Show this help',
     '',
     'Fallbacks:',
@@ -519,6 +523,10 @@ if ($Help) {
 $secrets = Get-DefaultSecrets
 $ga4PropertyId = Get-Value -Explicit $Ga4PropertyId -EnvName 'MCC_GA4_PROPERTY_ID' -Secrets $secrets -SecretProperty 'ga4PropertyId'
 $ga4ServiceAccount = Get-Value -Explicit $Ga4ServiceAccount -EnvName 'GOOGLE_APPLICATION_CREDENTIALS' -Secrets $secrets -SecretProperty 'ga4ServiceAccount'
+$defaultGa4ServiceAccount = Join-Path $env:USERPROFILE 'Codex\.codex-secrets\yamamoto-mycar-ga4.json'
+if ((-not $ga4ServiceAccount -or -not (Test-Path $ga4ServiceAccount)) -and (Test-Path $defaultGa4ServiceAccount)) {
+  $ga4ServiceAccount = $defaultGa4ServiceAccount
+}
 $searchConsoleSiteUrl = Get-Value -Explicit $SearchConsoleSiteUrl -EnvName 'MCC_SEARCH_CONSOLE_SITE_URL' -Secrets $secrets -SecretProperty 'searchConsoleSiteUrl'
 $searchConsoleSiteUrl = if ($searchConsoleSiteUrl) { $searchConsoleSiteUrl } else { 'sc-domain:yamamoto-mycar.com' }
 $clarityToken = Get-Value -Explicit $ClarityToken -EnvName 'MCC_CLARITY_TOKEN' -Secrets $secrets -SecretProperty 'clarityToken'
@@ -591,7 +599,7 @@ try {
 
   $trackedEvents = @(
     'phone_click', 'goo_net_click', 'cta_click', 'article_card_click',
-    'recruit_link_click', 'recruit_form_submit_start', 'recruit_form_submit_success',
+    'recruit_link_click', 'indeed_apply_click', 'recruit_form_start', 'recruit_form_submit_start', 'recruit_form_submit_success',
     'recruit_form_submit_error', 'scroll_depth', 'recruit_entry_view',
     'sales_section_view', 'column_section_view', 'used_car_stock_view',
     'phone_prompt_open', 'phone_dial'
@@ -608,7 +616,7 @@ try {
 
   $inquiryEvents = @(
     'phone_prompt_open', 'phone_dial', 'phone_click', 'goo_net_click',
-    'recruit_form_submit_start', 'recruit_form_submit_success', 'recruit_form_submit_error'
+    'indeed_apply_click', 'recruit_form_start', 'recruit_form_submit_start', 'recruit_form_submit_success', 'recruit_form_submit_error'
   )
   $gaInquiryActions = Invoke-JsonApi -Uri $gaBase -Method 'Post' -Headers $gaHeaders -Body @{
     dateRanges = @($gaDateRange)
@@ -634,8 +642,14 @@ try {
   $searchConsoleBase = "https://searchconsole.googleapis.com/webmasters/v3/sites/$encodedSiteUrl"
 
   # Search Console data is normally delayed by a few days, so avoid incomplete current-day figures.
-  $searchConsoleEndDate = (Get-Date).AddDays(-3).ToString('yyyy-MM-dd')
-  $searchConsoleStartDate = (Get-Date).AddDays(-9).ToString('yyyy-MM-dd')
+  if (-not $SearchConsoleEndDate) {
+    $SearchConsoleEndDate = (Get-Date).AddDays(-3).ToString('yyyy-MM-dd')
+  }
+  if (-not $SearchConsoleStartDate) {
+    $SearchConsoleStartDate = (Get-Date).AddDays(-9).ToString('yyyy-MM-dd')
+  }
+  $searchConsoleEndDate = $SearchConsoleEndDate
+  $searchConsoleStartDate = $SearchConsoleStartDate
   $searchConsoleDateRange = @{ startDate = $searchConsoleStartDate; endDate = $searchConsoleEndDate; type = 'web' }
 
   $searchConsoleSummary = Invoke-JsonApi -Uri "$searchConsoleBase/searchAnalytics/query" -Method 'Post' -Headers $searchConsoleHeaders -Body $searchConsoleDateRange
