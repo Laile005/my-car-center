@@ -598,7 +598,7 @@ try {
   }
 
   $trackedEvents = @(
-    'phone_click', 'goo_net_click', 'cta_click', 'article_card_click',
+    'phone_click', 'goo_net_click', 'cta_click', 'article_card_click', 'llm_referral_visit',
     'recruit_link_click', 'indeed_apply_click', 'recruit_form_start', 'recruit_form_submit_start', 'recruit_form_submit_success',
     'recruit_form_submit_error', 'scroll_depth', 'recruit_entry_view',
     'sales_section_view', 'column_section_view', 'used_car_stock_view',

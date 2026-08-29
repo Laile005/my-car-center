@@ -133,6 +133,15 @@ section {
   padding:0;
   list-style:none
 }
+.rg-hero__actions{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:.75rem;
+}
+.rg-hero__actions .rg-indeed-link{
+  margin:0;
+}
 .rg-fact{
   background:var(--wash);
   border:1px solid var(--line);

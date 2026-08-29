@@ -157,6 +157,24 @@
     ].join('');
   }
 
+  function getLlmReferralSource() {
+    var utmSource = new URLSearchParams(location.search).get('utm_source');
+    var source = (utmSource || '').toLowerCase();
+    var referrer = (document.referrer || '').toLowerCase();
+
+    if (source.indexOf('openai') !== -1 || source.indexOf('chatgpt') !== -1 || referrer.indexOf('chatgpt.com') !== -1 || referrer.indexOf('openai.com') !== -1) return 'openai';
+    if (source.indexOf('perplexity') !== -1 || referrer.indexOf('perplexity.ai') !== -1) return 'perplexity';
+    if (source.indexOf('claude') !== -1 || referrer.indexOf('claude.ai') !== -1) return 'claude';
+    if (source.indexOf('gemini') !== -1 || referrer.indexOf('gemini.google.com') !== -1) return 'gemini';
+    if (source.indexOf('copilot') !== -1 || referrer.indexOf('copilot.microsoft.com') !== -1) return 'copilot';
+    return '';
+  }
+
+  function initLlmReferralTracking() {
+    var source = getLlmReferralSource();
+    if (source) sendEvent('llm_referral_visit', { llm_source: source });
+  }
+
   function initVisibilityTracking() {
     if (!('IntersectionObserver' in window)) return;
     var watched = [
@@ -189,6 +207,7 @@
   initRecruitColumnCards();
 
   if (!analyticsDisabled && config.enableCtaTracking !== false) initClickTracking();
+  if (!analyticsDisabled) initLlmReferralTracking();
   if (!analyticsDisabled && config.enableScrollDepth !== false) initScrollDepthTracking();
   if (!analyticsDisabled && config.enableVisibilityTracking !== false) initVisibilityTracking();
   flushQueue();
