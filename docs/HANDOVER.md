@@ -1,5 +1,14 @@
 # Handover
 
+## Latest Review: 2026-09-12
+
+- Compare Aug 13-Sep 9 with Jul 16-Aug 12. Organic sessions rose 33% (44 vs 33); Search Console clicks rose to 34 from 15. Total traffic is still small.
+- Improve existing repair, insurance and used-car sourcing articles, rather than producing overlapping articles. Keep the current used-cars consultation presentation unchanged.
+- JA accident reporting goes to the official JA contact page; repair consultation goes to this shop. Do not promise coverage, loaner availability, cheapest prices or delivery dates.
+- Recruit form results require a boolean `ok` and a trusted HTTPS Google Apps Script origin, including its generated sandbox hostname. Unrelated messages do not end the waiting state. Track response timeout separately from explicit failure.
+- Search Console reports retain up to 1,000 query/page rows and show high-impression queries as well as click leaders. See `marketing-reporting.md` and `inquiry-attribution.md`.
+- Older evidence and design notes below are historical context, not a description of the current live site. The latest 72-hour Clarity sample had no dead/rage clicks, but is too small to prove absence of problems.
+
 Current focus:
 - Strengthen SEO / LLO / GEO without making the site awkward for humans.
 - Emphasize that the shop is repair-led, but can also source and sell used cars.

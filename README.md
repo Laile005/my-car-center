@@ -16,6 +16,7 @@
 - [docs/implementation-decisions.md](./docs/implementation-decisions.md)
 - [docs/operations-playbook.md](./docs/operations-playbook.md)
 - [docs/marketing-roadmap.md](./docs/marketing-roadmap.md)
+- [docs/inquiry-attribution.md](./docs/inquiry-attribution.md)
 
 ## 技術構成
 

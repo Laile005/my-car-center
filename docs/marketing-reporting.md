@@ -84,6 +84,10 @@ powershell -ExecutionPolicy Bypass -File .\scripts\weekly-marketing-report.ps1 -
 
 ## 出力物
 
+検索語・ページは既定でそれぞれ最大1,000件取得し、JSONに保存します。Markdownではクリック上位10件に加え、表示回数上位20検索語を掲載します。クリックがまだない修理・中古車検索を、次の改善候補として見落とさないためです。必要なら `-SearchConsoleRowLimit` で取得上限を変更できます。検索語には非表示のものもあり、検索語合計とページ合計は一致しません。
+
+`recruit_form_response_timeout` は、GASから30秒以内に結果を確認できなかった回数です。応募の失敗や未着とは断定せず、応募フォームの到達・入力開始・送信開始・成功・明示的なエラーと分けて評価します。
+
 - `reports/marketing/latest.md`
 - `reports/marketing/weekly-report-YYYY-MM-DD.md`
 - `reports/marketing-data/YYYY-MM-DD/report-data.json`

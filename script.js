@@ -259,6 +259,19 @@ function initAgeSelect() {
   }
 }
 
+function isGasSubmissionResponse(origin, data) {
+  if (!data || typeof data !== 'object' || typeof data.ok !== 'boolean') return false;
+  try {
+    const source = new URL(origin);
+    return source.protocol === 'https:' && !source.port && (
+      source.hostname === 'script.google.com' ||
+      /^(?:[a-z0-9-]+-)?script\.googleusercontent\.com$/i.test(source.hostname)
+    );
+  } catch (_) {
+    return false;
+  }
+}
+
 function initEntryFormFeedback() {
   const form = document.querySelector('form.rg-form');
   if (!form) return;
@@ -291,6 +304,7 @@ function initEntryFormFeedback() {
     clearTimeout(initEntryFormFeedback._t);
     initEntryFormFeedback._t = setTimeout(() => {
       waitingForGasMessage = false;
+      trackMarketingEvent('recruit_form_response_timeout', { form_name: 'recruit_entry' });
       if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '送信する'; }
       if (resultEl)  { resultEl.style.display = 'block'; resultEl.textContent = '送信結果の確認に時間がかかっています。応募が届いている可能性がありますので、再送前にお電話でも確認できます。'; }
     }, 30000);
@@ -299,19 +313,13 @@ function initEntryFormFeedback() {
   // GAS からの postMessage を受信
   window.addEventListener('message', (ev) => {
     if (!waitingForGasMessage) return;
-    // 送信元のオリジンを確認（script.google.com / script.googleusercontent.com）
-    let okOrigin = false;
-    try {
-      okOrigin = /^https:\/\/script\.google(usercontent)?\.com$/i.test(new URL(ev.origin).origin);
-    } catch (_) {
-      okOrigin = false;
-    }
-    if (!okOrigin) return;
+    // GASの通知などを応募結果と混同せず、結果を含むHTTPSメッセージだけ受け取る。
+    if (!isGasSubmissionResponse(ev.origin, ev.data)) return;
 
     clearTimeout(initEntryFormFeedback._t);
     waitingForGasMessage = false;
 
-    const data = ev.data || {};
+    const data = ev.data;
     if (data.ok) {
       trackMarketingEvent('recruit_form_submit_success');
       // 成功：フォームをリセットしてメッセージ表示
@@ -353,7 +361,14 @@ function initArticlePagination() {
   const grid = section.querySelector('.column-card-grid');
   if (!grid) return;
 
-  const cards = Array.from(grid.querySelectorAll('.column-card'));
+  const cards = Array.from(grid.querySelectorAll('.column-card')).sort((left, right) => {
+    const updatedAt = (card) => {
+      const date = (card.querySelector('.column-card__date')?.textContent || '').match(/(\d{4})[.\/-](\d{1,2})[.\/-](\d{1,2})/);
+      return date ? Date.UTC(Number(date[1]), Number(date[2]) - 1, Number(date[3])) : 0;
+    };
+    return updatedAt(right) - updatedAt(left);
+  });
+  cards.forEach((card) => grid.appendChild(card));
   const pageSize = 12;
   if (cards.length <= pageSize) return;
 

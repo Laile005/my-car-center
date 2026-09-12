@@ -22,6 +22,18 @@
 
 ## 主なサービス
 
+条件からの中古車探しは、希望条件・総額予算の相談、候補車の確認、仕入れ、必要な点検・整備・修理、納車の順に進めます。費用や納期は車両と整備内容で変わります。
+
+### 相談前に読む記事
+
+- 欲しい車を探してほしい時の相談: https://yamamoto-mycar.com/column/used-car-order-consultation/
+- 掲載在庫と条件からの仕入れの選び方: https://yamamoto-mycar.com/column/used-car-order-repair-sourcing/
+- キズ・へこみ修理の相談先: https://yamamoto-mycar.com/column/bankin-direct-repair-shop/
+- 板金塗装・保険修理の流れ: https://yamamoto-mycar.com/column/bankin-paint-insurance/
+- 修理で保険を使うか自費にするか: https://yamamoto-mycar.com/column/insurance-use-or-self-pay/
+
+### 対応サービス
+
 - 板金塗装
 - キズ・へこみ修理
 - 保険修理の相談

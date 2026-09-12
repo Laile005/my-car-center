@@ -27,6 +27,8 @@
 
 ## 既存資料
 
+- [inquiry-attribution.md](./inquiry-attribution.md)
+  - 電話相談のきっかけを無理なく記録し、個人情報を含まない集計で成果を確認する方法。
 - [staging-checklist.md](./staging-checklist.md)
   - ステージング確認の基本手順。
 - [marketing-measurement-plan.md](./marketing-measurement-plan.md)

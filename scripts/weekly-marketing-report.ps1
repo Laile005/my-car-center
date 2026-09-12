@@ -10,6 +10,8 @@ param(
   [string]$EndDate = 'today',
   [string]$SearchConsoleStartDate,
   [string]$SearchConsoleEndDate,
+  [ValidateRange(10, 25000)]
+  [int]$SearchConsoleRowLimit = 1000,
   [switch]$Help
 )
 
@@ -57,6 +59,7 @@ function Show-Help {
     '  -EndDate <date>           GA4 end date (default: today)',
     '  -SearchConsoleStartDate <date> Search Console start date (default: 9 days ago)',
     '  -SearchConsoleEndDate <date>   Search Console end date (default: 3 days ago)',
+    '  -SearchConsoleRowLimit <int>   Rows saved per query/page report (default: 1000)',
     '  -Help                     Show this help',
     '',
     'Fallbacks:',
@@ -600,7 +603,7 @@ try {
   $trackedEvents = @(
     'phone_click', 'goo_net_click', 'cta_click', 'article_card_click', 'llm_referral_visit',
     'recruit_link_click', 'indeed_apply_click', 'recruit_form_start', 'recruit_form_submit_start', 'recruit_form_submit_success',
-    'recruit_form_submit_error', 'scroll_depth', 'recruit_entry_view',
+    'recruit_form_submit_error', 'recruit_form_response_timeout', 'scroll_depth', 'recruit_entry_view',
     'sales_section_view', 'column_section_view', 'used_car_stock_view',
     'phone_prompt_open', 'phone_dial'
   )
@@ -616,7 +619,7 @@ try {
 
   $inquiryEvents = @(
     'phone_prompt_open', 'phone_dial', 'phone_click', 'goo_net_click',
-    'indeed_apply_click', 'recruit_form_start', 'recruit_form_submit_start', 'recruit_form_submit_success', 'recruit_form_submit_error'
+    'indeed_apply_click', 'recruit_form_start', 'recruit_form_submit_start', 'recruit_form_submit_success', 'recruit_form_submit_error', 'recruit_form_response_timeout'
   )
   $gaInquiryActions = Invoke-JsonApi -Uri $gaBase -Method 'Post' -Headers $gaHeaders -Body @{
     dateRanges = @($gaDateRange)
@@ -655,11 +658,11 @@ try {
   $searchConsoleSummary = Invoke-JsonApi -Uri "$searchConsoleBase/searchAnalytics/query" -Method 'Post' -Headers $searchConsoleHeaders -Body $searchConsoleDateRange
   $searchConsoleQueries = Invoke-JsonApi -Uri "$searchConsoleBase/searchAnalytics/query" -Method 'Post' -Headers $searchConsoleHeaders -Body ($searchConsoleDateRange + @{
     dimensions = @('query')
-    rowLimit = 10
+    rowLimit = $SearchConsoleRowLimit
   })
   $searchConsolePages = Invoke-JsonApi -Uri "$searchConsoleBase/searchAnalytics/query" -Method 'Post' -Headers $searchConsoleHeaders -Body ($searchConsoleDateRange + @{
     dimensions = @('page')
-    rowLimit = 10
+    rowLimit = $SearchConsoleRowLimit
   })
   $searchConsoleSitemaps = Invoke-JsonApi -Uri "$searchConsoleBase/sitemaps" -Method 'Get' -Headers $searchConsoleHeaders -Body $null
 }
@@ -748,12 +751,17 @@ if ($searchConsoleSummary.rows -and $searchConsoleSummary.rows.Count -gt 0) {
 
 $searchConsoleQueryRows = @()
 if ($searchConsoleQueries.rows) {
-  $searchConsoleQueryRows = @($searchConsoleQueries.rows | ForEach-Object { ,@($_.keys[0], $_.clicks, $_.impressions, ('{0:P2}' -f $_.ctr), ('{0:N1}' -f $_.position)) })
+  $searchConsoleQueryRows = @($searchConsoleQueries.rows | Select-Object -First 10 | ForEach-Object { ,@($_.keys[0], $_.clicks, $_.impressions, ('{0:P2}' -f $_.ctr), ('{0:N1}' -f $_.position)) })
+}
+
+$searchConsoleOpportunityRows = @()
+if ($searchConsoleQueries.rows) {
+  $searchConsoleOpportunityRows = @($searchConsoleQueries.rows | Sort-Object impressions -Descending | Select-Object -First 20 | ForEach-Object { ,@($_.keys[0], $_.clicks, $_.impressions, ('{0:P2}' -f $_.ctr), ('{0:N1}' -f $_.position)) })
 }
 
 $searchConsolePageRows = @()
 if ($searchConsolePages.rows) {
-  $searchConsolePageRows = @($searchConsolePages.rows | ForEach-Object { ,@($_.keys[0], $_.clicks, $_.impressions, ('{0:P2}' -f $_.ctr), ('{0:N1}' -f $_.position)) })
+  $searchConsolePageRows = @($searchConsolePages.rows | Select-Object -First 10 | ForEach-Object { ,@($_.keys[0], $_.clicks, $_.impressions, ('{0:P2}' -f $_.ctr), ('{0:N1}' -f $_.position)) })
 }
 
 $searchConsoleSitemapRows = @()
@@ -780,6 +788,7 @@ Write-Section -Lines $lines -Title 'Tracked events' -Body (Build-MarkdownTable -
 Write-Section -Lines $lines -Title 'Inquiry actions by page' -Body (Build-MarkdownTable -Headers @('Action', 'Page', 'Count') -Rows $inquiryActionRows)
 Write-Section -Lines $lines -Title 'Search Console overview' -Body (Build-MarkdownTable -Headers @('Metric', 'Value') -Rows $searchConsoleSummaryRows)
 Write-Section -Lines $lines -Title 'Search Console top queries' -Body (Build-MarkdownTable -Headers @('Query', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $searchConsoleQueryRows)
+Write-Section -Lines $lines -Title 'Search Console high-impression queries' -Body (Build-MarkdownTable -Headers @('Query', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $searchConsoleOpportunityRows)
 Write-Section -Lines $lines -Title 'Search Console top pages' -Body (Build-MarkdownTable -Headers @('Page', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $searchConsolePageRows)
 Write-Section -Lines $lines -Title 'Search Console sitemaps' -Body (Build-MarkdownTable -Headers @('Sitemap', 'Type', 'Pending', 'Submitted', 'Downloaded', 'Errors', 'Warnings') -Rows $searchConsoleSitemapRows)
 
@@ -814,6 +823,8 @@ $lines.Add('## Notes')
 $lines.Add('')
 $lines.Add('- Clarity Data Export only returns the last 24/48/72 hours. Weekly automation therefore captures a rolling snapshot, not a full seven-day Clarity history.')
 $lines.Add('- Raw JSON is saved under reports/marketing-data for troubleshooting and trend reconstruction.')
+$lines.Add('- Query/page details are retained in raw JSON; query totals may differ from page totals because Search Console omits some queries.')
+$lines.Add('- Inquiry actions are click/input events, not confirmed phone calls, applications, or sales. Response timeouts are diagnostics, not confirmed submission failures.')
 if ($issues.Count -gt 0) {
   $lines.Add('- Issues:')
   foreach ($issue in $issues) {
