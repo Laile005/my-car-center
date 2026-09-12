@@ -105,7 +105,7 @@
       <div class="decision-guide__answer">
         <p class="decision-guide__answer-title">掲載外の車も、希望条件から探す相談ができます。</p>
         <p class="decision-guide__answer-text">用途・予算・車種・納期を伺い、業者専用オークション等から候補を探します。仕入れ後は状態を確認し、必要な点検・整備や板金塗装を行ってから納車します。</p>
-        <div class="decision-guide__actions">
+        <div class="decision-guide__actions decision-guide__actions--stacked">
           <a class="recruit-cta" href="tel:0849761000">中古車について電話で相談する</a>
           <a class="decision-guide__detail-link" href="../column/used-car-order-consultation/">希望の車を探してもらう流れを見る</a>
           <a class="decision-guide__detail-link" href="../column/used-car-urgent-need/">早めに必要な時の探し方を見る</a>
@@ -271,30 +271,11 @@
     const status = document.getElementById('stock-status');
     if (!grid || !status) return;
 
-    const injectFallbackStockStyles = () => {
-      if (document.getElementById('fallback-stock-styles')) return;
-      const style = document.createElement('style');
-      style.id = 'fallback-stock-styles';
-      style.textContent = `
-        .stock-card--fallback .stock-card__body{min-height:0;gap:.85rem}
-        .stock-card--fallback .stock-card__body h3{min-height:0;margin:0}
-        .stock-card--fallback .stock-card__meta{margin:0}
-        .stock-card--fallback .stock-card__link{margin-top:.25rem;padding-top:0}
-      `;
-      document.head.appendChild(style);
-    };
-
     const escapeHtml = (value) => String(value || '').replace(/[&<>"']/g, (char) => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     }[char]));
 
     const gooStockUrl = 'https://www.goo-net.com/usedcar_shop/1010169/stock.html#tab_detail';
-    const fallbackItems = [
-      { title: '掲載在庫は随時変動します', url: gooStockUrl, note: '最新の掲載状況はグーネットでご確認ください。' },
-      { title: '条件に合う中古車を探せます', url: 'tel:0849761000', note: '予算、用途、車種、納期などからご相談いただけます。' },
-      { title: '購入後の整備まで同じ窓口', url: 'tel:0849761000', note: '納車後の点検、車検、修理までまとめて相談できます。' }
-    ];
-
     const formatMeta = (car) => {
       if (car.note) return car.note;
       const values = [
@@ -310,6 +291,12 @@
 
     const formatPrices = (car) => {
       const details = car.priceDetails || {};
+      const amount = (value) => /^([0-9]+(?:\.[0-9]+)?)万円$/.exec(String(value || '').replace(/\s/g, ''));
+      const total = amount(details.total || car.price);
+      const vehicle = amount(details.vehicle);
+      if (total && vehicle && Number(total[1]) < Number(vehicle[1])) {
+        return '<p class="stock-card__prices-note">価格はグーネットでご確認ください</p>';
+      }
       const rows = [
         formatPriceLabel('支払総額', details.total || car.price || ''),
         formatPriceLabel('車両本体価格', details.vehicle || ''),
@@ -319,15 +306,24 @@
       return `<div class="stock-card__prices" aria-label="価格情報">${rows.join('')}</div>`;
     };
 
-    const renderCars = (cars, isFallback = false) => {
-      if (isFallback) injectFallbackStockStyles();
-      grid.classList.toggle('stock-grid--fallback', isFallback);
-      status.textContent = isFallback
-        ? '在庫情報の自動取得に時間がかかっています。掲載在庫の確認や条件に合う車探しはお電話でご相談ください。'
-        : `グーネット掲載在庫から${cars.length}台を表示しています。`;
+    const renderEmpty = (unavailable = false) => {
+      grid.dataset.count = '0';
+      grid.dataset.state = unavailable ? 'unavailable' : 'empty';
+      status.textContent = unavailable
+        ? '掲載在庫を取得できませんでした。最新の在庫はグーネットでご確認ください。'
+        : '現在、このページでご紹介できる掲載車はありません。';
+      grid.innerHTML = `<div class="stock-empty"><h3>${unavailable ? '在庫の確認・車探しのご相談' : '掲載在庫にない車もお探しします'}</h3><p>用途・予算・車種・納期などの希望条件から、中古車を探す相談ができます。</p></div>`;
+    };
+
+    const renderCars = (items) => {
+      const cars = items.slice(0, 3);
+      if (!cars.length) { renderEmpty(); return; }
+      grid.dataset.count = String(cars.length);
+      grid.dataset.state = 'ready';
+      status.textContent = `グーネット掲載在庫から${cars.length}台を表示しています。`;
       grid.innerHTML = cars.map((car, index) => `
-        <article class="stock-card${isFallback ? ' stock-card--fallback' : ''}">
-          ${car.image ? `<a href="${escapeHtml(car.url)}" target="_blank" rel="noopener"><img src="${escapeHtml(car.image)}" alt="${escapeHtml(car.title)}" width="640" height="480" decoding="async" loading="eager"${index === 0 ? ' fetchpriority="high"' : ''}></a>` : ''}
+        <article class="stock-card">
+          <a class="stock-card__image" href="${escapeHtml(car.url || gooStockUrl)}" target="_blank" rel="noopener">${car.image ? `<img src="${escapeHtml(car.image)}" alt="${escapeHtml(car.title)}" width="640" height="480" decoding="async" loading="eager"${index === 0 ? ' fetchpriority="high"' : ''}>` : '<span class="stock-card__no-image">写真はグーネットでご確認ください</span>'}</a>
           <div class="stock-card__body">
             <h3>${escapeHtml(car.title)}</h3>
             <p class="stock-card__meta">${escapeHtml(formatMeta(car))}</p>
@@ -341,15 +337,15 @@
     let hasRenderedStock = false;
 
     const timeoutId = setTimeout(() => {
-      if (!hasRenderedStock) renderCars(fallbackItems, true);
+      if (!hasRenderedStock) renderEmpty(true);
     }, 8000);
 
     fetch('/.netlify/functions/inventory-feed')
-      .then((res) => res.json())
+      .then((res) => { if (!res.ok) throw new Error('Inventory request failed'); return res.json(); })
       .then((data) => {
         clearTimeout(timeoutId);
-        if (!data.ok || !Array.isArray(data.cars) || data.cars.length === 0) {
-          if (!hasRenderedStock) renderCars(fallbackItems, true);
+        if (!data.ok || !Array.isArray(data.cars)) {
+          if (!hasRenderedStock) renderEmpty(true);
           return;
         }
 
@@ -358,7 +354,7 @@
       })
       .catch(() => {
         clearTimeout(timeoutId);
-        if (!hasRenderedStock) renderCars(fallbackItems, true);
+        if (!hasRenderedStock) renderEmpty(true);
       });
   })();
 </script>

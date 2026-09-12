@@ -105,7 +105,7 @@ function pickPrice(block) {
 
 function pickLabeledPrice(text, labels) {
   const labelPattern = labels.join('|');
-  const pattern = new RegExp(`(?:${labelPattern})\\s*(?:[（(]\\s*税込\\s*[）)])?\\s*([0-9]+(?:\\.[0-9]+)?\\s*万円|ASK|応談)`, 'i');
+  const pattern = new RegExp(`(?:${labelPattern})\\s*(?:[（(]\\s*税込(?:[・･]リ済込)?\\s*[）)])?\\s*([0-9]+(?:\\.[0-9]+)?\\s*万円|ASK|応談)`, 'i');
   const match = pattern.exec(text);
   return match ? match[1].replace(/\s+/g, '') : '';
 }

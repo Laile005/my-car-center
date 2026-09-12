@@ -2,6 +2,9 @@
 
 ## Latest Review: 2026-09-12
 
+- Follow-up layout correction: used-car stock supports 0/1/2/3 entries (maximum 3), an unavailable state and late-response recovery. Desktop single-stock layout is horizontal; 2/3 cards share content rows. Image CSS overrides HTML height. Duplicate stock CSS injection was removed; `styles.css` is authoritative.
+- Repair service cards share label/title/body/action rows so an extra insurance link does not lift only the repair CTA. Used-car consultation CTA and article links are stacked.
+- Goo-net detail prices can include `(税込・リ済込)`. The extractor must handle this before recommended-car prices. Frontend hides a total below vehicle price while any old cached data remains. Source extraction tests: `scripts/verify-stock-prices.cjs`.
 - Compare Aug 13-Sep 9 with Jul 16-Aug 12. Organic sessions rose 33% (44 vs 33); Search Console clicks rose to 34 from 15. Total traffic is still small.
 - Improve existing repair, insurance and used-car sourcing articles, rather than producing overlapping articles. Keep the current used-cars consultation presentation unchanged.
 - JA accident reporting goes to the official JA contact page; repair consultation goes to this shop. Do not promise coverage, loaner availability, cheapest prices or delivery dates.

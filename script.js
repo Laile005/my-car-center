@@ -529,25 +529,6 @@ function addGlobalSalesStyles() {
     .column-card:has(a[href]),.rg-card:has(a[href]),.stock-card:has(a[href]){cursor:pointer}
     .column-card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--sky),var(--mint));opacity:.78}
     .guide-card--accent{border-color:rgba(96,165,250,.48);background:linear-gradient(180deg,rgba(239,248,255,.92),rgba(255,255,255,1));box-shadow:0 14px 32px rgba(37,99,235,.09)}
-    .stock-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;align-items:stretch}
-    .stock-card{border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;height:100%}
-    .stock-card>a{display:block}
-    .stock-card img{width:100%;aspect-ratio:4/3;object-fit:cover;background:#e5e7eb}
-    .stock-card__body{padding:1rem;display:flex;flex-direction:column;flex:1}
-    .stock-card__body h3{font-size:1rem;line-height:1.65;margin:0 0 .75rem}
-    .stock-card__meta{color:#64748b;font-size:.9rem;line-height:1.6;margin:0 0 .9rem}
-    .stock-card__price{color:var(--sky);font-weight:800;margin:0 0 .7rem}
-    .stock-card__prices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.45rem;margin:0 0 .85rem;padding:.72rem;border:1px solid rgba(96,165,250,.28);border-radius:10px;background:#f8fbff}
-    .stock-card__prices span{min-width:0}
-    .stock-card__prices b{display:block;color:#64748b;font-size:.68rem;line-height:1.35;margin-bottom:.15rem}
-    .stock-card__prices strong{display:block;color:var(--ink);font-size:.9rem;line-height:1.25;letter-spacing:0;white-space:nowrap}
-    .stock-card__prices span:first-child strong{color:#e11d48;font-size:1.05rem}
-    .stock-card__link{display:inline-flex;color:#2563eb;font-weight:700;font-size:.9rem;margin-top:auto;padding-top:1rem;align-self:center;text-align:center;justify-content:center}
-    .stock-card--fallback .stock-card__body{min-height:0;gap:.85rem}
-    .stock-card--fallback .stock-card__body h3{min-height:0;margin:0}
-    .stock-card--fallback .stock-card__meta{margin:0}
-    .stock-card--fallback .stock-card__link{margin-top:.25rem;padding-top:0}
-    @media (max-width:900px){.stock-grid{grid-template-columns:1fr}}
   `;
   document.head.appendChild(style);
 }
