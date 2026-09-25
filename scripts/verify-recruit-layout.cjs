@@ -6,6 +6,7 @@ const path = require('node:path');
 const { chromium } = require(process.env.PLAYWRIGHT_PATH || 'playwright');
 
 const root = path.resolve(__dirname, '..');
+const gasUrl = 'https://script.google.com/macros/s/AKfycbyh-Gnajzjbu9gdf6PzPysrx389iDEiETuY7LjTE2mx-szdoDQIIHYiZWoIeVbyjg2Skg/exec';
 const types = { '.html': 'text/html', '.css': 'text/css', '.js': 'application/javascript', '.webp': 'image/webp', '.svg': 'image/svg+xml' };
 const server = http.createServer((request, response) => {
   const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
@@ -31,6 +32,7 @@ const server = http.createServer((request, response) => {
       assert.ok(boxes[1].top >= boxes[0].bottom, `${width}px: first link must be below the button`);
       assert.ok(boxes[2].top >= boxes[1].bottom, `${width}px: second link must be below the first`);
       assert.equal(await page.locator('h2#entry-title').textContent(), '応募・見学の相談');
+      assert.equal(await page.locator('form.rg-form').getAttribute('action'), gasUrl);
 
       if (width === 1365 || width === 390) {
         const size = width === 1365 ? 'desktop' : 'mobile';
@@ -49,6 +51,7 @@ const server = http.createServer((request, response) => {
       if (width === 1365) {
         let posted;
         await page.route('https://script.google.com/macros/s/**', async (route) => {
+          assert.equal(route.request().url(), gasUrl);
           posted = new URLSearchParams(route.request().postData());
           const payload = JSON.stringify({ ok: true, submissionId: posted.get('submission_id') });
           await route.fulfill({ status: 200, contentType: 'text/html', body: `<script>window.top.postMessage(${payload}, ${JSON.stringify(base)});</script>` });
