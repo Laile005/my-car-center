@@ -1,6 +1,10 @@
 # Handover
 
-## Latest Review: 2026-09-12
+## Latest Review: 2026-09-25
+
+- Recent 28-day comparison (Aug 28-Sep 24 vs Jul 31-Aug 27): active users 62 vs 57, sessions 75 vs 68, page views 134 vs 113, organic sessions 47 vs 41. Search Console clicks 41 vs 23 and impressions 1,760 vs 900. The direction is positive, but the sample remains small and conversion actions should not be overinterpreted.
+- Used-car page views rose to 9 from 6; stock-detail actions rose to 8 from 2 and Goo-net clicks to 7 from 1. Recruit page views rose to 19 from 12, with one Indeed click. Phone intent did not rise in the same way, so service pages should keep a clear, low-friction phone route.
+- Accident guidance is now standardized: rescue and secondary-accident prevention, police report, call Yamamoto My Car Center for repair guidance, then the customer promptly reports the accident and confirms the policy with their insurer. The shop supports vehicle assessment, towing/intake planning, estimate, loaner and repair-related insurer communication, but does not replace the customer's insurer report or contract confirmation.
 
 - Follow-up layout correction: used-car stock supports 0/1/2/3 entries (maximum 3), an unavailable state and late-response recovery. Desktop single-stock layout is horizontal; 2/3 cards share content rows. Image CSS overrides HTML height. Duplicate stock CSS injection was removed; `styles.css` is authoritative.
 - Repair service cards share label/title/body/action rows so an extra insurance link does not lift only the repair CTA. Used-car consultation CTA and article links are stacked.
