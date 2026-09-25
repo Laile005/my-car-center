@@ -153,7 +153,7 @@
       <div class="decision-guide__answer">
         <p class="decision-guide__answer-title">補助作業から始められ、応募前の職場見学や仕事内容の相談もできます。</p>
         <p class="decision-guide__answer-text">未経験者は洗車、作業準備、先輩の補助から段階的に覚えます。月平均残業2時間以内、日曜・祝日休みなど、毎日の働き方も確認してから応募できます。</p>
-        <div class="decision-guide__actions">
+        <div class="decision-guide__actions decision-guide__actions--stacked">
           <a class="rg-btn rg-btn--grad" href="#entry">仕事内容を相談する</a>
           <a class="decision-guide__detail-link" href="/recruit-column/factory-tour-questions/">職場見学で確認したいことを見る</a>
           <a class="decision-guide__detail-link" href="/recruit-column/salary-vs-work-life/">休日・残業の見方を見る</a>
@@ -377,13 +377,12 @@
   <section class="rg-entry" id="entry" aria-labelledby="entry-title">
     <div class="rg-container rg-entry__inner">
       <div class="rg-entry__copy">
-        <h2 class="rg-entry__title" id="entry-title">エントリー</h2>
-        <p class="rg-entry__lead">見学だけでもOK。お気軽にどうぞ！</p>
+        <h2 class="rg-entry__title" id="entry-title">応募・見学の相談</h2>
+        <p class="rg-entry__lead">応募前の職場見学や仕事内容の質問も、こちらから受け付けています。</p>
         <ul class="rg-list--ticks">
-          <li>最短1分で完了</li>
+          <li>応募・見学希望・質問はコメント欄に書けます</li>
           <li>カジュアル面談では履歴書なしでもOK</li>
-          <li>スマホだけで応募OK</li>
-          <li>電話での応募もOK（<a href="tel:0849761000">電話で応募相談する</a>）</li>
+          <li>電話での相談もOK（<a href="tel:0849761000">電話で相談する</a>）</li>
         </ul>
         <p class="rg-entry__indeed">
           <a class="rg-indeed-link" href="https://jp.indeed.com/viewjob?jk=386df535838c785b" target="_blank" rel="noopener">Indeedの求人を見る・応募する <span class="rg-indeed-link__icon" aria-hidden="true"></span></a>
@@ -421,15 +420,15 @@
             <input type="email" name="email" placeholder="sample@example.com" required autocomplete="email">
           </label>
           <label>
-            <span class="label-title">携帯番号（ハイフンあり） <span class="req-inline">*必須</span></span>
+            <span class="label-title">電話番号 <span class="req-inline">*必須</span></span>
             <input type="tel" name="phone" placeholder="090-1234-5678"
                   required inputmode="tel"
-                  pattern="^(070|080|090)-\d{4}-\d{4}$"
-                  title="例：090-1234-5678（ハイフンあり）">
+                  pattern="(?=(?:-*[0-9]){10,11}-*$)0[0-9\-]+"
+                  title="0から始まる10〜11桁の電話番号（ハイフンは省略できます）" autocomplete="tel">
           </label>
 
           <label>
-            <span class="label-title">業界経験年数 <span class="req-inline">*必須</span></span>
+            <span class="label-title">自動車業界の経験 <span class="req-inline">*必須</span></span>
             <select name="exp_years" required>
               <option value="" selected disabled>選択してください</option>
               <option>未経験</option>
@@ -451,14 +450,15 @@
 
           <!-- コメント：資格・免許の記入例もここで案内 -->
           <label class="span-2">
-            <span class="label-title">コメント（任意）</span>
-            <textarea name="msg" rows="4" placeholder="保有資格・志望動機・質問など自由にどうぞ（例：二級整備士・中型免許 など）"></textarea>
+            <span class="label-title">相談内容・コメント（任意）</span>
+            <textarea name="msg" rows="4" placeholder="職場見学の希望、仕事内容の質問、応募についてなど自由にどうぞ"></textarea>
           </label>
           <input type="text" name="hp" tabindex="-1" autocomplete="off"
                 style="position:absolute;left:-9999px" aria-hidden="true">
 
           <!-- 親ページのオリジン（JSで埋める） -->
           <input type="hidden" name="origin" id="origin-field" value="">
+          <input type="hidden" name="submission_id" id="submission-id-field" value="">
           <div class="span-2 actions">
             <label class="rg-consent">
               <input type="checkbox" id="consent" required>

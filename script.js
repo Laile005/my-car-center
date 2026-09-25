@@ -282,6 +282,7 @@ function initEntryFormFeedback() {
 
   const resultEl = document.getElementById('entry-result');
   const submitBtn = document.getElementById('submit-btn');
+  const submissionIdField = document.getElementById('submission-id-field');
   let waitingForGasMessage = false;
   let formStarted = false;
 
@@ -294,6 +295,10 @@ function initEntryFormFeedback() {
 
   // 送信開始時（多重送信防止＆状態表示）
   form.addEventListener('submit', () => {
+    if (submissionIdField && !submissionIdField.value) {
+      const bytes = window.crypto.getRandomValues(new Uint8Array(16));
+      submissionIdField.value = Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
+    }
     trackMarketingEvent('recruit_form_submit_start');
     waitingForGasMessage = true;
     if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '送信中…'; }
@@ -315,6 +320,7 @@ function initEntryFormFeedback() {
     if (!waitingForGasMessage) return;
     // GASの通知などを応募結果と混同せず、結果を含むHTTPSメッセージだけ受け取る。
     if (!isGasSubmissionResponse(ev.origin, ev.data)) return;
+    if (ev.data.submissionId && ev.data.submissionId !== submissionIdField?.value) return;
 
     clearTimeout(initEntryFormFeedback._t);
     waitingForGasMessage = false;
@@ -324,6 +330,8 @@ function initEntryFormFeedback() {
       trackMarketingEvent('recruit_form_submit_success');
       // 成功：フォームをリセットしてメッセージ表示
       form.reset();
+      if (originField) originField.value = location.origin;
+      if (submissionIdField) submissionIdField.value = '';
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '送信する'; }
       if (resultEl)  { resultEl.style.display = 'block'; resultEl.textContent = '送信ありがとうございました。担当よりご連絡します。'; }
       resultEl && resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
