@@ -550,6 +550,7 @@ $issues = New-Object System.Collections.Generic.List[string]
 $gaSummary = $null
 $gaChannels = $null
 $gaPages = $null
+$gaSources = $null
 $gaEvents = $null
 $gaInquiryActions = $null
 $searchConsoleSummary = $null
@@ -598,6 +599,14 @@ try {
     metrics = @(@{ name = 'screenPageViews' }, @{ name = 'activeUsers' }, @{ name = 'sessions' })
     orderBys = @(@{ metric = @{ metricName = 'screenPageViews' }; desc = $true })
     limit = 10
+  }
+
+  $gaSources = Invoke-JsonApi -Uri $gaBase -Method 'Post' -Headers $gaHeaders -Body @{
+    dateRanges = @($gaDateRange)
+    dimensions = @(@{ name = 'sessionSourceMedium' })
+    metrics = @(@{ name = 'sessions' })
+    orderBys = @(@{ metric = @{ metricName = 'sessions' }; desc = $true })
+    limit = 100
   }
 
   $trackedEvents = @(
@@ -692,6 +701,7 @@ catch {
   gaSummary = $gaSummary
   gaChannels = $gaChannels
   gaPages = $gaPages
+  gaSources = $gaSources
   gaEvents = $gaEvents
   gaInquiryActions = $gaInquiryActions
   searchConsole = @{
@@ -733,6 +743,13 @@ if ($gaEvents -and $gaEvents.rows) {
   $eventRows = @($gaEvents.rows | ForEach-Object { ,@($_.dimensionValues[0].value, $_.metricValues[0].value) })
 }
 
+$aiReferralRows = @()
+if ($gaSources -and $gaSources.rows) {
+  $aiReferralRows = @($gaSources.rows | Where-Object {
+    $_.dimensionValues[0].value -match '(?i)(chatgpt|openai|perplexity|claude\.ai|gemini\.google|copilot\.microsoft|poe\.com)'
+  } | ForEach-Object { ,@($_.dimensionValues[0].value, $_.metricValues[0].value) })
+}
+
 $inquiryActionRows = @()
 if ($gaInquiryActions -and $gaInquiryActions.rows) {
   $inquiryActionRows = @($gaInquiryActions.rows | ForEach-Object { ,@($_.dimensionValues[0].value, $_.dimensionValues[1].value, $_.metricValues[0].value) })
@@ -764,6 +781,24 @@ if ($searchConsolePages.rows) {
   $searchConsolePageRows = @($searchConsolePages.rows | Select-Object -First 10 | ForEach-Object { ,@($_.keys[0], $_.clicks, $_.impressions, ('{0:P2}' -f $_.ctr), ('{0:N1}' -f $_.position)) })
 }
 
+$localQueryRows = @()
+if ($searchConsoleQueries.rows) {
+  $localQueryRows = @($searchConsoleQueries.rows | Where-Object {
+    $_.keys[0] -match '福山|駅家|広島'
+  } | Sort-Object impressions -Descending | Select-Object -First 15 | ForEach-Object {
+    ,@($_.keys[0], $_.clicks, $_.impressions, ('{0:P2}' -f $_.ctr), ('{0:N1}' -f $_.position))
+  })
+}
+
+$servicePageRows = @()
+if ($searchConsolePages.rows) {
+  $servicePageRows = @($searchConsolePages.rows | Where-Object {
+    $_.keys[0] -match 'https://yamamoto-mycar\.com/(used-cars|bankin-toso|insurance-repair|shaken|business)/?($|\?)'
+  } | Sort-Object impressions -Descending | ForEach-Object {
+    ,@($_.keys[0], $_.clicks, $_.impressions, ('{0:P2}' -f $_.ctr), ('{0:N1}' -f $_.position))
+  })
+}
+
 $searchConsoleSitemapRows = @()
 if ($searchConsoleSitemaps.sitemap) {
   $searchConsoleSitemapRows = @($searchConsoleSitemaps.sitemap | ForEach-Object { ,@($_.path, $_.type, $_.isPending, $_.lastSubmitted, $_.lastDownloaded, $_.errors, $_.warnings) })
@@ -784,12 +819,19 @@ $lines.Add('')
 Write-Section -Lines $lines -Title 'Overview' -Body (Build-MarkdownTable -Headers @('Metric', 'Value') -Rows $summaryRows)
 Write-Section -Lines $lines -Title 'Channel mix' -Body (Build-MarkdownTable -Headers @('Channel', 'Sessions', 'Active users', 'Page views') -Rows $channelRows)
 Write-Section -Lines $lines -Title 'Top pages' -Body (Build-MarkdownTable -Headers @('Page', 'Page views', 'Active users', 'Sessions') -Rows $pageRows)
+Write-Section -Lines $lines -Title 'Identifiable AI referrals' -Body (Build-MarkdownTable -Headers @('GA4 session source / medium', 'Sessions') -Rows $aiReferralRows)
+$lines.Add('Known referring domains only; AI answers without a click and unidentifiable referrals are not included.')
+$lines.Add('')
 Write-Section -Lines $lines -Title 'Tracked events' -Body (Build-MarkdownTable -Headers @('Event', 'Count') -Rows $eventRows)
 Write-Section -Lines $lines -Title 'Inquiry actions by page' -Body (Build-MarkdownTable -Headers @('Action', 'Page', 'Count') -Rows $inquiryActionRows)
 Write-Section -Lines $lines -Title 'Search Console overview' -Body (Build-MarkdownTable -Headers @('Metric', 'Value') -Rows $searchConsoleSummaryRows)
 Write-Section -Lines $lines -Title 'Search Console top queries' -Body (Build-MarkdownTable -Headers @('Query', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $searchConsoleQueryRows)
 Write-Section -Lines $lines -Title 'Search Console high-impression queries' -Body (Build-MarkdownTable -Headers @('Query', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $searchConsoleOpportunityRows)
 Write-Section -Lines $lines -Title 'Search Console top pages' -Body (Build-MarkdownTable -Headers @('Page', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $searchConsolePageRows)
+Write-Section -Lines $lines -Title 'Queries mentioning the service area' -Body (Build-MarkdownTable -Headers @('Query', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $localQueryRows)
+$lines.Add('This is a query sample, not all local searches; people often omit the place name.')
+$lines.Add('')
+Write-Section -Lines $lines -Title 'Commercial service pages in web search' -Body (Build-MarkdownTable -Headers @('Page', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $servicePageRows)
 Write-Section -Lines $lines -Title 'Search Console sitemaps' -Body (Build-MarkdownTable -Headers @('Sitemap', 'Type', 'Pending', 'Submitted', 'Downloaded', 'Errors', 'Warnings') -Rows $searchConsoleSitemapRows)
 
 foreach ($entry in @('clarity-channel', 'clarity-url', 'clarity-device')) {
