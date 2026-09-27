@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  initMarketingAnalytics();
   initPageIdentity();
   initSharedHeader();
   initSharedFooter();
@@ -10,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initSiteEnhancements();
   initDesktopPhonePrompt();
   initClickableCards();
-  initMarketingAnalytics();
   initArticlePagination();
   initEntryFormFeedback();
   setupConsentGate();

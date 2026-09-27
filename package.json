@@ -6,6 +6,7 @@
     "@netlify/runtime-utils": "2.3.0"
   },
   "devDependencies": {
-    "@netlify/dev-utils": "4.4.6"
+    "@netlify/dev-utils": "4.4.6",
+    "@netlify/edge-functions": "4.0.0"
   }
 }

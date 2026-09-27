@@ -551,6 +551,10 @@ $gaSummary = $null
 $gaChannels = $null
 $gaPages = $null
 $gaSources = $null
+$gaAiJourneys = $null
+$crawlerReport = $null
+$crawlerStatus = 'Not configured; this does not mean zero crawler visits.'
+$aiSourcePattern = '^(openai|chatgpt|perplexity|claude|gemini|copilot|poe|([a-z0-9-]+\.)*(chatgpt\.com|chat\.openai\.com|perplexity\.ai|claude\.ai|gemini\.google\.com|copilot\.microsoft\.com|poe\.com)) / .*$'
 $gaEvents = $null
 $gaInquiryActions = $null
 $searchConsoleSummary = $null
@@ -648,6 +652,38 @@ catch {
 }
 
 try {
+  if ($gaHeaders) {
+    $gaAiJourneys = Invoke-JsonApi -Uri $gaBase -Method 'Post' -Headers $gaHeaders -Body @{
+      dateRanges = @($gaDateRange)
+      dimensions = @(@{ name = 'date' }, @{ name = 'sessionSourceMedium' }, @{ name = 'landingPage' })
+      metrics = @(@{ name = 'sessions' }, @{ name = 'screenPageViews' })
+      dimensionFilter = @{ filter = @{ fieldName = 'sessionSourceMedium'; stringFilter = @{ matchType = 'FULL_REGEXP'; value = $aiSourcePattern; caseSensitive = $false } } }
+      orderBys = @(@{ dimension = @{ dimensionName = 'date' }; desc = $true })
+      limit = 1000
+    }
+  }
+}
+catch {
+  $issues.Add(("GA4 AI acquisition: {0}" -f $_.Exception.Message))
+}
+
+try {
+  $crawlerToken = $env:MCC_CRAWLER_REPORT_TOKEN
+  $crawlerSecretPath = Join-Path $env:USERPROFILE 'Codex\.codex-secrets\crawler-report.json'
+  if (-not $crawlerToken -and (Test-Path -LiteralPath $crawlerSecretPath)) {
+    $crawlerToken = (Get-Content -Raw -LiteralPath $crawlerSecretPath | ConvertFrom-Json).token
+  }
+  if ($crawlerToken) {
+    $crawlerReport = Invoke-JsonApi -Uri 'https://yamamoto-mycar.com/.netlify/functions/crawler-report?days=28' -Method 'Get' -Headers @{ Authorization = "Bearer $crawlerToken" }
+    $crawlerStatus = "Collected: $($crawlerReport.start) to $($crawlerReport.end) (Asia/Tokyo)."
+  }
+}
+catch {
+  $crawlerStatus = 'Collection unavailable; this does not mean zero crawler visits.'
+  $issues.Add('Crawler observation report could not be retrieved.')
+}
+
+try {
   $searchConsoleAuth = Get-GoogleAccessToken -CredentialPath $ga4ServiceAccount -Scope 'https://www.googleapis.com/auth/webmasters.readonly'
   $searchConsoleHeaders = @{ Authorization = "Bearer $($searchConsoleAuth.AccessToken)" }
   $encodedSiteUrl = [uri]::EscapeDataString($searchConsoleSiteUrl)
@@ -702,6 +738,8 @@ catch {
   gaChannels = $gaChannels
   gaPages = $gaPages
   gaSources = $gaSources
+  gaAiJourneys = $gaAiJourneys
+  crawlerReport = $crawlerReport
   gaEvents = $gaEvents
   gaInquiryActions = $gaInquiryActions
   searchConsole = @{
@@ -746,13 +784,26 @@ if ($gaEvents -and $gaEvents.rows) {
 $aiReferralRows = @()
 if ($gaSources -and $gaSources.rows) {
   $aiReferralRows = @($gaSources.rows | Where-Object {
-    $_.dimensionValues[0].value -match '(?i)(chatgpt|openai|perplexity|claude\.ai|gemini\.google|copilot\.microsoft|poe\.com)'
+    $_.dimensionValues[0].value -match $aiSourcePattern
   } | ForEach-Object { ,@($_.dimensionValues[0].value, $_.metricValues[0].value) })
 }
 
 $inquiryActionRows = @()
 if ($gaInquiryActions -and $gaInquiryActions.rows) {
   $inquiryActionRows = @($gaInquiryActions.rows | ForEach-Object { ,@($_.dimensionValues[0].value, $_.dimensionValues[1].value, $_.metricValues[0].value) })
+}
+
+$aiJourneyRows = @()
+if ($gaAiJourneys -and $gaAiJourneys.rows) {
+  $aiJourneyRows = @($gaAiJourneys.rows | ForEach-Object {
+    ,@($_.dimensionValues[0].value, $_.dimensionValues[1].value, $_.dimensionValues[2].value, $_.metricValues[0].value, $_.metricValues[1].value)
+  })
+}
+$crawlerRows = @()
+if ($crawlerReport -and $crawlerReport.observations) {
+  $crawlerRows = @($crawlerReport.observations | Select-Object -First 100 | ForEach-Object {
+    ,@($_.date, $_.agent, $_.purpose, $_.path)
+  })
 }
 
 $searchConsoleSummaryRows = @()
@@ -821,6 +872,13 @@ Write-Section -Lines $lines -Title 'Channel mix' -Body (Build-MarkdownTable -Hea
 Write-Section -Lines $lines -Title 'Top pages' -Body (Build-MarkdownTable -Headers @('Page', 'Page views', 'Active users', 'Sessions') -Rows $pageRows)
 Write-Section -Lines $lines -Title 'Identifiable AI referrals' -Body (Build-MarkdownTable -Headers @('GA4 session source / medium', 'Sessions') -Rows $aiReferralRows)
 $lines.Add('Known referring domains only; AI answers without a click and unidentifiable referrals are not included.')
+$lines.Add('These sessions are a subset of the GA4 overview, not additional users. GA4 traffic is not a verified count of humans.')
+$lines.Add('Session attribution and llm_referral_visit have different definitions and can differ. Compare the same dates before diagnosing a tracking fault.')
+$lines.Add('')
+Write-Section -Lines $lines -Title 'AI-referral dates and landing pages' -Body (Build-MarkdownTable -Headers @('Date', 'Source / medium', 'Landing page', 'Sessions', 'Page views') -Rows $aiJourneyRows)
+Write-Section -Lines $lines -Title 'Crawler page-day observations (separate from GA4)' -Body (Build-MarkdownTable -Headers @('JST date', 'Declared agent', 'Purpose', 'Page') -Rows $crawlerRows)
+$lines.Add($crawlerStatus)
+$lines.Add('Collection begins with the September 28, 2026 release; earlier dates are unobserved, not zero. One row per day/agent/page, not request counts or people. Self-declared agents are not IP-verified; fetching does not prove an AI answer cited the page. Tests are excluded. At most 100 rows shown; full observations are in raw JSON.')
 $lines.Add('')
 Write-Section -Lines $lines -Title 'Tracked events' -Body (Build-MarkdownTable -Headers @('Event', 'Count') -Rows $eventRows)
 Write-Section -Lines $lines -Title 'Inquiry actions by page' -Body (Build-MarkdownTable -Headers @('Action', 'Page', 'Count') -Rows $inquiryActionRows)

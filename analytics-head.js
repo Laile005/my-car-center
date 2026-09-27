@@ -59,4 +59,34 @@
   clarityScript.async = true;
   clarityScript.src = 'https://www.clarity.ms/tag/' + encodeURIComponent(config.clarityId);
   document.head.appendChild(clarityScript);
+
+  // Acquisition must not depend on the later UI initialization succeeding.
+  var providers = [
+    { name: 'openai', hosts: ['chatgpt.com', 'chat.openai.com'], sources: ['openai', 'chatgpt', 'chatgpt.com', 'chat.openai.com'] },
+    { name: 'perplexity', hosts: ['perplexity.ai'], sources: ['perplexity', 'perplexity.ai'] },
+    { name: 'claude', hosts: ['claude.ai'], sources: ['claude', 'claude.ai'] },
+    { name: 'gemini', hosts: ['gemini.google.com'], sources: ['gemini', 'gemini.google.com'] },
+    { name: 'copilot', hosts: ['copilot.microsoft.com'], sources: ['copilot', 'copilot.microsoft.com'] },
+    { name: 'poe', hosts: ['poe.com'], sources: ['poe', 'poe.com'] }
+  ];
+  var utmSource = (new URLSearchParams(window.location.search).get('utm_source') || '').trim().toLowerCase();
+  var referrerHost = '';
+  try { referrerHost = new URL(document.referrer).hostname.toLowerCase(); } catch (error) {}
+  var provider = providers.find(function (item) { return item.sources.indexOf(utmSource) !== -1; });
+  var signal = provider ? 'utm' : 'referrer';
+  if (!provider) {
+    provider = providers.find(function (item) {
+      return item.hosts.some(function (host) {
+        return referrerHost === host || referrerHost.endsWith('.' + host);
+      });
+    });
+  }
+  if (provider) {
+    window.gtag('event', 'llm_referral_visit', {
+      llm_source: provider.name,
+      referral_signal: signal,
+      page_path: window.location.pathname
+    });
+    window.clarity('event', 'llm_referral_visit');
+  }
 })();
