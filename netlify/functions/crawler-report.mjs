@@ -1,6 +1,7 @@
-import { timingSafeEqual } from 'node:crypto';
+import { createHash, timingSafeEqual } from 'node:crypto';
 import { getStore } from '@netlify/blobs';
 import { readObservations, RETENTION_DAYS, STORE_NAME } from '../shared/crawler-observations.mjs';
+import { REPORT_TOKEN_SHA256 } from '../shared/report-access.mjs';
 
 function json(body, status = 200) {
   return Response.json(body, { status, headers: { 'Cache-Control': 'private, no-store', 'X-Robots-Tag': 'noindex' } });
@@ -8,11 +9,12 @@ function json(body, status = 200) {
 
 export default async (request) => {
   const expected = Netlify.env.get('MCC_CRAWLER_REPORT_TOKEN');
-  if (!expected) return json({ error: 'Reporting is not configured' }, 503);
   const provided = request.headers.get('authorization') || '';
-  const target = Buffer.from(`Bearer ${expected}`);
-  const actual = Buffer.from(provided);
-  if (actual.length !== target.length || !timingSafeEqual(actual, target)) return json({ error: 'Unauthorized' }, 401);
+  const target = expected
+    ? createHash('sha256').update(expected).digest()
+    : Buffer.from(REPORT_TOKEN_SHA256, 'hex');
+  const actual = createHash('sha256').update(provided.slice(7)).digest();
+  if (!provided.startsWith('Bearer ') || actual.length !== target.length || !timingSafeEqual(actual, target)) return json({ error: 'Unauthorized' }, 401);
   if (request.method !== 'GET') return json({ error: 'Method not allowed' }, 405);
   const params = new URL(request.url).searchParams;
   const days = Number(params.get('days') || 28);

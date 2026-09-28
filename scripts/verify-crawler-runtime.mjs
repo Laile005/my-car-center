@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import { stripTypeScriptTypes } from 'node:module';
 import * as shared from '../netlify/shared/crawler-observations.mjs';
+import { createHash, timingSafeEqual } from 'node:crypto';
 
 const records = new Map();
 let failStorage = false;
@@ -19,7 +20,7 @@ const store = {
 };
 const context = vm.createContext({
   Request, Response, URL, Buffer,
-  Netlify: { env: { get: () => 'test-token' } },
+  Netlify: { env: { get: () => undefined } },
   console: { error: message => assert.equal(message, 'Crawler observation write failed') }
 });
 const synthetic = (exports) => new vm.SyntheticModule(Object.keys(exports), function () {
@@ -28,7 +29,8 @@ const synthetic = (exports) => new vm.SyntheticModule(Object.keys(exports), func
 const mocks = {
   '@netlify/blobs': synthetic({ getStore: () => store }),
   '../shared/crawler-observations.mjs': synthetic(shared),
-  'node:crypto': synthetic({ timingSafeEqual: (await import('node:crypto')).timingSafeEqual })
+  '../shared/report-access.mjs': synthetic({ REPORT_TOKEN_SHA256: createHash('sha256').update('test-token').digest('hex') }),
+  'node:crypto': synthetic({ createHash, timingSafeEqual })
 };
 const load = async (path, ts = false) => {
   const source = fs.readFileSync(path, 'utf8');
@@ -75,6 +77,10 @@ const report = await load('netlify/functions/crawler-report.mjs');
 const reportRequest = (query = '') => new Request('https://yamamoto-mycar.com/.netlify/functions/crawler-report' + query, { headers: { authorization: 'Bearer test-token' } });
 const response = await report.default(reportRequest());
 assert.equal(response.status, 200);
+const hashAsToken = new Request('https://yamamoto-mycar.com/.netlify/functions/crawler-report', {
+  headers: { authorization: 'Bearer ' + createHash('sha256').update('test-token').digest('hex') }
+});
+assert.equal((await report.default(hashAsToken)).status, 401, 'The public hash must not authenticate as a bearer token');
 assert.equal(response.headers.get('cache-control'), 'private, no-store');
 assert.equal((await response.json()).observations.length, 1);
 assert.equal((await (await report.default(reportRequest('?diagnostics=1'))).json()).observations.length, 1);
