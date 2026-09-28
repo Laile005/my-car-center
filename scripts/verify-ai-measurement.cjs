@@ -53,9 +53,15 @@ assert(!fs.readFileSync('analytics.js', 'utf8').includes('llm_referral_visit'), 
     assert.equal(observationFor(request('/', { 'user-agent': `${agent}/1.0` }), now).purpose, purpose);
   }
   assert.deepEqual(observationFromKey(observationKey(observation)), observation);
+  assert.deepEqual(observationFromKey('days/2026-09-28/chatgpt-user/%2Fused-cars'), observation);
+  assert.deepEqual(observationFromKey('days/2026-09-28/chatgpt-user//used-cars'), observation);
+  assert.equal(observationFromKey(observationKey({ ...observation, path: '/' })).path, '/');
+  assert.equal(observationFromKey(observationKey({ ...observation, path: '/column/used-car-search-request' })).path, '/column/used-car-search-request');
+  assert.equal(observationFromKey('days/2026-09-28/chatgpt-user/used-cars?private=1'), null);
   assert.notEqual(observationKey(observation), observationKey(observation, true));
   const records = new Map([
     [observationKey(observation), observation],
+    ['days/2026-09-28/chatgpt-user/%2Fused-cars', observation],
     [observationKey({ ...observation, date: '2026-01-01' }), {}],
     [observationKey(observation, true), observation]
   ]);
@@ -66,7 +72,7 @@ assert(!fs.readFileSync('analytics.js', 'utf8').includes('llm_referral_visit'), 
   assert.equal((await readObservations(store, { now })).observations.length, 1);
   assert.equal((await readObservations(store, { now, diagnostic: true })).observations.length, 1);
   assert.equal(await pruneObservations(store, now), 1);
-  assert.equal(records.size, 2);
+  assert.equal(records.size, 3);
 
   global.Netlify = { env: { get: () => 'test-token-not-a-real-secret' } };
   const { default: report } = await import('../netlify/functions/crawler-report.mjs');

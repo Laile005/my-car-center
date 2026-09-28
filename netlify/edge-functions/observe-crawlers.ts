@@ -11,7 +11,8 @@ export default async (request: Request, context: Context) => {
   // One record per JST day, declared agent and page, not request counts or users.
   const persist = async () => {
     try {
-      await getStore(STORE_NAME).setJSON(observationKey(observation, diagnostic), observation, { onlyIfNew: true });
+      // Repeated writes are identical, so overwriting cannot inflate the daily count.
+      await getStore(STORE_NAME).setJSON(observationKey(observation, diagnostic), observation);
       return 'stored';
     } catch {
       console.error('Crawler observation write failed');

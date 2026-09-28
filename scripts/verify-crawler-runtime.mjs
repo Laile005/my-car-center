@@ -10,8 +10,8 @@ let failStorage = false;
 const store = {
   async setJSON(key, value, options) {
     if (failStorage) throw new Error('private storage detail');
-    assert.equal(options.onlyIfNew, true);
-    if (!records.has(key)) records.set(key, value);
+    assert.equal(options, undefined);
+    records.set(key, value);
   },
   async *list({ prefix }) {
     if (failStorage) throw new Error('private storage detail');

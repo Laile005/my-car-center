@@ -36,16 +36,22 @@ export function observationFor(request, now = new Date()) {
 }
 
 export function observationKey(observation, diagnostic = false) {
-  return `${diagnostic ? 'diagnostics' : 'days'}/${observation.date}/${observation.agent}/${encodeURIComponent(observation.path)}`;
+  const pageKey = observation.path === '/' ? '__home' : observation.path.slice(1);
+  return `${diagnostic ? 'diagnostics' : 'days'}/${observation.date}/${observation.agent}/${pageKey}`;
 }
 
 export function observationFromKey(key) {
-  const match = /^(days|diagnostics)\/(\d{4}-\d{2}-\d{2})\/([a-z-]+)\/([^/]+)$/.exec(key);
+  const match = /^(days|diagnostics)\/(\d{4}-\d{2}-\d{2})\/([a-z-]+)\/(.+)$/.exec(key);
   if (!match) return null;
   const known = agents.find(([name]) => name === match[3]);
   const purpose = known?.[1] || ({ 'other-ai-agent': 'ai-fetch', 'other-ai-crawler': 'ai-crawler' })[match[3]];
   if (!purpose) return null;
-  try { return { date: match[2], agent: match[3], purpose, path: decodeURIComponent(match[4]) }; }
+  try {
+    const decoded = decodeURIComponent(match[4]);
+    const path = decoded === '__home' ? '/' : decoded.startsWith('/') ? decoded : '/' + decoded;
+    if (!/^(?:\/|\/[a-z0-9-]+|\/(?:column|recruit-column)\/[a-z0-9-]+)$/.test(path)) return null;
+    return { date: match[2], agent: match[3], purpose, path };
+  }
   catch { return null; }
 }
 
@@ -54,10 +60,15 @@ export async function readObservations(store, { days = 28, diagnostic = false, n
   const start = dateInJapan(new Date(now.getTime() - (days - 1) * 86400000));
   const prefix = diagnostic ? 'diagnostics/' : 'days/';
   const observations = [];
+  const seen = new Set();
   for await (const page of store.list({ prefix, paginate: true })) {
     for (const { key } of page.blobs) {
       const observation = observationFromKey(key);
-      if (observation && observation.date >= start && observation.date <= end) observations.push(observation);
+      if (observation && observation.date >= start && observation.date <= end) {
+        const identity = observationKey(observation);
+        if (!seen.has(identity)) observations.push(observation);
+        seen.add(identity);
+      }
     }
   }
   observations.sort((a, b) => b.date.localeCompare(a.date) || a.agent.localeCompare(b.agent) || a.path.localeCompare(b.path));
