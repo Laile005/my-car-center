@@ -619,7 +619,8 @@ try {
     'recruit_link_click', 'indeed_apply_click', 'recruit_form_start', 'recruit_form_submit_start', 'recruit_form_submit_success',
     'recruit_form_submit_error', 'recruit_form_response_timeout', 'scroll_depth', 'recruit_entry_view',
     'sales_section_view', 'column_section_view', 'used_car_stock_view',
-    'phone_prompt_open', 'phone_dial', 'used_car_consultation_click', 'used_car_consultation_view'
+    'phone_prompt_open', 'phone_dial', 'used_car_consultation_click', 'used_car_consultation_view',
+    'new_car_consultation_click', 'new_car_consultation_view', 'new_car_flow_click', 'new_car_guide_click', 'new_car_service_click'
   )
 
   $gaEvents = Invoke-JsonApi -Uri $gaBase -Method 'Post' -Headers $gaHeaders -Body @{
@@ -632,7 +633,7 @@ try {
   }
 
   $inquiryEvents = @(
-    'phone_prompt_open', 'phone_dial', 'phone_click', 'goo_net_click', 'used_car_consultation_click',
+    'phone_prompt_open', 'phone_dial', 'phone_click', 'goo_net_click', 'used_car_consultation_click', 'new_car_consultation_click',
     'indeed_apply_click', 'recruit_form_start', 'recruit_form_submit_start', 'recruit_form_submit_success', 'recruit_form_submit_error', 'recruit_form_response_timeout'
   )
   $gaInquiryActions = Invoke-JsonApi -Uri $gaBase -Method 'Post' -Headers $gaHeaders -Body @{
@@ -674,14 +675,14 @@ try {
       dateRanges = @($gaDateRange)
       dimensions = @(@{ name = 'eventName' }, @{ name = 'newVsReturning' }, @{ name = 'sessionSourceMedium' }, @{ name = 'pagePath' })
       metrics = @(@{ name = 'eventCount' }, @{ name = 'totalUsers' }, @{ name = 'sessions' })
-      dimensionFilter = @{ filter = @{ fieldName = 'eventName'; inListFilter = @{ values = @('goo_net_click', 'used_car_consultation_click', 'used_car_consultation_view') } } }
+      dimensionFilter = @{ filter = @{ fieldName = 'eventName'; inListFilter = @{ values = @('goo_net_click', 'used_car_consultation_click', 'used_car_consultation_view', 'new_car_consultation_click', 'new_car_consultation_view', 'new_car_flow_click', 'new_car_guide_click', 'new_car_service_click') } } }
       orderBys = @(@{ metric = @{ metricName = 'eventCount' }; desc = $true })
       limit = 1000
     }
   }
 }
 catch {
-  $issues.Add(("GA4 used-car journeys: {0}" -f $_.Exception.Message))
+  $issues.Add(("GA4 purchase journeys: {0}" -f $_.Exception.Message))
 }
 
 try {
@@ -812,8 +813,12 @@ if ($gaInquiryActions -and $gaInquiryActions.rows) {
 }
 
 $purchaseJourneyRows = @()
+$newCarJourneyRows = @()
 if ($gaPurchaseJourneys -and $gaPurchaseJourneys.rows) {
-  $purchaseJourneyRows = @($gaPurchaseJourneys.rows | ForEach-Object {
+  $purchaseJourneyRows = @($gaPurchaseJourneys.rows | Where-Object { $_.dimensionValues[0].value -in @('goo_net_click', 'used_car_consultation_click', 'used_car_consultation_view') } | ForEach-Object {
+    ,@($_.dimensionValues[0].value, $_.dimensionValues[1].value, $_.dimensionValues[2].value, $_.dimensionValues[3].value, $_.metricValues[0].value, $_.metricValues[1].value, $_.metricValues[2].value)
+  })
+  $newCarJourneyRows = @($gaPurchaseJourneys.rows | Where-Object { $_.dimensionValues[0].value -like 'new_car_*' } | ForEach-Object {
     ,@($_.dimensionValues[0].value, $_.dimensionValues[1].value, $_.dimensionValues[2].value, $_.dimensionValues[3].value, $_.metricValues[0].value, $_.metricValues[1].value, $_.metricValues[2].value)
   })
 }
@@ -869,7 +874,7 @@ if ($searchConsoleQueries.rows) {
 $servicePageRows = @()
 if ($searchConsolePages.rows) {
   $servicePageRows = @($searchConsolePages.rows | Where-Object {
-    $_.keys[0] -match 'https://yamamoto-mycar\.com/(used-cars|bankin-toso|insurance-repair|shaken|business)/?($|\?)'
+    $_.keys[0] -match 'https://yamamoto-mycar\.com/(used-cars|new-cars|bankin-toso|insurance-repair|shaken|business)/?($|\?)'
   } | Sort-Object impressions -Descending | ForEach-Object {
     ,@($_.keys[0], $_.clicks, $_.impressions, ('{0:P2}' -f $_.ctr), ('{0:N1}' -f $_.position))
   })
@@ -909,6 +914,9 @@ Write-Section -Lines $lines -Title 'Tracked events' -Body (Build-MarkdownTable -
 Write-Section -Lines $lines -Title 'Inquiry actions by page' -Body (Build-MarkdownTable -Headers @('Action', 'Page', 'Count') -Rows $inquiryActionRows)
 Write-Section -Lines $lines -Title 'Used-car actions: new and returning visits' -Body (Build-MarkdownTable -Headers @('Action', 'Visit type', 'Source / medium', 'Page', 'Events', 'Users', 'Sessions') -Rows $purchaseJourneyRows)
 $lines.Add('GA4 new/returning describes observed visits, not verified people or business/private buyers. A user may appear in multiple rows, so do not sum row users as unique people. Consultation clicks include flow links and phone intent, not completed consultations. View events count each marked section once per page load. New consultation events begin with the October 4, 2026 release; earlier values are unobserved, not zero. Collection failures are listed under Notes.')
+$lines.Add('')
+Write-Section -Lines $lines -Title 'New-car actions: new and returning visits' -Body (Build-MarkdownTable -Headers @('Action', 'Visit type', 'Source / medium', 'Page', 'Events', 'Users', 'Sessions') -Rows $newCarJourneyRows)
+$lines.Add('new_car_consultation_click is phone-link intent; new_car_flow_click is opening the on-page purchase flow; new_car_guide_click is reading the delivery guide; new_car_service_click is opening the new-car service from an article. These events are separate actions, not a session-level sequential funnel or completed inquiries. Do not add generic CTA/phone events to them as extra people. New-car collection starts with the October 4, 2026 follow-up release; earlier values are unobserved, not zero.')
 $lines.Add('')
 Write-Section -Lines $lines -Title 'Search Console overview' -Body (Build-MarkdownTable -Headers @('Metric', 'Value') -Rows $searchConsoleSummaryRows)
 Write-Section -Lines $lines -Title 'Search Console top queries' -Body (Build-MarkdownTable -Headers @('Query', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $searchConsoleQueryRows)

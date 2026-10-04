@@ -53,6 +53,16 @@
       if (usedCarAction === 'phone' || usedCarAction === 'flow') {
         sendEvent('used_car_consultation_click', { consultation_action: usedCarAction });
       }
+      var newCarAction = link.getAttribute('data-new-car-action');
+      var newCarEvents = {
+        phone: 'new_car_consultation_click',
+        flow: 'new_car_flow_click',
+        guide: 'new_car_guide_click',
+        service: 'new_car_service_click'
+      };
+      if (Object.prototype.hasOwnProperty.call(newCarEvents, newCarAction)) {
+        sendEvent(newCarEvents[newCarAction]);
+      }
       if (href.indexOf('tel:') === 0) {
         // Phone links are tracked more precisely by initDesktopPhonePrompt.
         // Keep this only as a fallback for a link added outside the shared setup.
@@ -168,7 +178,8 @@
       { selector: '#sales', event: 'sales_section_view' },
       { selector: '#column', event: 'column_section_view' },
       { selector: '.stock-grid', event: 'used_car_stock_view' },
-      { selector: '[data-used-car-consultation]', event: 'used_car_consultation_view' }
+      { selector: '[data-used-car-consultation]', event: 'used_car_consultation_view' },
+      { selector: '[data-new-car-consultation]', event: 'new_car_consultation_view' }
     ];
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {

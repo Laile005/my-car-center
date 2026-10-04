@@ -82,8 +82,40 @@ async function assertNoOverflow(page, label) {
       await page.goto(`${origin}/column/new-car-delivery-regional-stock/`, { waitUntil: 'networkidle' });
       assert.equal(await page.locator('h1').count(), 1);
       assert.equal(await page.locator('.article__body a[href^="https://"]').count() >= 16, true);
+      const serviceLink = page.locator('.article__note [data-new-car-action="service"]');
+      assert.equal(await serviceLink.getAttribute('href'), '../../new-cars/#new-car-flow');
+      await serviceLink.evaluate(node => node.addEventListener('click', event => event.preventDefault(), { once: true }));
+      await serviceLink.click();
+      assert.equal(await page.evaluate(() => window.testEvents.filter(event => event.name === 'new_car_service_click').length), 1);
       await assertNoOverflow(page, `new-car article ${width}`);
       await page.screenshot({ path: path.join(output, `new-car-${width}.png`), fullPage: true });
+      await page.goto(`${origin}/new-cars/`, { waitUntil: 'networkidle' });
+      await page.waitForFunction(() => typeof window.MCCTrackEvent === 'function');
+      await page.locator('[data-new-car-consultation]').scrollIntoViewIfNeeded();
+      await page.waitForFunction(() => window.testEvents.some(event => event.name === 'new_car_consultation_view'));
+      const newCarActions = await page.locator('#new-car-delivery-consultation .decision-guide__actions > a').evaluateAll(nodes => nodes.map(node => ({ top: node.getBoundingClientRect().top, bottom: node.getBoundingClientRect().bottom })));
+      assert(newCarActions[1].top >= newCarActions[0].bottom, `new-car ${width}: guide must be below phone button`);
+      await page.locator('.service-detail-hero [data-new-car-action="flow"]').click();
+      assert.equal(await page.evaluate(() => window.testEvents.filter(event => event.name === 'new_car_flow_click').length), 1);
+      const guideLink = page.locator('#new-car-delivery-consultation [data-new-car-action="guide"]');
+      await guideLink.evaluate(node => node.addEventListener('click', event => event.preventDefault(), { once: true }));
+      await guideLink.click();
+      assert.equal(await page.evaluate(() => window.testEvents.filter(event => event.name === 'new_car_guide_click').length), 1);
+      if (width === 1365) {
+        await page.locator('#new-car-delivery-consultation [data-new-car-action="phone"]').click();
+        assert.equal(await page.locator('.phone-modal').evaluate(node => node.classList.contains('show')), true);
+        assert.equal(await page.evaluate(() => window.testEvents.filter(event => event.name === 'new_car_consultation_click').length), 1);
+        assert.equal(await page.evaluate(() => window.testEvents.filter(event => event.name === 'phone_prompt_open').length), 1);
+        await page.locator('.phone-modal__close').click();
+      }
+      await assertNoOverflow(page, `new-car service ${width}`);
+      await page.screenshot({ path: path.join(output, `new-car-service-${width}.png`), fullPage: true });
+      for (const slug of ['new-car-domestic-makers', 'new-car-aftermarket-parts']) {
+        await page.goto(`${origin}/column/${slug}/`, { waitUntil: 'networkidle' });
+        assert.equal(await page.locator('[data-new-car-action="service"]').getAttribute('href'), '../../new-cars/');
+        assert.equal(await page.locator('[data-new-car-action="guide"]').getAttribute('href'), '../new-car-delivery-regional-stock/');
+        await assertNoOverflow(page, `${slug} ${width}`);
+      }
       assert.deepEqual(errors, []);
       await page.close();
     }
@@ -91,8 +123,11 @@ async function assertNoOverflow(page, label) {
     await page.goto(`${origin}/used-cars/`, { waitUntil: 'networkidle' });
     await page.locator('.stock-consultation [data-used-car-action="flow"]').click();
     assert.equal(await page.evaluate(() => window.testEvents.length), 0, 'Opt-out must suppress all analytics');
+    await page.goto(`${origin}/new-cars/`, { waitUntil: 'networkidle' });
+    await page.locator('.service-detail-hero [data-new-car-action="flow"]').click();
+    assert.equal(await page.evaluate(() => window.testEvents.length), 0, 'Opt-out must suppress new-car analytics');
     await page.close();
-    console.log('Purchase journey passed: 0/1/2/3 cars at desktop/tablet/mobile, stacked links, consultation tracking, phone prompt, opt-out, and sourced article layout.');
+    console.log('Purchase journey passed: 0/1/2/3 cars, desktop/tablet/mobile, stacked links, used/new-car consultation tracking, article/service/guide/flow links, phone prompt, and opt-out.');
   } finally {
     await browser.close();
   }
