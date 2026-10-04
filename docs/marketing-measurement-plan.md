@@ -20,9 +20,19 @@
 ### AI回答からの発見
 
 - GA4: レポートの `Identifiable AI referrals` でChatGPT、Perplexity、Claude、Gemini、Copilot等の識別できる参照元を確認する。AI回答を読んだだけの人や、参照元の付かない訪問は含まれない。既存の `llm_referral_visit` イベントも補助指標にする。
-- Google Search ConsoleのAI向けパフォーマンス表示とBing Webmaster ToolsのAI Performanceが利用できる場合は、引用されたページ、表示・クリック、質問の傾向を管理画面で月次確認する。通常のWeb検索指標と合算しない。
+- Google Search Consoleの生成AIパフォーマンスはAI Overviews / AI Modeでのリンク表示回数、Bing Webmaster ToolsのAI Performanceは対応サービスでの引用・参照ページ・グラウンディングクエリーの集計を管理画面で月次確認する。Googleのこのレポートには現時点でクリック・CTR・検索語の内訳はない。Bingも全引用の完全なログではない。通常のWeb検索指標と合算しない。
 - 質問に短く直接答える本文、実際の対応範囲、会社情報、関連する既存記事へのリンクを保つ。`robots.txt` で検索クローラーを妨げず、構造化データは画面にある事実と一致させる。AI向けの特別なファイルや定型文を順位改善策として扱わない。
 - 引用や参照元が少数の間は増減を成果と断定しない。問い合わせ時に「どこで知ったか」を聞けた場合は、個人情報を載せずに月次で集計する。
+
+### 引用・訪問・相談を分ける（2026-10-04）
+
+- ChatGPTの検索リンクには `utm_source=chatgpt.com` が付くと公式案内がある。既存の `analytics-head.js` はこのUTMと既知のAIドメインの参照元を検出する。本番ホスト限定・計測除外を維持し、閲覧やテストを人の訪問として追加送信しない。
+- 回答に引用されても誰もリンクを押さなければ、GA4/Clarityでは分からない。参照元の欠落、Cookie削除、別端末、計測ブロックによる欠測もある。サイト側のJavaScriptだけで全AIサービスの引用回数を取得できるとは説明しない。
+- Google/BingのAI管理画面のデータは現在の接続済みレポートに自動取得していない。未取得をゼロと扱わない。管理権限と表示対象の有無を確認し、利用できればCSV等の公式エクスポートを別の証拠として保存する。
+- 仕入れ相談の案内を見た `used_car_consultation_view` と、フロー・電話案内への `used_car_consultation_click` を追加する。前者は対象セクションごとに1ページ読み込み1回、後者はクリックごとの意向で、成立した相談件数ではない。GA4セッション参照元を合わせてAI流入後の行動も確認できる。
+- 定期レポートで `goo_net_click` と上記のイベントを `newVsReturning`、セッション参照元、ページ、イベント数・ユーザー数・セッション数に分ける。新規・再訪はGA4で観測できた訪問の区分で、個人・業者の判別や同一人物の証明ではない。行ごとのユーザー数を足し合わせない。
+- 新イベントの計測開始は今回の本番反映以降。過去の閲覧から相談意向を遡って推定しない。納期が理由で相談しなかったかは計測だけでは分からず、電話時に聞けた内容を補助にする。
+- 公式資料: [OpenAIのパブリッシャーFAQ](https://help.openai.com/en/articles/12627856)、[Googleの生成AIパフォーマンス](https://support.google.com/webmasters/answer/16984139?hl=en)、[BingのAI Performance](https://www.bing.com/webmasters/help/ai-performance-9f8e7d6c)。確認日: 2026-10-04。
 
 ## 入れるツール
 
@@ -60,9 +70,11 @@ window.MCC_ANALYTICS = {
 ## GA4で見るイベント
 
 - `phone_prompt_open`: PCで電話番号の案内を開いた。電話相談への意向として扱う。
-- `phone_dial`: スマホ等の電話リンク、またはPCの番号案内内から実際に電話を発信した。
+- `phone_dial`: スマホ等の電話リンク、またはPCの番号案内内の発信リンクが押された。接続・通話の成立までは確認できない。
 - `phone_click`: 共有の計測対象外で追加された電話リンク用の予備イベント。日常の判断には使わない。
 - `goo_net_click`: Goo-netへ遷移した
+- `used_car_consultation_view`: 仕入れ相談の案内セクションが表示された
+- `used_car_consultation_click`: 仕入れ相談の流れ・電話案内へ進むリンクが押された。`consultation_action` は `flow` / `phone`。パラメーターをGA4画面の独立した軸で見るにはカスタムディメンション登録が別途必要だが、イベント名・ページ・参照元・新規再訪は既存のAPIで取得する。
 - `indeed_apply_click`: Indeedの求人ページへ遷移した
 - `cta_click`: CTAボタンが押された
 - `recruit_link_click`: 採用導線が押された

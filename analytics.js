@@ -49,6 +49,10 @@
       if (!link) return;
       var href = link.getAttribute('href') || '';
       var text = link.textContent.replace(/\s+/g, ' ').trim().slice(0, 80);
+      var usedCarAction = link.getAttribute('data-used-car-action');
+      if (usedCarAction === 'phone' || usedCarAction === 'flow') {
+        sendEvent('used_car_consultation_click', { consultation_action: usedCarAction });
+      }
       if (href.indexOf('tel:') === 0) {
         // Phone links are tracked more precisely by initDesktopPhonePrompt.
         // Keep this only as a fallback for a link added outside the shared setup.
@@ -163,7 +167,8 @@
       { selector: '#entry', event: 'recruit_entry_view' },
       { selector: '#sales', event: 'sales_section_view' },
       { selector: '#column', event: 'column_section_view' },
-      { selector: '.stock-grid', event: 'used_car_stock_view' }
+      { selector: '.stock-grid', event: 'used_car_stock_view' },
+      { selector: '[data-used-car-consultation]', event: 'used_car_consultation_view' }
     ];
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -177,10 +182,10 @@
     }, { threshold: 0.35 });
 
     watched.forEach(function (item) {
-      var el = document.querySelector(item.selector);
-      if (!el) return;
-      el.setAttribute('data-mcc-view-event', item.event);
-      observer.observe(el);
+      document.querySelectorAll(item.selector).forEach(function (el) {
+        el.setAttribute('data-mcc-view-event', item.event);
+        observer.observe(el);
+      });
     });
   }
 

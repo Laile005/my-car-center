@@ -1420,6 +1420,34 @@ img {
   scroll-margin-top: calc(var(--header-height) + 1rem);
 }
 
+.stock-consultation{
+  max-width: 54rem;
+  margin: 2rem auto 0;
+  padding: 1.5rem 0;
+  border-top: 1px solid #b9dded;
+  border-bottom: 1px solid #b9dded;
+}
+
+.stock-consultation h3{
+  margin: 0 0 .75rem;
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+.stock-consultation p{
+  margin: .75rem 0;
+  line-height: 1.8;
+  color: #475569;
+}
+
+.stock-consultation .decision-guide__actions{
+  margin: 1.2rem 0;
+}
+
+.stock-consultation .stock-consultation__note{
+  font-size: .88rem;
+}
+
 .stock-grid{
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

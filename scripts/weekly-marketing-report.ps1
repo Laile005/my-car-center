@@ -557,6 +557,7 @@ $crawlerStatus = 'Not configured; this does not mean zero crawler visits.'
 $aiSourcePattern = '^(openai|chatgpt|perplexity|claude|gemini|copilot|poe|([a-z0-9-]+\.)*(chatgpt\.com|chat\.openai\.com|perplexity\.ai|claude\.ai|gemini\.google\.com|copilot\.microsoft\.com|poe\.com)) / .*$'
 $gaEvents = $null
 $gaInquiryActions = $null
+$gaPurchaseJourneys = $null
 $searchConsoleSummary = $null
 $searchConsoleQueries = $null
 $searchConsolePages = $null
@@ -618,7 +619,7 @@ try {
     'recruit_link_click', 'indeed_apply_click', 'recruit_form_start', 'recruit_form_submit_start', 'recruit_form_submit_success',
     'recruit_form_submit_error', 'recruit_form_response_timeout', 'scroll_depth', 'recruit_entry_view',
     'sales_section_view', 'column_section_view', 'used_car_stock_view',
-    'phone_prompt_open', 'phone_dial'
+    'phone_prompt_open', 'phone_dial', 'used_car_consultation_click', 'used_car_consultation_view'
   )
 
   $gaEvents = Invoke-JsonApi -Uri $gaBase -Method 'Post' -Headers $gaHeaders -Body @{
@@ -631,7 +632,7 @@ try {
   }
 
   $inquiryEvents = @(
-    'phone_prompt_open', 'phone_dial', 'phone_click', 'goo_net_click',
+    'phone_prompt_open', 'phone_dial', 'phone_click', 'goo_net_click', 'used_car_consultation_click',
     'indeed_apply_click', 'recruit_form_start', 'recruit_form_submit_start', 'recruit_form_submit_success', 'recruit_form_submit_error', 'recruit_form_response_timeout'
   )
   $gaInquiryActions = Invoke-JsonApi -Uri $gaBase -Method 'Post' -Headers $gaHeaders -Body @{
@@ -665,6 +666,22 @@ try {
 }
 catch {
   $issues.Add(("GA4 AI acquisition: {0}" -f $_.Exception.Message))
+}
+
+try {
+  if ($gaHeaders) {
+    $gaPurchaseJourneys = Invoke-JsonApi -Uri $gaBase -Method 'Post' -Headers $gaHeaders -Body @{
+      dateRanges = @($gaDateRange)
+      dimensions = @(@{ name = 'eventName' }, @{ name = 'newVsReturning' }, @{ name = 'sessionSourceMedium' }, @{ name = 'pagePath' })
+      metrics = @(@{ name = 'eventCount' }, @{ name = 'totalUsers' }, @{ name = 'sessions' })
+      dimensionFilter = @{ filter = @{ fieldName = 'eventName'; inListFilter = @{ values = @('goo_net_click', 'used_car_consultation_click', 'used_car_consultation_view') } } }
+      orderBys = @(@{ metric = @{ metricName = 'eventCount' }; desc = $true })
+      limit = 1000
+    }
+  }
+}
+catch {
+  $issues.Add(("GA4 used-car journeys: {0}" -f $_.Exception.Message))
 }
 
 try {
@@ -742,6 +759,7 @@ catch {
   crawlerReport = $crawlerReport
   gaEvents = $gaEvents
   gaInquiryActions = $gaInquiryActions
+  gaPurchaseJourneys = $gaPurchaseJourneys
   searchConsole = @{
     property = $searchConsoleSiteUrl
     startDate = $searchConsoleStartDate
@@ -791,6 +809,13 @@ if ($gaSources -and $gaSources.rows) {
 $inquiryActionRows = @()
 if ($gaInquiryActions -and $gaInquiryActions.rows) {
   $inquiryActionRows = @($gaInquiryActions.rows | ForEach-Object { ,@($_.dimensionValues[0].value, $_.dimensionValues[1].value, $_.metricValues[0].value) })
+}
+
+$purchaseJourneyRows = @()
+if ($gaPurchaseJourneys -and $gaPurchaseJourneys.rows) {
+  $purchaseJourneyRows = @($gaPurchaseJourneys.rows | ForEach-Object {
+    ,@($_.dimensionValues[0].value, $_.dimensionValues[1].value, $_.dimensionValues[2].value, $_.dimensionValues[3].value, $_.metricValues[0].value, $_.metricValues[1].value, $_.metricValues[2].value)
+  })
 }
 
 $aiJourneyRows = @()
@@ -882,6 +907,9 @@ $lines.Add('Collection begins with the September 28, 2026 release; earlier dates
 $lines.Add('')
 Write-Section -Lines $lines -Title 'Tracked events' -Body (Build-MarkdownTable -Headers @('Event', 'Count') -Rows $eventRows)
 Write-Section -Lines $lines -Title 'Inquiry actions by page' -Body (Build-MarkdownTable -Headers @('Action', 'Page', 'Count') -Rows $inquiryActionRows)
+Write-Section -Lines $lines -Title 'Used-car actions: new and returning visits' -Body (Build-MarkdownTable -Headers @('Action', 'Visit type', 'Source / medium', 'Page', 'Events', 'Users', 'Sessions') -Rows $purchaseJourneyRows)
+$lines.Add('GA4 new/returning describes observed visits, not verified people or business/private buyers. A user may appear in multiple rows, so do not sum row users as unique people. Consultation clicks include flow links and phone intent, not completed consultations. View events count each marked section once per page load. New consultation events begin with the October 4, 2026 release; earlier values are unobserved, not zero. Collection failures are listed under Notes.')
+$lines.Add('')
 Write-Section -Lines $lines -Title 'Search Console overview' -Body (Build-MarkdownTable -Headers @('Metric', 'Value') -Rows $searchConsoleSummaryRows)
 Write-Section -Lines $lines -Title 'Search Console top queries' -Body (Build-MarkdownTable -Headers @('Query', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $searchConsoleQueryRows)
 Write-Section -Lines $lines -Title 'Search Console high-impression queries' -Body (Build-MarkdownTable -Headers @('Query', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $searchConsoleOpportunityRows)

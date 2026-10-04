@@ -91,7 +91,7 @@
         </div>
         <div class="purchase-hero__actions">
           <a class="recruit-cta" href="#stock">在庫を先に見る</a>
-          <a class="button-secondary" href="#order-flow">条件から相談する</a>
+          <a class="button-secondary" href="#order-flow" data-used-car-action="flow">条件から相談する</a>
         </div>
       </div>
     </div>
@@ -107,7 +107,7 @@
         <p class="decision-guide__answer-title">掲載外の車も、希望条件から探す相談ができます。</p>
         <p class="decision-guide__answer-text">用途・予算・車種・納期を伺い、業者専用オークション等から候補を探します。仕入れ後は状態を確認し、必要な点検・整備や板金塗装を行ってから納車します。</p>
         <div class="decision-guide__actions decision-guide__actions--stacked">
-          <a class="recruit-cta" href="tel:0849761000">中古車について電話で相談する</a>
+          <a class="recruit-cta" href="tel:0849761000" data-used-car-action="phone">中古車について電話で相談する</a>
           <a class="decision-guide__detail-link" href="../column/used-car-order-consultation/">希望の車を探してもらう流れを見る</a>
           <a class="decision-guide__detail-link" href="../column/used-car-urgent-need/">早めに必要な時の探し方を見る</a>
         </div>
@@ -127,14 +127,24 @@
       </div>
       <div class="stock-status" id="stock-status" role="status">在庫情報を読み込んでいます…</div>
       <div class="stock-grid" id="stock-grid"></div>
+      <div class="stock-consultation" data-used-car-consultation>
+        <h3>掲載車に希望の一台がなくても、仕入れから相談できます</h3>
+        <p>在庫が増えるのを待つだけでなく、用途・総予算・必要な時期をお知らせください。業者専用オークション等から候補を探し、必要な整備・修理を行ってから納車します。個人・事業者どちらのご相談も承ります。</p>
+        <div class="decision-guide__actions decision-guide__actions--stacked">
+          <a class="recruit-cta" href="tel:0849761000" data-used-car-action="phone">希望の中古車を電話で相談する</a>
+          <a class="decision-guide__detail-link" href="#order-consultation" data-used-car-action="flow">仕入れから納車までの流れを確認する</a>
+          <a class="decision-guide__detail-link" href="../column/used-car-urgent-need/">急ぎで必要な場合の確認ポイントを見る</a>
+        </div>
+        <p class="stock-consultation__note">希望に合う車が見つかる時期は出品状況によって変わります。急ぎの場合も、必要な日を先にお知らせください。</p>
+      </div>
       <div class="stock-actions">
         <a class="button-secondary" href="https://www.goo-net.com/usedcar_shop/1010169/stock.html#tab_detail" target="_blank" rel="noopener">グーネットで全在庫を見る</a>
-        <a class="recruit-cta" href="#order-flow">条件から中古車を相談する</a>
+        <a class="recruit-cta" href="#order-flow" data-used-car-action="flow">条件から中古車を相談する</a>
       </div>
     </div>
   </section>
 
-  <section class="section skin-paper order-consultation" id="order-consultation">
+  <section class="section skin-paper order-consultation" id="order-consultation" data-used-car-consultation>
     <div class="container">
       <p class="section-kicker">ORDER CONSULTATION</p>
       <h2 class="section-title copy-tuned copy-tuned--title" id="order-flow">条件から中古車を<wbr>相談する流れ</h2>
@@ -147,7 +157,7 @@
       </ol>
       <p class="purchase-flow__note">仕入れ時の状態や修理前の写真を確認しながら、必要な作業と予算のバランスを見てご提案します。岡山市のお客様へ納車した実績もあります。お届け先や日程は個別にご相談ください。</p>
       <p class="purchase-flow__note">個人のお客様に加え、販売店・事業者の車探しもご相談いただけます。<a href="../business/">事業者向けの相談内容を見る</a></p>
-      <p class="purchase-flow__cta"><a class="recruit-cta" href="tel:0849761000">条件から中古車を電話で相談する</a></p>
+      <p class="purchase-flow__cta"><a class="recruit-cta" href="tel:0849761000" data-used-car-action="phone">条件から中古車を電話で相談する</a></p>
     </div>
   </section>
 
