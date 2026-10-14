@@ -177,7 +177,6 @@
       { selector: '#entry', event: 'recruit_entry_view' },
       { selector: '#sales', event: 'sales_section_view' },
       { selector: '#column', event: 'column_section_view' },
-      { selector: '.stock-grid', event: 'used_car_stock_view' },
       { selector: '[data-used-car-consultation]', event: 'used_car_consultation_view' },
       { selector: '[data-new-car-consultation]', event: 'new_car_consultation_view' }
     ];
@@ -198,6 +197,24 @@
         observer.observe(el);
       });
     });
+
+    // Observe the first car, not a tall grid that cannot fit in a mobile viewport.
+    var stockGrid = document.querySelector('.stock-grid');
+    if (stockGrid) {
+      var observeFirstCar = function () {
+        var image = stockGrid.querySelector('.stock-card__image');
+        if (!image) return false;
+        image.setAttribute('data-mcc-view-event', 'used_car_stock_view');
+        observer.observe(image);
+        return true;
+      };
+      if (!observeFirstCar() && 'MutationObserver' in window) {
+        var stockObserver = new MutationObserver(function () {
+          if (observeFirstCar()) stockObserver.disconnect();
+        });
+        stockObserver.observe(stockGrid, { childList: true });
+      }
+    }
   }
 
   initCtaLinkPresentation();

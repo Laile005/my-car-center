@@ -1428,7 +1428,7 @@ img {
   border-bottom: 1px solid #b9dded;
 }
 
-.stock-consultation h3{
+.stock-consultation h2{
   margin: 0 0 .75rem;
   font-size: 1.2rem;
   line-height: 1.6;
@@ -2949,6 +2949,63 @@ img {
     gap: 1.2rem;
   }
   .footer-copy{ font-size: .85rem; }
+}
+
+/* Inventory stays ahead of purchase guidance, including on small screens. */
+.stock-showcase--first-view{
+  margin-top: var(--header-height);
+  padding-top: 1.25rem;
+  scroll-margin-top: var(--header-height);
+}
+
+.stock-showcase--first-view .breadcrumb{
+  margin-bottom: .65rem;
+}
+
+.stock-showcase--first-view .stock-showcase__head{
+  margin-bottom: .85rem;
+  gap: 1rem;
+}
+
+.stock-showcase--first-view .section-title{
+  font-size: 2rem;
+  line-height: 1.3;
+  margin-bottom: .35rem;
+}
+
+.stock-showcase--first-view .section-subtitle{
+  font-size: .95rem;
+  line-height: 1.65;
+}
+
+.stock-showcase--first-view .stock-status{
+  margin-bottom: .8rem;
+}
+
+.stock-showcase__availability{
+  margin: 1rem auto 0;
+  color: #475569;
+  font-size: .85rem;
+  text-align: center;
+}
+
+@media (max-width: 700px){
+  .stock-showcase--first-view{
+    padding-top: 1rem;
+  }
+
+  .stock-showcase--first-view .stock-showcase__head{
+    gap: .4rem;
+  }
+
+  .stock-showcase--first-view .section-title{
+    font-size: 1.65rem;
+  }
+
+  .stock-showcase--first-view .section-subtitle,
+  .stock-showcase--first-view .stock-showcase__head > a{
+    font-size: .88rem;
+  }
 }
 
 /* 年表示用 */

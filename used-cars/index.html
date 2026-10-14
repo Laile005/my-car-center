@@ -80,55 +80,26 @@
 </header>
 
 <main>
-  <section class="column-hero purchase-hero">
+  <section class="section stock-showcase stock-showcase--first-view" id="stock" aria-labelledby="stock-title">
     <div class="container">
       <p class="breadcrumb"><a href="../">ホーム</a> / 中古車を探す</p>
-      <div class="purchase-hero__layout">
-        <div>
-          <p class="purchase-hero__eyebrow">修理・整備を本業にしてきた工場の中古車販売</p>
-          <h1 class="column-hero__title copy-tuned copy-tuned--title">希望に合う中古車を、<br class="copy-break copy-break--desktop">仕入れから整備・納車まで丁寧に</h1>
-          <p class="column-hero__lead">福山市や近隣の市、岡山市からの中古車相談も承ります。在庫を見るだけでなく、通勤用、家族用、仕事用などの条件から欲しい車を探せます。仕入れ後は状態を確認し、必要な修理・整備と仕上げまで一貫して行います。</p>
-        </div>
-        <div class="purchase-hero__actions">
-          <a class="recruit-cta" href="#stock">在庫を先に見る</a>
-          <a class="button-secondary" href="#order-flow" data-used-car-action="flow">条件から相談する</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section decision-guide skin-white" aria-labelledby="used-car-question">
-    <div class="container decision-guide__layout">
-      <div class="decision-guide__question">
-        <p class="decision-guide__label">中古車探しのご質問</p>
-        <h2 id="used-car-question">欲しい車を探してほしい時は？</h2>
-      </div>
-      <div class="decision-guide__answer">
-        <p class="decision-guide__answer-title">掲載外の車も、希望条件から探す相談ができます。</p>
-        <p class="decision-guide__answer-text">用途・予算・車種・納期を伺い、業者専用オークション等から候補を探します。仕入れ後は状態を確認し、必要な点検・整備や板金塗装を行ってから納車します。</p>
-        <div class="decision-guide__actions decision-guide__actions--stacked">
-          <a class="recruit-cta" href="tel:0849761000" data-used-car-action="phone">中古車について電話で相談する</a>
-          <a class="decision-guide__detail-link" href="../column/used-car-order-consultation/">希望の車を探してもらう流れを見る</a>
-          <a class="decision-guide__detail-link" href="../column/used-car-urgent-need/">早めに必要な時の探し方を見る</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section stock-showcase" id="stock">
-    <div class="container">
       <div class="stock-showcase__head">
         <div>
-          <p class="section-kicker">AVAILABLE CARS</p>
-          <h2 class="section-title">現在の掲載在庫</h2>
-          <p class="section-subtitle">掲載状況は随時変わります。気になる車は、来店前に在庫状況を確認いただくとスムーズです。</p>
+          <h1 class="section-title" id="stock-title">中古車を探す</h1>
+          <p class="section-subtitle">掲載在庫から選ぶことも、希望条件から探すこともできます。</p>
         </div>
-        <span class="stock-showcase__note">購入後の整備・車検も同じ窓口で対応</span>
+        <a class="decision-guide__detail-link" href="#order-consultation" data-used-car-action="flow">在庫にない車を相談する</a>
       </div>
       <div class="stock-status" id="stock-status" role="status">在庫情報を読み込んでいます…</div>
       <div class="stock-grid" id="stock-grid"></div>
+      <div class="stock-actions">
+        <a class="button-secondary" href="https://www.goo-net.com/usedcar_shop/1010169/stock.html#tab_detail" target="_blank" rel="noopener">グーネットで全在庫を見る</a>
+        <a class="recruit-cta" href="#order-flow" data-used-car-action="flow">条件から中古車を相談する</a>
+      </div>
+      <p class="stock-showcase__availability">掲載状況は随時変わります。気になる車は、来店前に在庫状況をご確認ください。</p>
       <div class="stock-consultation" data-used-car-consultation>
-        <h3>掲載車に希望の一台がなくても、仕入れから相談できます</h3>
+        <p class="section-kicker">修理・整備を本業にしてきた工場の中古車販売</p>
+        <h2 id="used-car-question">希望に合う中古車を、仕入れから整備・納車まで丁寧に</h2>
         <p>在庫が増えるのを待つだけでなく、用途・総予算・必要な時期をお知らせください。業者専用オークション等から候補を探し、必要な整備・修理を行ってから納車します。個人・事業者どちらのご相談も承ります。</p>
         <div class="decision-guide__actions decision-guide__actions--stacked">
           <a class="recruit-cta" href="tel:0849761000" data-used-car-action="phone">希望の中古車を電話で相談する</a>
@@ -136,10 +107,7 @@
           <a class="decision-guide__detail-link" href="../column/used-car-urgent-need/">急ぎで必要な場合の確認ポイントを見る</a>
         </div>
         <p class="stock-consultation__note">希望に合う車が見つかる時期は出品状況によって変わります。急ぎの場合も、必要な日を先にお知らせください。</p>
-      </div>
-      <div class="stock-actions">
-        <a class="button-secondary" href="https://www.goo-net.com/usedcar_shop/1010169/stock.html#tab_detail" target="_blank" rel="noopener">グーネットで全在庫を見る</a>
-        <a class="recruit-cta" href="#order-flow" data-used-car-action="flow">条件から中古車を相談する</a>
+        <p><a class="decision-guide__detail-link" href="../column/used-car-order-consultation/">希望の車を探してもらう時の確認点を読む</a></p>
       </div>
     </div>
   </section>
@@ -148,7 +116,7 @@
     <div class="container">
       <p class="section-kicker">ORDER CONSULTATION</p>
       <h2 class="section-title copy-tuned copy-tuned--title" id="order-flow">条件から中古車を<wbr>相談する流れ</h2>
-      <p class="section-subtitle">掲載在庫にない車も、用途・予算・車種・納期を伺ってから探します。とくに、通勤用、家族用、仕事用など使い方がはっきりしている方ほど相談しやすい流れです。</p>
+      <p class="section-subtitle">福山市や近隣の市、岡山市からの中古車相談も承ります。在庫を見るだけでなく、通勤用、家族用、仕事用などの条件から欲しい車を探せます。仕入れ後は状態を確認し、必要な修理・整備と仕上げまで一貫して行います。</p>
       <ol class="purchase-flow">
         <li><span>01</span><h3>希望を伺う</h3><p>用途、予算、車種、色、納期などを電話で確認します。</p></li>
         <li><span>02</span><h3>条件に合う車を探す</h3><p>業者専用オークション等も活用し、候補を絞ります。</p></li>
@@ -200,7 +168,7 @@
       <p class="section-subtitle">在庫一覧だけで決める前に、購入後の整備や修理まで含めて考えると選びやすくなります。整備が強い店なので、購入後の不安も先に整理できます。</p>
       <div class="column-card-grid">
         <article class="column-card">
-          <p class="column-card__date">最終更新 2026.09.12</p>
+          <p class="column-card__date">最終更新 2026.10.04</p>
           <h3><a href="../column/used-car-order-repair-sourcing/">掲載車より仕入れから相談する方が合うケース</a></h3>
           <p>在庫にない車を条件から探し、必要な点検・整備を行ったうえで購入する考え方をまとめました。</p>
         </article>
