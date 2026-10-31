@@ -127,6 +127,33 @@ async function assertStockFirstView(page, count, label) {
       await page.goto(`${origin}/column/used-car-order-repair-sourcing/`, { waitUntil: 'networkidle' });
       assert.equal(await page.locator('.article__note [data-used-car-action="flow"]').getAttribute('href'), '../../used-cars/#order-consultation');
       await assertNoOverflow(page, `sourcing article ${width}`);
+      for (const slug of ['used-car-order-repair-sourcing', 'used-car-order-consultation']) {
+        await page.goto(`${origin}/column/${slug}/`, { waitUntil: 'networkidle' });
+        const note = page.locator('.article__note[data-used-car-consultation]');
+        assert.equal(await note.count(), 1);
+        assert.equal(await note.evaluate(node => Boolean(node.compareDocumentPosition(document.querySelector('.article__body h2')) & Node.DOCUMENT_POSITION_FOLLOWING)), true, 'Consultation must appear before the first section');
+        const meta = await page.evaluate(() => ({
+          title: document.querySelector('h1').textContent,
+          article: JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent),
+          canonical: document.querySelector('link[rel="canonical"]').href
+        }));
+        assert.equal(meta.article.headline, meta.title);
+        assert.equal(meta.article.dateModified, '2026-10-31');
+        assert.equal(meta.canonical, `${origin}/column/${slug}/`);
+        assert.equal(await note.locator('[data-used-car-action="flow"]').getAttribute('href'), '../../used-cars/#order-consultation');
+        const flow = note.locator('[data-used-car-action="flow"]');
+        await flow.evaluate(node => node.addEventListener('click', event => event.preventDefault(), { once: true }));
+        await flow.click();
+        assert.equal(await page.evaluate(() => window.testEvents.filter(event => event.name === 'used_car_consultation_click' && event.params.consultation_action === 'flow').length), 1);
+        if (width === 1365) {
+          await note.locator('[data-used-car-action="phone"]').click();
+          assert.equal(await page.locator('.phone-modal').evaluate(node => node.classList.contains('show')), true);
+          assert.equal(await page.evaluate(() => window.testEvents.filter(event => event.name === 'used_car_consultation_click' && event.params.consultation_action === 'phone').length), 1);
+          await page.locator('.phone-modal__close').click();
+        }
+        await assertNoOverflow(page, `${slug} ${width}`);
+        await page.screenshot({ path: path.join(output, `${slug}-${width}.png`), fullPage: true });
+      }
       await page.goto(`${origin}/column/new-car-delivery-regional-stock/`, { waitUntil: 'networkidle' });
       assert.equal(await page.locator('h1').count(), 1);
       assert.equal(await page.locator('.article__body a[href^="https://"]').count() >= 16, true);
@@ -175,6 +202,15 @@ async function assertStockFirstView(page, count, label) {
     await page.locator('.service-detail-hero [data-new-car-action="flow"]').click();
     assert.equal(await page.evaluate(() => window.testEvents.length), 0, 'Opt-out must suppress new-car analytics');
     await page.close();
+    for (const slug of ['used-car-order-repair-sourcing', 'used-car-order-consultation']) {
+      const { page, errors } = await localPage(browser, 320, 1, false, { height: 568 });
+      await page.goto(`${origin}/column/${slug}/`, { waitUntil: 'networkidle' });
+      await assertNoOverflow(page, `${slug} small mobile`);
+      const bounds = await page.locator('.article__body .decision-guide__actions a').evaluateAll(nodes => nodes.map(node => ({ left: node.getBoundingClientRect().left, right: node.getBoundingClientRect().right })));
+      assert(bounds.every(rect => rect.left >= 0 && rect.right <= 321), `${slug}: CTA must fit on small mobile`);
+      assert.deepEqual(errors, []);
+      await page.close();
+    }
     console.log('Purchase journey passed: stock first view at 7 screen sizes with 0/1/2/3 cars, loading/errors, equal card heights, image rendering, consultation tracking, phone prompt, and opt-out.');
   } finally {
     await browser.close();

@@ -69,7 +69,7 @@
 
 条件からの車探しは、希望条件の相談、候補車と総額の確認、仕入れ、必要な点検・整備・修理、納車と購入後の相談の5段階で案内しています。車両価格だけでなく諸費用・整備・用品等を含む予算を確認します。希望車両の発見、最安値、納期、修理前写真の提供は一律に保証しません。保証内容も候補車ごとに確認します。
 条件から探す流れ: https://yamamoto-mycar.com/column/used-car-order-consultation/
-掲載在庫と仕入れ相談の使い分け: https://yamamoto-mycar.com/column/used-car-order-repair-sourcing/
+整備工場に仕入れから相談するメリットと確認点: https://yamamoto-mycar.com/column/used-car-order-repair-sourcing/
 
 ### オイル交換・日常メンテナンス
 
@@ -199,7 +199,7 @@
 - 欲しい車を探してほしい時に。掲載在庫にない中古車も相談できます: https://yamamoto-mycar.com/column/used-car-order-consultation/
 - 通勤・送迎で早めに中古車が必要な時、まず伝えたいこと: https://yamamoto-mycar.com/column/used-car-urgent-need/
 - 事故後、車は動くけれど運転して大丈夫？まず確認したいこと: https://yamamoto-mycar.com/column/accident-car-still-drivable/
-- 掲載車より仕入れから中古車を相談する方が合うケース: https://yamamoto-mycar.com/column/used-car-order-repair-sourcing/
+- 中古車の仕入れは頼める？整備工場に相談するメリットと確認点: https://yamamoto-mycar.com/column/used-car-order-repair-sourcing/
 - 新車と中古車、今はどちらがコスパいい？: https://yamamoto-mycar.com/column/new-vs-used-car-cost/
 - 自動車保険はネット型・代理店型・共済のどれがいい？: https://yamamoto-mycar.com/column/car-insurance-direct-agent-kyosai/
 - 新車に社外ナビ・ドラレコを付けたい時の相談先: https://yamamoto-mycar.com/column/new-car-aftermarket-parts/

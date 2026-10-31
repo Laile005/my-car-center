@@ -561,6 +561,7 @@ $gaPurchaseJourneys = $null
 $searchConsoleSummary = $null
 $searchConsoleQueries = $null
 $searchConsolePages = $null
+$searchConsolePurchaseQueries = $null
 $searchConsoleSitemaps = $null
 $clarityResults = @{}
 
@@ -734,6 +735,19 @@ catch {
 }
 
 try {
+  if ($searchConsoleHeaders -and $searchConsoleDateRange) {
+    $searchConsolePurchaseQueries = Invoke-JsonApi -Uri "$searchConsoleBase/searchAnalytics/query" -Method 'Post' -Headers $searchConsoleHeaders -Body ($searchConsoleDateRange + @{
+      dimensions = @('query', 'page')
+      dimensionFilterGroups = @(@{ filters = @(@{ dimension = 'page'; operator = 'contains'; expression = 'used-car' }) })
+      rowLimit = $SearchConsoleRowLimit
+    })
+  }
+}
+catch {
+  $issues.Add(("Search Console used-car query/page pairs: {0}" -f $_.Exception.Message))
+}
+
+try {
   $clarityBase = 'https://www.clarity.ms/export-data/api/v1/project-live-insights'
   $clarityRequests = @(
     @{ Name = 'clarity-channel'; Dimension1 = 'Channel' },
@@ -768,6 +782,7 @@ catch {
     summary = $searchConsoleSummary
     queries = $searchConsoleQueries
     pages = $searchConsolePages
+    purchaseQueries = $searchConsolePurchaseQueries
     sitemaps = $searchConsoleSitemaps
   }
   clarity = $clarityResults
@@ -880,6 +895,13 @@ if ($searchConsolePages.rows) {
   })
 }
 
+$purchaseQueryRows = @()
+if ($searchConsolePurchaseQueries.rows) {
+  $purchaseQueryRows = @($searchConsolePurchaseQueries.rows | Sort-Object impressions -Descending | Select-Object -First 25 | ForEach-Object {
+    ,@($_.keys[0], $_.keys[1], $_.clicks, $_.impressions, ('{0:P2}' -f $_.ctr), ('{0:N1}' -f $_.position))
+  })
+}
+
 $searchConsoleSitemapRows = @()
 if ($searchConsoleSitemaps.sitemap) {
   $searchConsoleSitemapRows = @($searchConsoleSitemaps.sitemap | ForEach-Object { ,@($_.path, $_.type, $_.isPending, $_.lastSubmitted, $_.lastDownloaded, $_.errors, $_.warnings) })
@@ -922,6 +944,9 @@ Write-Section -Lines $lines -Title 'Search Console overview' -Body (Build-Markdo
 Write-Section -Lines $lines -Title 'Search Console top queries' -Body (Build-MarkdownTable -Headers @('Query', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $searchConsoleQueryRows)
 Write-Section -Lines $lines -Title 'Search Console high-impression queries' -Body (Build-MarkdownTable -Headers @('Query', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $searchConsoleOpportunityRows)
 Write-Section -Lines $lines -Title 'Search Console top pages' -Body (Build-MarkdownTable -Headers @('Page', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $searchConsolePageRows)
+Write-Section -Lines $lines -Title 'Used-car search queries and landing pages' -Body (Build-MarkdownTable -Headers @('Query', 'Page', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $purchaseQueryRows)
+$lines.Add('Top 25 reported query/page pairs by impressions; all returned pairs are retained in raw JSON. Search Console omits some queries, so these are not complete totals. Different landing pages do not by themselves prove competition between articles. Low CTR at a low position is not evidence that the snippet alone is the problem. Collection failures are listed under Notes, not treated as zero demand.')
+$lines.Add('')
 Write-Section -Lines $lines -Title 'Queries mentioning the service area' -Body (Build-MarkdownTable -Headers @('Query', 'Clicks', 'Impressions', 'CTR', 'Average position') -Rows $localQueryRows)
 $lines.Add('This is a query sample, not all local searches; people often omit the place name.')
 $lines.Add('')
