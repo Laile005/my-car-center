@@ -985,6 +985,7 @@ foreach ($entry in @('clarity-channel', 'clarity-url', 'clarity-device')) {
 $lines.Add('## Notes')
 $lines.Add('')
 $lines.Add('- Clarity Data Export only returns the last 24/48/72 hours. Weekly automation therefore captures a rolling snapshot, not a full seven-day Clarity history.')
+$lines.Add('- A separate private Apps Script archives daily source snapshots and normalized Google metrics to the company Drive. Before treating an older period as unavailable, inspect that archive and its failure log. Clarity windows can overlap and must not be summed. See scripts/marketing-archive/README.md; account-specific locations are in the private deployment receipt, not the public site.')
 $lines.Add('- Raw JSON is saved under reports/marketing-data for troubleshooting and trend reconstruction.')
 $lines.Add('- Query/page details are retained in raw JSON; query totals may differ from page totals because Search Console omits some queries.')
 $lines.Add('- Inquiry actions are click/input events, not confirmed phone calls, applications, or sales. Response timeouts are diagnostics, not confirmed submission failures.')
