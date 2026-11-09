@@ -64,6 +64,9 @@ async function assertStockFirstView(page, count, label) {
   }
 }
 
+module.exports = { localPage, assertNoOverflow };
+
+if (require.main === module) {
 (async () => {
   const browser = await chromium.launch({ headless: true, channel: 'chrome' });
   try {
@@ -216,3 +219,4 @@ async function assertStockFirstView(page, count, label) {
     await browser.close();
   }
 })().catch(error => { console.error(error); process.exitCode = 1; });
+}

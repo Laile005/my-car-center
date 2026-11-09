@@ -616,7 +616,7 @@ try {
   }
 
   $trackedEvents = @(
-    'phone_click', 'goo_net_click', 'cta_click', 'article_card_click', 'llm_referral_visit',
+    'phone_click', 'directions_click', 'goo_net_click', 'cta_click', 'article_card_click', 'llm_referral_visit',
     'recruit_link_click', 'indeed_apply_click', 'recruit_form_start', 'recruit_form_submit_start', 'recruit_form_submit_success',
     'recruit_form_submit_error', 'recruit_form_response_timeout', 'scroll_depth', 'recruit_entry_view',
     'sales_section_view', 'column_section_view', 'used_car_stock_view',
@@ -634,7 +634,7 @@ try {
   }
 
   $inquiryEvents = @(
-    'phone_prompt_open', 'phone_dial', 'phone_click', 'goo_net_click', 'used_car_consultation_click', 'new_car_consultation_click',
+    'phone_prompt_open', 'phone_dial', 'phone_click', 'directions_click', 'goo_net_click', 'used_car_consultation_click', 'new_car_consultation_click',
     'indeed_apply_click', 'recruit_form_start', 'recruit_form_submit_start', 'recruit_form_submit_success', 'recruit_form_submit_error', 'recruit_form_response_timeout'
   )
   $gaInquiryActions = Invoke-JsonApi -Uri $gaBase -Method 'Post' -Headers $gaHeaders -Body @{
@@ -934,6 +934,8 @@ $lines.Add('Collection begins with the September 28, 2026 release; earlier dates
 $lines.Add('')
 Write-Section -Lines $lines -Title 'Tracked events' -Body (Build-MarkdownTable -Headers @('Event', 'Count') -Rows $eventRows)
 Write-Section -Lines $lines -Title 'Inquiry actions by page' -Body (Build-MarkdownTable -Headers @('Action', 'Page', 'Count') -Rows $inquiryActionRows)
+$lines.Add('directions_click records opening a marked store-map link from the site, not a route request or an actual shop visit. Walk-in visits cannot be attributed to a page from this event alone. Collection begins with the November 9, 2026 release; earlier values are unobserved, not zero.')
+$lines.Add('')
 Write-Section -Lines $lines -Title 'Used-car actions: new and returning visits' -Body (Build-MarkdownTable -Headers @('Action', 'Visit type', 'Source / medium', 'Page', 'Events', 'Users', 'Sessions') -Rows $purchaseJourneyRows)
 $lines.Add('GA4 new/returning describes observed visits, not verified people or business/private buyers. A user may appear in multiple rows, so do not sum row users as unique people. Consultation clicks include flow links and phone intent, not completed consultations. View events count each marked section once per page load. New consultation events begin with the October 4, 2026 release; earlier values are unobserved, not zero. Collection failures are listed under Notes.')
 $lines.Add('')

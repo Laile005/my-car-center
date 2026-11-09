@@ -3317,24 +3317,35 @@ img {
   background: #f8fbff;
 }
 
-.page-bankin-toso main > .section:nth-of-type(3) .guide-grid{
+.service-page--bankin .repair-title-unit{
+  display: inline-block;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px){
+  #repair-cost-options .section-title{
+    font-size: 1.8rem;
+  }
+}
+
+.page-bankin-toso #repair-concerns .guide-grid{
   gap: 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
 
-.page-bankin-toso main > .section:nth-of-type(3) .guide-card{
+.page-bankin-toso #repair-concerns .guide-card{
   border: 0;
   border-right: 1px solid var(--line);
   border-radius: 0;
   box-shadow: none;
 }
 
-.page-bankin-toso main > .section:nth-of-type(3) .guide-card:last-child{
+.page-bankin-toso #repair-concerns .guide-card:last-child{
   border-right: 0;
 }
 
-.page-bankin-toso main > .section:nth-of-type(4) .guide-card{
+.page-bankin-toso #repair-benefits .guide-card{
   border-color: rgba(14,165,233,.23);
   box-shadow: 0 8px 18px rgba(15,23,42,.04);
 }
@@ -3722,12 +3733,12 @@ img {
     background: linear-gradient(90deg, var(--sky), var(--mint));
   }
 
-  .page-bankin-toso main > .section:nth-of-type(3) .guide-grid,
+  .page-bankin-toso #repair-concerns .guide-grid,
   .page-new-cars main > .section:nth-of-type(2) .guide-grid{
     border: 0;
   }
 
-  .page-bankin-toso main > .section:nth-of-type(3) .guide-card,
+  .page-bankin-toso #repair-concerns .guide-card,
   .page-new-cars main > .section:nth-of-type(2) .guide-card{
     border-right: 0;
     border-bottom: 1px solid var(--line);

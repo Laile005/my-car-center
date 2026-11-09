@@ -49,6 +49,9 @@
       if (!link) return;
       var href = link.getAttribute('href') || '';
       var text = link.textContent.replace(/\s+/g, ' ').trim().slice(0, 80);
+      if (link.hasAttribute('data-directions-link')) {
+        sendEvent('directions_click');
+      }
       var usedCarAction = link.getAttribute('data-used-car-action');
       if (usedCarAction === 'phone' || usedCarAction === 'flow') {
         sendEvent('used_car_consultation_click', { consultation_action: usedCarAction });
