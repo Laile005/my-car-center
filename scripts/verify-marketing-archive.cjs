@@ -36,7 +36,7 @@ const calls = [];
 const failures = new Set();
 let busy = false;
 let googlePageSize = null;
-const properties = { getProperty: key => props.get(key) || null, setProperty: (key, value) => { props.set(key, String(value)); return properties; } };
+const properties = { getProperty: key => props.get(key) || null, setProperty: (key, value) => { props.set(key, String(value)); return properties; }, deleteProperty: key => props.delete(key) };
 const context = vm.createContext({
   console: { log() {} },
   Date, JSON, Math,
@@ -46,7 +46,7 @@ const context = vm.createContext({
   Drive: { Files: { get: id => ({ id }), create: meta => ({ id: new Folder(meta.name).id }) } },
   LockService: { getScriptLock: () => ({ tryLock: () => !busy, releaseLock() {} }) },
   CacheService: { getScriptCache: () => ({ get: () => null, put() {} }) },
-  ScriptApp: { getProjectTriggers: () => triggers, newTrigger(handler) { const builder = { timeBased() { return this; }, atHour(hour) { this.hour = hour; return this; }, everyDays(days) { assert.equal(days, 1); return this; }, inTimezone(zone) { assert.equal(zone, 'Asia/Tokyo'); return this; }, create() { triggers.push({ handler, hour: this.hour, getHandlerFunction: () => handler, getEventType: () => 'CLOCK' }); } }; return builder; } },
+  ScriptApp: { getProjectTriggers: () => triggers, deleteTrigger: trigger => { const i = triggers.indexOf(trigger); if (i >= 0) triggers.splice(i, 1); }, newTrigger(handler) { const builder = { timeBased() { return this; }, atHour(hour) { this.hour = hour; return this; }, at(date) { this.atDate = date; return this; }, everyDays(days) { assert.equal(days, 1); return this; }, inTimezone(zone) { assert.equal(zone, 'Asia/Tokyo'); return this; }, create() { const id = crypto.randomUUID(); const trigger = { handler, hour: this.hour, atDate: this.atDate, getHandlerFunction: () => handler, getEventType: () => 'CLOCK', getUniqueId: () => id }; triggers.push(trigger); return trigger; } }; return builder; } },
   Utilities: { getUuid: () => crypto.randomUUID(), base64EncodeWebSafe: input => Buffer.from(input).toString('base64url'), computeRsaSha256Signature: () => Buffer.from('test-signature'), formatDate: date => { const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(date); return ['year', 'month', 'day'].map(key => parts.find(part => part.type === key).value).join('-'); }, parseCsv },
   UrlFetchApp: { fetch(url, options) {
     calls.push({ url, options });
@@ -115,6 +115,21 @@ context.backfillArchiveHistory();
 assert.equal(props.get('BACKFILL_CURSOR'), '2026-07-29', 'Completed historical backfill must stop at its fixed endpoint');
 props.set('CLARITY_REQUEST_TIMES', JSON.stringify(Array(6).fill(Date.now())));
 assert.throws(() => context.archiveClarity_({ config: context.archiveConfig_() }), /request budget/);
+assert.equal(triggers.filter(t => t.handler === 'runClarityRecovery').length, 1, 'Quota deferral schedules one cloud retry');
+assert.throws(() => context.archiveClarity_({ config: context.archiveConfig_() }), /request budget/);
+assert.equal(triggers.filter(t => t.handler === 'runClarityRecovery').length, 1, 'Repeated quota failures must not duplicate retry triggers');
+assert(Date.parse(props.get('CLARITY_RETRY_AT')) > Date.now() + 23 * 3600000);
+props.set('CLARITY_REQUEST_TIMES', JSON.stringify(Array(4).fill(Date.now())));
+const beforeBudgetCalls = calls.length;
+assert.throws(() => context.archiveClarity_({ config: context.archiveConfig_() }), /request budget/);
+assert.equal(calls.length, beforeBudgetCalls, 'Reserve the whole three-dimension window before any API call');
+const lastClaritySuccess = props.get('LAST_SUCCESS_CLARITY');
+assert.equal(context.runDailyArchive().status, 'deferred', 'Expected quota waiting is recorded, not thrown as a hard provider failure');
+assert.equal(props.get('LAST_SUCCESS_CLARITY'), lastClaritySuccess, 'Deferred data must not be marked newly collected');
+props.set('CLARITY_REQUEST_TIMES', '[]');
+context.runClarityRecovery();
+assert.equal(triggers.filter(t => t.handler === 'runClarityRecovery').length, 0, 'One-shot recovery cleans up only its own trigger');
+assert.equal(props.has('CLARITY_RETRY_AT'), false);
 busy = true;
 assert.equal(context.runDailyArchive().skipped, 'another archive is running');
 assert(calls.every(call => !call.url.includes('secret')), 'Secrets must not appear in URLs');

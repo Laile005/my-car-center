@@ -18,9 +18,18 @@ function installArchive() {
 function runDailyArchive() { return runArchive_(false); }
 function runRecoveryArchive() { return runArchive_(true); }
 
+function runClarityRecovery() {
+  var p = PropertiesService.getScriptProperties();
+  var id = p.getProperty('CLARITY_RETRY_TRIGGER_ID');
+  ScriptApp.getProjectTriggers().filter(function(t) { return t.getUniqueId() === id; }).forEach(function(t) { ScriptApp.deleteTrigger(t); });
+  p.deleteProperty('CLARITY_RETRY_TRIGGER_ID');
+  p.deleteProperty('CLARITY_RETRY_AT');
+  return runRecoveryArchive();
+}
+
 function archiveStatus() {
   var p = PropertiesService.getScriptProperties();
-  var keys = ['ARCHIVE_FOLDER_ID', 'LAST_SUCCESS_GA4', 'LAST_SUCCESS_GSC', 'LAST_SUCCESS_CLARITY', 'LAST_SUCCESS_CRAWLERS', 'LAST_SUCCESS_CHANGES', 'BACKFILL_CURSOR', 'LAST_RUN_STATUS'];
+  var keys = ['ARCHIVE_FOLDER_ID', 'LAST_SUCCESS_GA4', 'LAST_SUCCESS_GSC', 'LAST_SUCCESS_CLARITY', 'LAST_SUCCESS_CRAWLERS', 'LAST_SUCCESS_CHANGES', 'BACKFILL_CURSOR', 'LAST_RUN_STATUS', 'CLARITY_RETRY_AT'];
   var result = { triggers: archiveTriggerStatus_() };
   keys.forEach(function(k) { result[k] = p.getProperty(k); });
   console.log(JSON.stringify(result));
@@ -104,7 +113,8 @@ function runArchive_(recovery) {
       try { archiveBackfillChunk_(context); }
       catch (error) { context.failures.push({ source: 'BACKFILL', error: archiveSafeError_(error), at: new Date().toISOString() }); }
     }
-    var result = { version: ARCHIVE_VERSION, runId: context.runId, startedAt: context.startedAt, finishedAt: new Date().toISOString(), timezone: ARCHIVE_ZONE, recovery: recovery, status: context.failures.length ? 'partial-failure' : 'success', captures: context.results, failures: context.failures, backfillCursor: p.getProperty('BACKFILL_CURSOR') };
+    var hardFailures = context.failures.filter(function(f) { return !/^Local Clarity request budget reached; retry scheduled after /.test(f.error); });
+    var result = { version: ARCHIVE_VERSION, runId: context.runId, startedAt: context.startedAt, finishedAt: new Date().toISOString(), timezone: ARCHIVE_ZONE, recovery: recovery, status: hardFailures.length ? 'partial-failure' : context.failures.length ? 'deferred' : 'success', captures: context.results, failures: context.failures, backfillCursor: p.getProperty('BACKFILL_CURSOR'), clarityRetryAt: p.getProperty('CLARITY_RETRY_AT') };
     archiveSave_(context, 'run', 'manifest', { start: day, end: day }, result);
     archiveReplace_(root, 'latest.json', JSON.stringify(result, null, 2));
     var runs = archiveFile_(root, 'runs.csv');
@@ -113,7 +123,7 @@ function runArchive_(recovery) {
     archiveReplace_(root, 'runs.csv', (runs ? runs.getBlob().getDataAsString('UTF-8') : header) + line);
     p.setProperty('LAST_RUN_STATUS', JSON.stringify({ runId: result.runId, status: result.status, failures: context.failures.map(function(f) { return f.source; }) }));
     console.log(JSON.stringify({ folder: root.getUrl(), runId: result.runId, status: result.status, captures: result.captures.length, failures: result.failures, backfillCursor: result.backfillCursor }));
-    if (result.failures.length) throw new Error('Archive incomplete: ' + result.failures.map(function(f) { return f.source; }).join(', ') + '. Details saved to latest.json.');
+    if (hardFailures.length) throw new Error('Archive incomplete: ' + hardFailures.map(function(f) { return f.source; }).join(', ') + '. Details saved to latest.json.');
     return { folder: root.getUrl(), status: result.status, captures: result.captures.length };
   } finally { lock.releaseLock(); }
 }
@@ -206,6 +216,7 @@ function archiveClarity_(context) {
   var last = p.getProperty('CLARITY_LAST_COMPLETE_AT');
   var gap = last && Date.now() - Date.parse(last) > 30 * 3600000;
   var windows = gap ? [1, 3] : [1];
+  archiveClarityBudget_(windows.length * 3);
   windows.forEach(function(days) {
     ['Channel', 'URL', 'Device'].forEach(function(dimension) {
       var recent = JSON.parse(p.getProperty('CLARITY_REQUEST_TIMES') || '[]').filter(function(t) { return Date.now() - t < 24 * 3600000; });
@@ -218,6 +229,21 @@ function archiveClarity_(context) {
     });
   });
   p.setProperty('CLARITY_LAST_COMPLETE_AT', new Date().toISOString());
+}
+
+function archiveClarityBudget_(required) {
+  var p = PropertiesService.getScriptProperties();
+  var recent = JSON.parse(p.getProperty('CLARITY_REQUEST_TIMES') || '[]').filter(function(t) { return Date.now() - t < 24 * 3600000; }).sort(function(a, b) { return a - b; });
+  if (recent.length + required <= 6) return;
+  var availableAt = recent[recent.length + required - 7] + 24 * 3600000 + 60000;
+  var existing = p.getProperty('CLARITY_RETRY_TRIGGER_ID');
+  var scheduled = ScriptApp.getProjectTriggers().some(function(t) { return t.getUniqueId() === existing; });
+  if (!scheduled) {
+    var trigger = ScriptApp.newTrigger('runClarityRecovery').timeBased().at(new Date(availableAt)).create();
+    p.setProperty('CLARITY_RETRY_TRIGGER_ID', trigger.getUniqueId());
+    p.setProperty('CLARITY_RETRY_AT', new Date(availableAt).toISOString());
+  }
+  throw new Error('Local Clarity request budget reached; retry scheduled after ' + new Date(availableAt).toISOString());
 }
 
 function archiveCrawlers_(context) {

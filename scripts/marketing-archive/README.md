@@ -7,6 +7,7 @@ Private standalone Google Apps Script. This is separate from the public website 
 - `installArchive`: idempotently installs two clock triggers and performs a first collection.
 - `runDailyArchive`: around 09:00 Asia/Tokyo, saves GA4, Search Console, Clarity, crawler observations, and the latest public GitHub changes.
 - `runRecoveryArchive`: around 15:00 Asia/Tokyo, retries sources that did not finish successfully that local day, then processes one historical backfill chunk.
+- `runClarityRecovery`: temporary one-shot retry after this job's rolling API budget frees up. It removes only its own trigger. Repeated quota failures do not create duplicate timers.
 - `backfillArchiveHistory`: optional manual acceleration, up to three 28-day chunks per run. The fixed backfill endpoint prevents an endless moving queue.
 - `archiveStatus`: safe status only; never prints credentials.
 
@@ -51,6 +52,10 @@ GA4 refreshes the prior seven days; property timezone and thresholding metadata 
 Search Console fetches final Web Search data for ten dates ending three days ago, in Pacific time. API omissions/anonymization remain possible despite pagination; query totals need not equal the unfiltered total. CTR and average rank are not additive. Missing date rows do not establish zero activity. Backfill is a new observation of the old period, not the originally reported value at that historical time.
 
 Clarity saves the previous 24 hours for Channel, URL, and Device. After a gap exceeding 30 hours, a 72-hour recovery window is also saved. These are rolling windows, not a perfect calendar-day series, and cannot be added when they overlap. No attempt is made to subtract windows to infer people, engagement averages, or historical days. The API has a 1,000-row cap and no pagination. Limit this job to six Clarity requests in a rolling 24-hour budget, reserving four of the provider's ten daily requests for the existing report/manual checks. Provider quota failures are recorded rather than repeatedly retried.
+
+The job reserves enough of its local budget for all three dimensions (or all six requests for a gap-recovery run) before making any Clarity request. If unavailable, it records the deferral and installs one cloud retry just after enough earlier requests expire. This is especially relevant after repeated bootstrap tests. It does not assume the provider's undocumented daily reset timezone or pay to bypass quotas.
+
+An expected local-budget wait is reported as `deferred`, with `clarityRetryAt`, and is not thrown as a hard runtime failure. Actual provider/network errors still produce `partial-failure` and the normal failure notification. A deferred source retains its previous successful timestamp and is not zero-filled.
 
 Crawler observations are archived before the site's 90-day deletion. They use self-declared agents and agent/page/day presence, not authenticated bot identities, raw request counts, humans, or citations. Site-change evidence uses the latest 100 public `main` commits when the unauthenticated GitHub API is available. If that endpoint is limited, save SHA-256 fingerprints and response update headers for the public homepage, sitemap, stylesheet, and analytics script instead. This does not require a new GitHub credential. Fingerprints establish a difference between observations, not the exact release time, a full historical version, or a causal effect on inquiries.
 
