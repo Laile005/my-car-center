@@ -301,7 +301,8 @@ function archiveJson_(url, options) {
 function archiveSave_(context, source, dataset, range, data) {
   var folder = archiveFolder_(archiveFolder_(context.root, 'raw'), context.day);
   var payload = { schemaVersion: ARCHIVE_VERSION, source: source, dataset: dataset, runId: context.runId, retrievedAt: new Date().toISOString(), requestedRange: range, data: archiveSanitize_(data) };
-  var file = folder.createFile(context.runId + '_' + source + '_' + dataset + '.json', JSON.stringify(payload, null, 2), MimeType.PLAIN_TEXT);
+  var content = source === 'run' ? JSON.stringify(payload, null, 2) : JSON.stringify(payload);
+  var file = folder.createFile(context.runId + '_' + source + '_' + dataset + '.json', content, MimeType.PLAIN_TEXT);
   if (source !== 'run') context.results.push({ source: source, dataset: dataset, fileId: file.getId(), url: file.getUrl() });
   return file;
 }
